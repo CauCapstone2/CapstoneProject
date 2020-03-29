@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<head>
+    <style>
+        .header{
+            text-align: right;
+            border : solid 1px powderblue;
+        }
+        .navbar li{
+            display: inline-block;
+            margin : 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class = "header">
+        <nav class = "menu">
+            <ul class = "navbar">
+                <li><a href="{%url 'home'%}">Home</a></li>
+                <li>About</li>
+                <li><a href="{%url 'artifacts'%}">Artifact</a></li>
+                <li>Author</li>
+                <li>Exhibition</li>
+                {% comment %} <li><a href="{%url 'login'%}">LOGIN</a></li> {% endcomment %}
+            </ul>
+        </nav>
+    </header>
+
+</body>
