@@ -1,4 +1,5 @@
 import os
+from . import securityinfo as si
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -8,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dnelv1fx5$eauznj=ptq=zz69^p(9!1pu$f7&9wk4&@!jgc$i('
+SECRET_KEY = si.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -71,10 +72,10 @@ WSGI_APPLICATION = 'djangopj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'capstoneDB', # DB명
-        'USER': 'root', # 데이터베이스 계정
-        'PASSWORD': 'tjdals7337', # 계정 비밀번호
-        'HOST': '127.0.0.1', # 데이테베이스 주소(IP)
+        'NAME': 'capstonedb',  # DB명
+        'USER': 'root',  # 데이터베이스 계정
+        'PASSWORD': 'tjdals7337',  # 계정 비밀번호
+        'HOST': '127.0.0.1',  # 데이테베이스 주소(IP)
         'PORT': '3306',
     }
 }
