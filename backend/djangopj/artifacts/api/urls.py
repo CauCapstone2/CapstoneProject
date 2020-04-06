@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import ArtifactListView, ArtifactDetailView
+from artifacts.api.views import ArtifactViewSet
+from rest_framework.routers import DefaultRouter
 
-urlpatterns = [
-    path('', ArtifactListView.as_view()),
-    path('<pk>', ArtifactDetailView.as_view()),
-]
+router = DefaultRouter()
+router.register(r'', ArtifactViewSet, basename='artifacts')
+urlpatterns = router.urls

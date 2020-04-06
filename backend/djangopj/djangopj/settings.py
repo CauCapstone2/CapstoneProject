@@ -72,9 +72,9 @@ WSGI_APPLICATION = 'djangopj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': si.db_name,  # DB명
-        'USER': si.db_user,  # 데이터베이스 계정
-        'PASSWORD': si.db_password,  # 계정 비밀번호
+        'NAME': 'capstonedb',  # DB명
+        'USER': 'root',  # 데이터베이스 계정
+        'PASSWORD': 'tjdals7337',  # 계정 비밀번호
         'HOST': '127.0.0.1',  # 데이테베이스 주소(IP)
         'PORT': '3306',
     }
