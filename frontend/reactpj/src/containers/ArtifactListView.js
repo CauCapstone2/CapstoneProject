@@ -1,19 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import CustomForm from '../components/Form';
 import Artifacts from '../components/Artifact';
-
-const listData = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: 'http://ant.design',
-    title: `ant design part ${i}`,
-    avatar: 'https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png',
-    description:
-      'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-    content:
-      'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-  });
-}
 
 class ArtifactList extends React.Component{
 
@@ -32,7 +20,12 @@ class ArtifactList extends React.Component{
 
     render(){
         return(
-            <Artifacts data={this.state.artifacts}/>
+            <div>
+                <Artifacts data={this.state.artifacts}/>
+                <br/>
+                <h2>Create an artifact</h2>
+                <CustomForm requestType="post" artifactID={null} btnText="Create"/>
+            </div>
         )
     }
 }
