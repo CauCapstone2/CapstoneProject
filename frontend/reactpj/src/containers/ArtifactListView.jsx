@@ -31,7 +31,7 @@ class ArtifactList extends React.Component {
       </div>
     ) : (
       <div ref={this.wrapper}>
-        <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
+        <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
           {artifacts.map((artifact) => (
             <Col span={6}>
               <Artifact key={artifact.id} data={artifact} />
