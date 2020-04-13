@@ -17,22 +17,17 @@ const IconText = ({ icon, text }) => (
 );
 
 const Artifact = (props) => {
-  //   sourceData = props.data;
   return (
     <Card
-      style={{ width: 300 }}
+      hoverable
+      style={{ width: 300, margin: 10 }}
       cover={<img alt="example" src={props.data.image} />}
-      actions={[
-        <SettingOutlined key="setting" />,
-        <EditOutlined key="edit" />,
-        <EllipsisOutlined key="ellipsis" />,
-      ]}
     >
       <Meta
         avatar={
           <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
         }
-        title={<a href={"/" + props.data.id}>{props.data.title}</a>}
+        title={<a href={"/artifacts/" + props.data.id}>{props.data.title}</a>}
         description={props.data.description}
       />
     </Card>
