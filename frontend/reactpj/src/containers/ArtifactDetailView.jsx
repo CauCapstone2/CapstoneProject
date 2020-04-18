@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Card, Button } from 'antd'; 
+import { Card, Button, Input } from 'antd'; 
 
 import CustomForm from '../components/RegArtifact';
 
