@@ -4,7 +4,6 @@ import BaseRouter from './routes';
 import { connect } from 'react-redux';
 import * as actions from './store/actions/auth';
 import 'antd/dist/antd.css';
-
 import CustomLayout from './containers/Layout';
 
 class App extends React.Component{
