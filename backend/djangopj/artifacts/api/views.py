@@ -1,11 +1,10 @@
-from rest_framework.generics import ListAPIView, RetrieveAPIView
 from artifacts.models import Artifact
 from .serializers import ArtifactSerializer
+from .ArtifactsPagenation import ArtifactsPagenation
+from rest_framework import viewsets
 
-class ArtifactListView(ListAPIView):
-    queryset = Artifact.objects.all()
-    serializer_class = ArtifactSerializer
 
-class ArtifactDetailView(RetrieveAPIView):
-    queryset = Artifact.objects.all()
+class ArtifactViewSet(viewsets.ModelViewSet):
     serializer_class = ArtifactSerializer
+    pagination_class = ArtifactsPagenation
+    queryset = Artifact.objects.all()

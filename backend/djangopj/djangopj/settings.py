@@ -1,4 +1,5 @@
 import os
+from . import securityinfo as si
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -8,7 +9,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'dnelv1fx5$eauznj=ptq=zz69^p(9!1pu$f7&9wk4&@!jgc$i('
+SECRET_KEY = si.secret_key
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -26,12 +27,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'rest_framework',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'rest_auth',
+    'rest_auth.registration',
     'corsheaders',
+    'rest_framework',
+    'rest_framework.authtoken',
 
     'home',
     'artifacts',
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
@@ -71,10 +81,10 @@ WSGI_APPLICATION = 'djangopj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'capstoneDB', # DB명
-        'USER': 'root', # 데이터베이스 계정
-        'PASSWORD': 'tjdals7337', # 계정 비밀번호
-        'HOST': '127.0.0.1', # 데이테베이스 주소(IP)
+        'NAME': si.db_name,  # DB명
+        'USER': si.db_user,  # 데이터베이스 계정
+        'PASSWORD': si.db_password,  # 계정 비밀번호
+        'HOST': '127.0.0.1',  # 데이테베이스 주소(IP)
         'PORT': '3306',
     }
 }
@@ -128,8 +138,13 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
-    ]
+        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.AllowAny'
+    ],
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = False
