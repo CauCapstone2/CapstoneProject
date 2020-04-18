@@ -6,6 +6,7 @@ import ArtifactDetail from './containers/ArtifactDetailView';
 import Login from './containers/Login';
 import Signup from './containers/Signup';
 import RegArtifact from "./components/RegArtifact";
+import MainPage from './containers/MainPage';
 
 const BaseRouter = () => (
     <div>
@@ -20,6 +21,7 @@ const BaseRouter = () => (
         </Route>
         <Route exact path = '/login/' component={Login} />
         <Route exact path = '/signup/' component={Signup} />
+        <Route exact path = '/main/' component={MainPage} />
     </div>
 );
 
