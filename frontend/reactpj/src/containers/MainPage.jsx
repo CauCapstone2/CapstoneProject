@@ -34,7 +34,7 @@ class App extends Component {
     return(
       <div>
           <div className = "content-background" alt = "">
-            <div className = "title-text" title = "contents">\
+            <div className = "title-text" title = "contents">
               <Typography>
                 <Title style = {{color : "white"}}>For Better Grow of Your Arts</Title>
                 <Paragraph style = {{color : "white"}}>
