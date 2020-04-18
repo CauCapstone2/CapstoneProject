@@ -1,58 +1,24 @@
-import React from 'react';
+import React from "react";
+import { Card, Avatar } from "antd";
 
-import { List, Avatar } from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+const { Meta } = Card;
 
-const IconText = ({ icon, text }) => (
-  <span>
-    {React.createElement(icon, { style: { marginRight: 8 } })}
-    {text}
-  </span>
-);
+const Artifact = (props) => {
+  return (
+    <Card
+      hoverable
+      style={{ width: 300, margin: 10 }}
+      cover={<img alt="example" src={props.data.image} />}
+    >
+      <Meta
+        avatar={
+          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+        }
+        title={props.data.title}
+        description={props.data.description}
+      />
+    </Card>
+  );
+};
 
-const Artifacts= (props) => {
-    return (
-        <List
-            itemLayout="vertical"
-            size="large"
-            pagination={{
-            onChange: page => {
-                console.log(page);
-            },
-            pageSize: 3,
-            }}
-            dataSource={props.data}
-            footer={
-            <div>
-                <b>ant design</b> footer part
-            </div>
-            }
-            renderItem={item => (
-            <List.Item
-                key={item.title}
-                actions={[
-                <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-                <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-                <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-                ]}
-                extra={
-                <img
-                    width={272}
-                    alt="logo"
-                    src={item.image}
-                />
-                }
-            >
-                <List.Item.Meta
-                avatar={<Avatar src={item.avatar} />}
-                title={<a href={'/artifacts/' + item.id}>{item.title}</a>}
-                description={item.description}
-                />
-                {item.content}
-            </List.Item>
-            )}
-        />
-    )
-}
-
-export default Artifacts;
+export default Artifact;
