@@ -57,7 +57,7 @@ class ArtifactList extends React.Component {
       </div>
     ) : (
       <div ref={this.wrapper}>
-        <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+        <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 0 }]}>
           {artifacts.map((artifact, index) => (
             <Col key={index} span={6}>
               <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>

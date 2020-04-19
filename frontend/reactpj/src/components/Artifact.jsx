@@ -7,7 +7,7 @@ const Artifact = (props) => {
   return (
     <Card
       hoverable
-      style={{ width: 300, margin: 10 }}
+      style={{ width: 300, margin : 10}}
       cover={<img alt="example" src={props.data.image} />}
     >
       <Meta

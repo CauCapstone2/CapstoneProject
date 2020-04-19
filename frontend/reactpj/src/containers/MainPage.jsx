@@ -1,35 +1,23 @@
 import React, { Component } from 'react';
-import { useHistory } from 'react-router-dom';
-import { Layout, Menu, Avatar, Drawer, Button, Typography } from 'antd';
+import { Button, Typography } from 'antd';
 import '../css/MainPage.css';
-import temporary from '../img/Web_logo.png';
-import {
-  MenuOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
 
 const { Title, Paragraph } = Typography;
 
-const { Header, Content, Footer } = Layout;
+class MainPage extends Component {
 
-class App extends Component {
+  // showDrawer = () => {
+  //   this.setState({
+  //     signupDrawer : true,
+  //   });
+  // }
 
-  state = {
-    visible : false,
-    username : "Franklin Park",
-  };
+  // onClose = () => {
+  //   this.props.setState({
+  //     signupDrawer : false,
+  //   });
+  // }
 
-  showDrawer = () => {
-    this.setState({
-      visible : true,
-    });
-  }
-
-  onClose = () => {
-    this.setState({
-      visible : false,
-    });
-  }
   render() {
     return(
       <div>
@@ -46,11 +34,11 @@ class App extends Component {
                   You can get evaluation from other artists and also can give them evaluation with yours
                 </Paragraph>
               </Typography>
-              <Button type = "primary" ghost size = "large">Start with IIF</Button>
+                <Button onClick = {this.props.showSignupDrawer} type = "primary" ghost size = "large">Start with IIF</Button>
             </div>
           </div>
     </div>
     );
   }
 }
-export default App;
+export default MainPage;

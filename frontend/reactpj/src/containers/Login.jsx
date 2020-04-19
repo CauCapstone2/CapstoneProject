@@ -2,7 +2,7 @@ import React from 'react';
 import { Input, Button, Spin } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import * as actions from '../store/actions/auth';
 import '@ant-design/compatible/assets/index.css';
