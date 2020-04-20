@@ -100,7 +100,7 @@ class CustomLayout extends React.Component {
                     }
                 </Menu>
                 </Header> */}
-                <Content>
+                <Content style = {{ height : '87vh'}}>
                 {/* <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/">List</Link></Breadcrumb.Item>
@@ -123,12 +123,10 @@ class CustomLayout extends React.Component {
                     this.props.isAuthenticated ?
                     <div
                         style={{textAlign : 'right',
-                        }}>
-                        <NavLink to={{ pathname: `/` }}>
-                            <Button style = {{ marginRight : 8}}>
-                                Logout
-                            </Button>
-                        </NavLink>
+                    }}>
+                        <Button onClick = {this.props.logout} style = {{ marginRight : 8}}>
+                            Logout
+                        </Button>
                     </div>
                     :
                     <div
@@ -145,16 +143,16 @@ class CustomLayout extends React.Component {
             >
                 <Avatar icon = {<UserOutlined />}/>
                 <p></p>
-                <NavLink to={{ pathname: `/` }}>
+                <NavLink onClick = {this.onClose} to={{ pathname: `/` }}>
                     <p>Arts</p>
                 </NavLink>
-                <NavLink to={{ pathname: `/` }}>
+                <NavLink onClick = {this.onClose} to={{ pathname: `/` }}>
                     <p>Status</p>
                 </NavLink>
-                <NavLink to={{ pathname: `/` }}>
+                <NavLink onClick = {this.onClose} to={{ pathname: `/` }}>
                     <p>Ranking</p>
                 </NavLink>
-                <NavLink to={{ pathname: `/` }}>
+                <NavLink onClick = {this.onClose} to={{ pathname: `/` }}>
                     <p>Arts Synthesis</p>
                 </NavLink>
                 <Drawer
@@ -241,8 +239,15 @@ class CustomLayout extends React.Component {
 
 const mapDispatchToProps = dispatch => {
     return {
-        logout : () => dispatch(actions.logout()) 
+        logout : () => dispatch(actions.logout())
     }
 }
 
-export default connect(null, mapDispatchToProps)(CustomLayout);
+function mapReduxStateToReactProps(state) { // state가 인자인 것은 이미 규약으로 정해져 있는 것이다. redux의 store의 state이다.
+    //redux의 state값이 바뀔때마다 호출되도록 규약되어있다.
+    return {
+        signupDrawer : state.signupDrawer // displayNumber 's props에 들어갈 값을 여기에 적으면 되는 것이다.
+    }
+}
+
+export default connect(mapReduxStateToReactProps, mapDispatchToProps)(CustomLayout);

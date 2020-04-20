@@ -18,7 +18,10 @@ class LoginForm extends React.Component{
                 this.props.onAuth(e.target.elements[0].value, e.target.elements[1].value)
             }
         });
-        this.props.history.push('/');
+        console.log('problem point');
+        console.log(this.props);
+        //this.props.history.push('/');
+        //above is for refreshing to mainpage.
     }
 
   render(){
@@ -53,7 +56,7 @@ class LoginForm extends React.Component{
                   </Row>
   
                   <Form.Item>
-                      <Button type="submit" htmlType="submit" style={{marginRight:'10px'}}>
+                      <Button type="primary" htmlType="submit" style={{marginRight:'10px'}}>
                           Login
                       </Button>
                       Or

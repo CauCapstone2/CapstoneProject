@@ -58,7 +58,7 @@ class RegistrationForm extends React.Component{
                 </Row>
 
             <Form.Item>
-                <Button type="submit" htmlType="submit" style={{marginRight:'10px'}}>
+                <Button type="primary" htmlType="submit" style={{marginRight:'10px'}}>
                     SignUp
                 </Button>
                     Or 

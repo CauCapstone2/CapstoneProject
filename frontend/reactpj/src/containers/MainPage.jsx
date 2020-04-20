@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Typography } from 'antd';
 import '../css/MainPage.css';
+import {connect} from 'react-redux';
 
 const { Title, Paragraph } = Typography;
 
@@ -34,6 +35,9 @@ class MainPage extends Component {
                   You can get evaluation from other artists and also can give them evaluation with yours
                 </Paragraph>
               </Typography>
+              {/* <div onClick = {this.props.showSignupDrawer}>
+                <Button  type = "primary" ghost size = "large">Start with IIF</Button>
+              </div> */}
                 <Button onClick = {this.props.showSignupDrawer} type = "primary" ghost size = "large">Start with IIF</Button>
             </div>
           </div>
@@ -41,4 +45,14 @@ class MainPage extends Component {
     );
   }
 }
-export default MainPage;
+//export default MainPage;
+
+function mapDispatchToProps(dispatch) {
+  return {
+      onClick : function(signupDrawer) {
+          dispatch({signupDrawer : true});
+      }
+  }
+}
+
+export default connect(null, mapDispatchToProps)(MainPage);

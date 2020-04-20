@@ -1,8 +1,10 @@
 import React from 'react';
 import axios from 'axios';
-import { Card, Button } from 'antd'; 
+import { Card, Button, Typography, Col, Row} from 'antd'; 
 
 import CustomForm from '../components/RegArtifact';
+
+const { Title, Paragraph } = Typography;
 
 class ArtifactDetail extends React.Component{
 
@@ -40,6 +42,22 @@ class ArtifactDetail extends React.Component{
                     <Button type="danger" htmlType="submit">Delete</Button>
                 </form>
             </div>
+
+            // <div>
+            //     <Row align = 'middle'>
+            //         <Col span = {12} gutter = {[16, 16]} align = 'middle'>
+            //             <div>
+            //                 <img src = {this.state.artifact.image} alt = "img" width = {'100%'} height = {'100%'}></img>
+            //             </div>
+            //         </Col>
+            //         <Col span = {12} align = 'middle'>
+            //             <Typography>
+            //                 <Title>{this.state.artifact.title}</Title>
+            //                 <Paragraph>{this.state.artifact.description}</Paragraph>
+            //             </Typography>
+            //         </Col>
+            //     </Row>
+            // </div>
         )
     }
 }
