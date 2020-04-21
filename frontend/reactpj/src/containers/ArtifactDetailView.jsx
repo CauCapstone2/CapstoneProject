@@ -49,10 +49,19 @@ class ArtifactDetail extends React.Component{
     updateComment = (artifactID) => {
         axios.get('http://127.0.0.1:8000/comments/api/?artifactID=' + artifactID)
             .then(res => {
+                this.editDate(res.data);
                 this.setState({
                     comment : res.data
                 });
             })
+    }
+
+    editDate = (data) => {
+        for (var i in data) {
+            data[i].date = data[i].date.split(".")[0];
+            data[i].date = data[i].date.replace("T"," ");
+            data[i].date = data[i].date.replace("Z"," ")
+        }
     }
 
     render(){
@@ -84,6 +93,7 @@ class ArtifactDetail extends React.Component{
                         <p> {this.state.artifact.description} </p>
                     </div>
                     <div className="comments">
+                        <div className="comment-header"><h2>Comments</h2></div>
                         <List itemLayout="vertical" size="large"
                             pagination={{
                             onChange: page => {
@@ -98,9 +108,9 @@ class ArtifactDetail extends React.Component{
                                 content={item.content}
                                 name={item.username}
                                 date={item.date} />
-                                <p>{item.content}</p>
-                                <p>{item.username}</p>
-                                <p>{item.date}</p>
+                                <div classname="comment-info"><p className="comment-username">{item.username}</p>
+                                <p className="comment-date">{item.date}</p></div>
+                                <div><p>{item.content}</p></div>
                             </List.Item>
                             )} 
                         />

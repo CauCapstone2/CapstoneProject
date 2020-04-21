@@ -36,3 +36,22 @@
 h2, h5{
     line-height: 70px;
 }
+.ant-list li{
+    border : solid 1px #E6EAEA;
+}
+.comment-header{
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+.comment-info{
+    margin-bottom: 5px;
+}
+.comment-username{
+    display : inline;
+    font-weight: bold;
+    margin-right : 7px;
+}
+.comment-date{
+    display : inline;
+    font-size : 12px;
+}
