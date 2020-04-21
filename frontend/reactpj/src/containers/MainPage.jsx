@@ -38,7 +38,7 @@ class MainPage extends Component {
               {/* <div onClick = {this.props.showSignupDrawer}>
                 <Button  type = "primary" ghost size = "large">Start with IIF</Button>
               </div> */}
-                <Button onClick = {this.props.showSignupDrawer} type = "primary" ghost size = "large">Start with IIF</Button>
+                <Button onClick = {this.props.mainpageButtonClick} type = "primary" ghost size = "large">Start with IIF</Button>
             </div>
           </div>
     </div>

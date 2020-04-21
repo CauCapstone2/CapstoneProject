@@ -1,9 +1,11 @@
 from django import forms
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Artifact
+from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework import filters
 
 def artifact(request):
-    artifacts = Artifact.objects      
+    artifacts = Artifact.objects
     return render(request, 'artifacts.html', {'artifacts': artifacts})
 
 def detail(request, artifact_id):

@@ -64,6 +64,13 @@ class CustomLayout extends React.Component {
         });
       };
 
+      mainpageButtonClick = () => {
+          this.setState({
+              visible : true,
+              signupDrawer : true,
+          });
+      }
+
     render(){
         return (
             <div>
@@ -75,7 +82,11 @@ class CustomLayout extends React.Component {
                         </NavLink>
                     </div>
                     <Menu theme="dark" mode="horizontal" style = {{float : 'right'}}>
-                    <Menu.Item key="1">SEARCH</Menu.Item>
+                    <Menu.Item key="1">
+                    <NavLink to={{ pathname: `/search/` }}>
+                        SEARCH
+                    </NavLink>
+                    </Menu.Item>
                     <Menu.Item key="2">VISION</Menu.Item>
                     <Menu.Item key="3" onClick = {this.showDrawer}>MENU<MenuOutlined/></Menu.Item>
                     </Menu>
@@ -100,7 +111,7 @@ class CustomLayout extends React.Component {
                     }
                 </Menu>
                 </Header> */}
-                <Content style = {{ height : '87vh'}}>
+                <Content style = {{ minHeight : '87vh' }}>
                 {/* <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
                     <Breadcrumb.Item><Link to="/">List</Link></Breadcrumb.Item>
