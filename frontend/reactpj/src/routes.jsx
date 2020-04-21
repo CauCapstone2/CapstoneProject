@@ -22,7 +22,7 @@ const BaseRouter = () => (
         </Route>
         <Route exact path = '/login/' component={Login} />
         <Route exact path = '/signup/' component={Signup} />
-        <Route exact path = '/main/' component={MainPage} />
+        <Route exact path = '/main/' component = {MainPage} />
         <Route exact path = '/search/' component = {SearchPage} />
     </div>
 );

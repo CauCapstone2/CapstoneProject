@@ -8,7 +8,6 @@ const { Search } = Input;
 
 class SearchPage extends Component {
 
-
   render() {
     return(
         <div align = 'middle' style = {{backgroundColor : 'rgba(0,0,0,0.05)', minHeight : '87vh'}}>
@@ -17,7 +16,7 @@ class SearchPage extends Component {
                     style = {{width : '30vh', marginTop : '5vh', marginBottom : '5vh'}}
                     enterButton>
             </Search>
-            <ArtifactList></ArtifactList>
+            <ArtifactList data = '4'></ArtifactList>
         </div>
     );
   }

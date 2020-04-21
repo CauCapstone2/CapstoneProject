@@ -49,7 +49,7 @@ class MainPage extends Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-      onClick : function(signupDrawer) {
+      onClick : function() {
           dispatch({signupDrawer : true});
       }
   }
