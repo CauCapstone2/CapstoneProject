@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Input, Button } from 'antd';
+import { Input, Button, Row, Col } from 'antd';
 import { Form } from '@ant-design/compatible';
 import * as actions from '../store/actions/auth';
 import {connect} from 'react-redux';
@@ -25,37 +25,49 @@ class RegistrationForm extends React.Component{
             name="register"
             onSubmitCapture={this.handleSubmit}
             scrollToFirstError
-            >
-            <Form.Item label="username" name="username" rules={[{ required: true, message: 'Please input your username!'}]}>
-                <Input />
-            </Form.Item>
-
-            <Form.Item name="password" label="password" rules={[{required: true, message: 'Please input your password!'}]} hasFeedback>
-                <Input.Password />
-            </Form.Item>
-
-            <Form.Item name="confirm" label="confirm" dependencies={['password']} hasFeedback rules={[{required: true, message: 'Please confirm your password!'},
-                ({ getFieldValue }) => ({
-                    validator(rule, value) {
-                    if (!value || getFieldValue('password') === value) {
-                        return Promise.resolve();
-                    }
-                    return Promise.reject('The two passwords that you entered do not match!');
-                    },
-                }),
-                ]}>
-                <Input.Password />
-            </Form.Item>
+            layout = "vertical">
+                <Row gutter = {16}>
+                    <Col>
+                        <Form.Item label="username" name="username" rules={[{ required: true, message: 'Please input your username!'}]}>
+                            <Input placeholder = "Please enter Username"/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter = {16}>
+                    <Col>
+                        <Form.Item name="password" label="password" rules={[{required: true, message: 'Please input your password!'}]} hasFeedback>
+                            <Input.Password placeholder = "Please enter Password"/>
+                        </Form.Item>
+                    </Col>
+                </Row>
+                <Row gutter = {16}>
+                    <Col>
+                        <Form.Item name="confirm" label="confirm" dependencies={['password']} hasFeedback rules={[{required: true, message: 'Please confirm your password!'},
+                            ({ getFieldValue }) => ({
+                            validator(rule, value) {
+                            if (!value || getFieldValue('password') === value) {
+                                return Promise.resolve();
+                            }
+                            return Promise.reject('The two passwords that you entered do not match!');
+                            },
+                            }),
+                        ]}>
+                            <Input.Password placeholder = "Please enter same password above"/>
+                        </Form.Item>
+                    </Col>
+                </Row>
 
             <Form.Item>
-                    <Button type="primary" htmlType="submit" style={{marginRight:'10px'}}>
-                        Signup
+                <Button type="primary" htmlType="submit" style={{marginRight:'10px'}}>
+                    SignUp
+                </Button>
+                    Or 
+                <NavLink style={{marginRight:'10px'}} to='/login/'>
+                    <Button style = {{marginRight : '10px', marginLeft : '10px'}}>
+                        LogIn
                     </Button>
-                        Or 
-                    <NavLink style={{marginRight:'10px'}} 
-                        to='/login/'> Login
-                    </NavLink>
-                </Form.Item> 
+                </NavLink>
+            </Form.Item> 
             </Form>
         );
     }

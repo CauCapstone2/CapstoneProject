@@ -1,8 +1,8 @@
 import React from 'react';
-import { Input, Button, Spin } from 'antd';
+import { Input, Button, Spin, Row, Col } from 'antd';
 import { LoadingOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
-import { connect} from 'react-redux';
+import { connect } from 'react-redux';
 import {NavLink} from 'react-router-dom';
 import * as actions from '../store/actions/auth';
 import '@ant-design/compatible/assets/index.css';
@@ -18,7 +18,10 @@ class LoginForm extends React.Component{
                 this.props.onAuth(e.target.elements[0].value, e.target.elements[1].value)
             }
         });
-        this.props.history.push('/');
+        console.log('problem point');
+        console.log(this.props);
+        //this.props.history.push('/');
+        //above is for refreshing to mainpage.
     }
 
   render(){
@@ -36,22 +39,31 @@ class LoginForm extends React.Component{
               this.props.loading ?  
               <Spin indicator={antIcon} />
                 :
-              <Form onSubmit={this.handleSubmit} className="login-form">
-                  <Form.Item label="Username" name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
-                      <Input/>
-                  </Form.Item>
-  
-                  <Form.Item label="Password" name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-                      <Input.Password />
-                  </Form.Item>
+              <Form onSubmit={this.handleSubmit} className="login-form" layout = "vertical">
+                  <Row gutter = {16}>
+                      <Col>
+                        <Form.Item label="Username" name="username" rules={[{ required: true, message: 'Please input your username!' }]}>
+                            <Input placeholder = "Please enter Username"/>
+                        </Form.Item>
+                      </Col>
+                  </Row>
+                  <Row gutter = {16}>
+                      <Col>
+                        <Form.Item label="Password" name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
+                            <Input.Password placeholder = "Please enter Password"/>
+                        </Form.Item>
+                      </Col>
+                  </Row>
   
                   <Form.Item>
-                      <Button type="submit" htmlType="submit" style={{marginRight:'10px'}}>
+                      <Button type="primary" htmlType="submit" style={{marginRight:'10px'}}>
                           Login
                       </Button>
-                      Or 
-                      <NavLink style={{marginRight:'10px'}} 
-                      to='/signup/'> Signup
+                      Or
+                      <NavLink style={{marginRight:'10px'}} to='/signup/'>
+                          <Button style = {{marginRight : '10px', marginLeft : '10px'}}>
+                              SignUp
+                          </Button>
                       </NavLink>
                   </Form.Item> 
               </Form>
