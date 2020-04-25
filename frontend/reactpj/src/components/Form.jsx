@@ -21,7 +21,6 @@ class CustomForm extends React.Component{
         form_data.append('title', event.target.elements.title.value);
         form_data.append('image', this.state.image.originFileObj, this.state.image.originFileObj.name);
         form_data.append('description', event.target.elements.description.value);
-        console.log(artifactID);
         switch(requestType){
             case 'post':
                 return axios.post('http://127.0.0.1:8000/api/', form_data, {
@@ -71,7 +70,7 @@ class CustomForm extends React.Component{
                         <Input name="description" placeholder="Enter some description ..." />
                     </FormItem>
                     <FormItem>
-        <Button type="primary" htmlType="submit">{this.props.btnText}</Button>
+                        <Button type="primary" htmlType="submit">{this.props.btnText}</Button>
                     </FormItem>
                 </Form>
             </div>
