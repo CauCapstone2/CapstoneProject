@@ -1,9 +1,11 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import axios from "axios";
-import { Form, Input, Button, Upload } from "antd";
+import { Form, Input, Button, Upload, Row, Col } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 const FormItem = Form.Item;
+const { TextArea } = Input;
 
 class RegArtifact extends React.Component {
   state = {
@@ -46,45 +48,84 @@ class RegArtifact extends React.Component {
 
   render() {
     return (
-      <div>
-        <Form
-          onSubmitCapture={(event) =>
-            this.handleSubmit(
-              event,
-              this.props.requestType,
-              this.props.artifactID
-            )
-          }
-        >
-          <FormItem label="Title">
-            <Input name="title" placeholder="Put a title here" />
-          </FormItem>
+      // <div>
+      //   <Form
+      //     onSubmitCapture={(event) =>
+      //       this.handleSubmit(
+      //         event,
+      //         this.props.requestType,
+      //         this.props.artifactID
+      //       )
+      //     }
+      //   >
+      //     <FormItem label="Title">
+      //       <Input name="title" placeholder="Put a title here" />
+      //     </FormItem>
 
-          <FormItem
-            name="upload"
-            label="Upload"
-            getValueFromEvent={this.handleUpload}
-            extra="upload image"
-          >
-            <Upload name="image" listType="picture">
-              <Button>
-                <UploadOutlined /> Click to upload
-              </Button>
-            </Upload>
-          </FormItem>
+      //     <FormItem
+      //       name="upload"
+      //       label="Upload"
+      //       getValueFromEvent={this.handleUpload}
+      //       extra="upload image"
+      //     >
+      //       <Upload name="image" listType="picture">
+      //         <Button>
+      //           <UploadOutlined /> Click to upload
+      //         </Button>
+      //       </Upload>
+      //     </FormItem>
 
-          <FormItem label="Description">
-            <Input
-              name="description"
-              placeholder="Enter some description ..."
-            />
-          </FormItem>
-          <FormItem>
-            <Button type="primary" htmlType="submit">
-              {this.props.btnText}
-            </Button>
-          </FormItem>
-        </Form>
+      //     <FormItem label="Description">
+      //       <Input
+      //         name="description"
+      //         placeholder="Enter some description ..."
+      //       />
+      //     </FormItem>
+      //     <FormItem>
+      //       <Button type="primary" htmlType="submit">
+      //         {this.props.btnText}
+      //       </Button>
+      //     </FormItem>
+      //   </Form>
+      // </div>
+//from here new comopnent starts
+
+      <div style = {{backgroundColor : 'rgba(0,0,0,0.05)'}} onSubmitCapture = {(event) =>
+       this.handleSubmit(event, this.props.requestType, this.props.artifactID)}>
+        <Row align = 'middle' gutter = {[16, ]} style = {{position : 'relative', top : '25vh'}}>
+          <Col span = {12} gutter = {[16, 16]}>
+            <Form layout = "vertical" align = 'middle'>
+                <FormItem name = "upload" getValueFromEvent={this.handleUpload}>
+                  <Upload name = "image" listType = "picture">
+                    <Button>
+                      <UploadOutlined/> Click to Upload
+                    </Button>
+                  </Upload>
+                </FormItem>
+            </Form>
+          </Col>
+          <Col span = {12} gutter = {[16, ]} >
+            <Form layout = "vertical" style = {{marginRight : '20px', marginLeft : '10px', marginTop : '20px'}}>
+              <FormItem label = "Title">
+                <Input.TextArea name = "title" placeholder = "Enter a title for your art" style = {{marginRight : '10px'}}/>
+              </FormItem>
+              <FormItem label = "Description">
+                <Input.TextArea name = "description" placeholder = "Enter description" 
+                    style = {{marginRight : '10px'}} autoSize = {{minRows : 5, maxRows : 30}}/>
+              </FormItem>
+              <FormItem>
+                <Button style = {{marginRight : '10px'}} type = "primary" htmlType = "submit">
+                  {this.props.btnText}
+                </Button>
+                <NavLink to={{ pathname: `/` }}>
+                  <Button style = {{marginRight : '10px', marginLeft : '10px'}} >
+                    Cancel
+                  </Button>
+                </NavLink>
+              </FormItem>
+            </Form>
+          </Col>
+        </Row>
       </div>
     );
   }
