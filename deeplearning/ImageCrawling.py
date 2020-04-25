@@ -63,7 +63,7 @@ class ImageCrawling:
 
         for i, src in zip(range(len(imgURLs)), imgURLs):
             try:
-                urllib.request.urlretrieve(src, save_dir + "/" + str(i) + ".jpg")
+                urllib.request.urlretrieve(src, save_dir + "/" + str(i) + ".png")
                 print(i, "saved")
             except ValueError:
                 print(src)
@@ -90,4 +90,17 @@ class ImageCrawling:
 
 
 if __name__ == "__main__":
-    ImageCrawling("./images/romanesque").crawl("Romanesque Art", 1000)
+    size = 1000
+    ImageCrawling("./images/Byzantine").crawl("Byzantine Art", size)
+    ImageCrawling("./images/Romanesque").crawl("Romanesque Art", size)
+    ImageCrawling("./images/Renaissance").crawl("Renaissance art", size)
+    ImageCrawling("./images/Mannerism").crawl("Mannerism art", size)
+    ImageCrawling("./images/Baroque").crawl("Baroque art", size)
+    ImageCrawling("./images/Rococo").crawl("Rococo art", size)
+    ImageCrawling("./images/Neoclassicism").crawl("Neoclassicism art", size)
+    ImageCrawling("./images/Romanticism").crawl("Romanticism art", size)
+    ImageCrawling("./images/Modern").crawl("Modern art", size)
+    ImageCrawling("./images/Surrealism").crawl("Surrealism art", size)
+    ImageCrawling("./images/postmodern").crawl("postmodern art", size)
+    ImageCrawling("./images/Pop").crawl("Pop art", size)
+    ImageCrawling("./images/Kinetic").crawl("Kinetic art", size)
