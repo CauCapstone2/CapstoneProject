@@ -39,6 +39,10 @@ h2, h5{
 .ant-list li{
     border : solid 1px #E6EAEA;
 }
+.eval-scores{
+    display : flex;
+    justify-content : space-between;
+}
 .comment-header{
     margin-left: 30px;
     margin-bottom: 10px;
