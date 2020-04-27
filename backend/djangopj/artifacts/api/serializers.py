@@ -4,4 +4,4 @@ from artifacts.models import Artifact
 class ArtifactSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artifact
-        fields = ('id','title','image','description')
+        fields = ('id', 'userID', 'title','image','description')
