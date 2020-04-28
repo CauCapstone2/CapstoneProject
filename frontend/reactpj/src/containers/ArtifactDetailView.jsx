@@ -7,6 +7,7 @@ import './ArtifactDetail.css';
 
 import Comment from '../components/Comment';
 import CustomForm from '../components/RegArtifact';
+import { CloseOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;;
@@ -19,6 +20,8 @@ class ArtifactDetail extends React.Component {
     }
 
     componentDidMount() {
+        console.log('mount call');
+        console.log(this.props);
         const artifactID = this.props.match.params.artifactID;
         axios.get('http://127.0.0.1:8000/api/' + artifactID)
             .then(res => {
