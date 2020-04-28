@@ -1,22 +1,20 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Card, Button, Form, Input, List } from 'antd';
 import { Container, Image } from 'react-bootstrap';
+
+import EvaluationForm from '../components/EvaluationForm';
+import Evaluation from '../components/Evaluation';
+import Comment from '../components/Comment';
+import Report from '../components/Report';
 import './ArtifactDetail.css';
-
-import { CircularProgressbar } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
-
-const { TextArea } = Input;
-const FormItem = Form.Item;
 
 class ArtifactDetail extends React.Component {
 
     state = {
         artifact: [],
         comment: [],
-        eval: []
+        eval: [],
     }
 
     componentDidMount() {
@@ -39,15 +37,6 @@ class ArtifactDetail extends React.Component {
         window.location.reload();
     }
 
-    handleSubmit = async (event, artifactID) => {
-        await axios.post('http://127.0.0.1:8000/comments/api/', {
-            userID: this.props.userid,
-            content: event.target.elements[0].value,
-            artifactID: artifactID
-        }).then(res => console.log(res)).catch(error => console.error(error));
-        this.updateComment(artifactID);
-    }
-
     updateComment = (artifactID) => {
         axios.get('http://127.0.0.1:8000/comments/api/?artifactID=' + artifactID)
             .then(res => {
@@ -67,6 +56,14 @@ class ArtifactDetail extends React.Component {
             })
     }
 
+    preEvaluation = () => {
+        for (var i in this.state.eval) {
+            if (this.state.eval[i].userID == this.props.userid) {
+                return this.state.eval[i];
+            }
+        }
+    }
+
     editDate = (data) => {
         for (var i in data) {
             data[i].date = data[i].date.split(".")[0];
@@ -78,15 +75,6 @@ class ArtifactDetail extends React.Component {
     render() {
         return (
             <div>
-                {/* <Card title = {this.state.artifact.title}>
-                    <img src = {this.state.artifact.image} alt = "img" width={272}></img>
-                    <p>{this.state.artifact.description}</p>
-                </Card>
-                <CustomForm requestType="put" artifactID={this.props.match.params.artifactID} btnText="Update"/>
-                <form onSubmit={this.handleDelete}>
-                    <Button type="danger" htmlType="submit">Delete</Button>
-                </form> */}
-
                 <div className="intro">
                     Iuducium In Foro
                 </div>
@@ -104,92 +92,13 @@ class ArtifactDetail extends React.Component {
                         <p> {this.state.artifact.description} </p>
                     </div>
 
-                    <div className="evaluation">
-                        <div className="evaluation-header"><h2>Comments</h2></div>
-                        <List itemLayout="vertical" size="large"
-                            pagination={{
-                                onChange: page => {
-                                    console.log(page);
-                                },
-                                pageSize: 5,
-                            }}
-                            dataSource={this.state.eval}
-                            renderItem={item => (
-                                <List.Item>
-                                    <div className="eval-info"><p className="eval-username">{item.username}</p></div>
-                                    <div className="eval-scores">
-                                        <div className="socre" style={{ width: 200, height: 200 }}>
-                                            <CircularProgressbar value={item.Creative} text={item.Creative} maxValue={10} />
-                                        </div>
-                                        <div style={{ width: 200, height: 200 }}>
-                                            <CircularProgressbar value={item.Expressive} text={item.Expressive} maxValue={10} />
-                                        </div>
-                                        <div style={{ width: 200, height: 200 }}>
-                                            <CircularProgressbar value={item.Quality} text={item.Quality} maxValue={10} />
-                                        </div>
-                                        <div style={{ width: 200, height: 200 }}>
-                                            <CircularProgressbar value={item.Popularity} text={item.Popularity} maxValue={10} />
-                                        </div>
-                                        <div style={{ width: 200, height: 200 }}>
-                                            <CircularProgressbar value={item.Workability} text={item.Workability} maxValue={10} />
-                                        </div>
-                                    </div>
-                                </List.Item>
-                            )}
-                        />
-                    </div>
+                    <Evaluation eval={this.state.eval} />
+                    <EvaluationForm preEval={this.preEvaluation()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
 
-                    <div className="comments">
-                        <div className="comment-header"><h2>Comments</h2></div>
-                        <List itemLayout="vertical" size="large"
-                            pagination={{
-                                onChange: page => {
-                                    console.log(page);
-                                },
-                                pageSize: 5,
-                            }}
-                            dataSource={this.state.comment}
-                            renderItem={item => (
-                                <List.Item>
-                                    <List.Item.Meta
-                                        content={item.content}
-                                        name={item.username}
-                                        date={item.date} />
-                                    <div classname="comment-info"><p className="comment-username">{item.username}</p>
-                                        <p className="comment-date">{item.date}</p></div>
-                                    <div><p>{item.content}</p></div>
-                                </List.Item>
-                            )}
-                        />
-
-                        <Form onSubmitCapture={(event) => this.handleSubmit(event, this.props.match.params.artifactID)}>
-                            <FormItem>
-                                <TextArea rows={4} allowClear="true" />
-                            </FormItem>
-                            <FormItem className="button-box">
-                                <Button type="primary" htmlType="submit">comment</Button>
-                            </FormItem>
-                        </Form>
-
-                    </div>
+                    <Comment comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+                    <Report />
                 </Container>
             </div>
-
-            // <div>
-            //     <Row align = 'middle'>
-            //         <Col span = {12} gutter = {[16, 16]} align = 'middle'>
-            //             <div>
-            //                 <img src = {this.state.artifact.image} alt = "img" width = {'100%'} height = {'100%'}></img>
-            //             </div>
-            //         </Col>
-            //         <Col span = {12} align = 'middle'>
-            //             <Typography>
-            //                 <Title>{this.state.artifact.title}</Title>
-            //                 <Paragraph>{this.state.artifact.description}</Paragraph>
-            //             </Typography>
-            //         </Col>
-            //     </Row>
-            // </div>
         )
     }
 }

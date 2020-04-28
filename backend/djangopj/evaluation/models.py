@@ -11,5 +11,5 @@ class Evaluation(models.Model):
     Popularity = models.IntegerField()
     Workability = models.IntegerField()
     
-    # def __str__(self):
-    #     return self.content
+    class Meta:
+        unique_together = (("userID", "artifactID"),)

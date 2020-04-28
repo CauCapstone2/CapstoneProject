@@ -39,10 +39,44 @@ h2, h5{
 .ant-list li{
     border : solid 1px #E6EAEA;
 }
-.eval-scores{
+.evaluation-header{
+    margin-left: 30px;
+    margin-bottom: 10px;
+}
+.eval-info{
+    margin : auto;
+}
+.eval-username{
+    font-weight: bold;
+    font-size : 25px;
+    margin : auto;
+}
+.eval-container{
     display : flex;
     justify-content : space-between;
 }
+.eval-scores{
+    display : flex;
+    margin : auto;
+    width : 60%;
+    justify-content : space-between;
+}
+.eval-totalbox{
+    margin : auto;
+}
+.eval-total{
+    font-weight: bold;
+    font-size : 40px;
+    margin : auto;
+}
+.eval-input{
+    margin-top: 50px;
+    margin-bottom : 50px;
+    display: flex;
+    justify-content: space-around;
+}
+
+
 .comment-header{
     margin-left: 30px;
     margin-bottom: 10px;
