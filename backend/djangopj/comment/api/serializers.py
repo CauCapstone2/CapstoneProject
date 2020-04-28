@@ -10,7 +10,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
 class CommentDetailSerializer(serializers.ModelSerializer):
     username = serializers.CharField(source='userID.username', read_only=True)
-
     class Meta:
         model = Comment
         fields = ('id', 'userID','username','artifactID','content','date')

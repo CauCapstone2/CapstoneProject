@@ -2,11 +2,11 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Descriptions, Form, Input, List, Row, Col } from 'antd';
+import { Descriptions, Form, Input, List, Row, Col, Avatar, Comment} from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
 
-import Comment from '../components/Comment';
+// import Comment from '../components/Comment';
 import CustomForm from '../components/RegArtifact';
 import Artifact from '../components/Artifact';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
@@ -100,7 +100,7 @@ class Mypage extends React.Component {
                     </Descriptions>
                 </Row>
                 <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px', marginBottom : '10px'}}>
-                    <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
+                    <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
                         {artifact.map((artifact, index) => (
                             <Col key={index} span={6}>
                             <NavLink to={{ pathname: `/artifacts/${artifact.id}` }} style = {{color : 'black'}}>
@@ -111,6 +111,28 @@ class Mypage extends React.Component {
                     </Row>
                 </Row>
                 <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px'}}>
+                    <List itemLayout = "vertical" size = "large" dataSource = {comment} footer = {<div><b>Iudicium In Foro</b>comment footer part</div>}
+                          pagination = {{onChange : page => {console.log(page);}, pageSize : 5,}}
+                          renderItem = {item => (
+                              <List.Item key = {item.artifactID.id} extra = {<img width = {250} height = {180} alt="logo" src = {item.artifactID.image}/>}
+                                         style = {{marginBottom : '10px'}}>
+                                <List.Item.Meta avatar = {<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
+                                                title = {<a href = {"http://localhost:3000/artifacts/" + item.artifactID.id}>{item.artifactID.title}</a>}
+                                                description = {item.artifactID.username}
+                                                style = {{minWidth : '80vh', maxWidth : '60vh'}}
+                                />
+                                {item.artifactID.description}
+                                <br/>
+                          <Comment author = {<a>{item.username}</a>} 
+                                   content = {item.content}
+                                   datetime = {item.date}
+                          />
+                              </List.Item>
+                          )}
+                    />
+                </Row>
+
+                {/* <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px'}}>
                     <List itemLayout="vertical" size="large" style={{alignItems : 'middle'}}
                         dataSource={comment}
                         renderItem={item => (
@@ -125,7 +147,7 @@ class Mypage extends React.Component {
                             </NavLink>
                         )}
                         />
-                </Row>
+                </Row> */}
             </div>
         )
     }
