@@ -15,6 +15,7 @@ class ArtifactDetail extends React.Component {
         artifact: [],
         comment: [],
         eval: [],
+        isReported : false,
     }
 
     componentDidMount() {
@@ -56,7 +57,7 @@ class ArtifactDetail extends React.Component {
             })
     }
 
-    preEvaluation = () => {
+    preEval = () => {
         for (var i in this.state.eval) {
             if (this.state.eval[i].userID == this.props.userid) {
                 return this.state.eval[i];
@@ -93,10 +94,10 @@ class ArtifactDetail extends React.Component {
                     </div>
 
                     <Evaluation eval={this.state.eval} />
-                    <EvaluationForm preEval={this.preEvaluation()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+                    <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
 
-                    <Comment comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
-                    <Report />
+                    <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+                    <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported}/>
                 </Container>
             </div>
         )

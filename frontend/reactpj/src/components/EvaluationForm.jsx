@@ -22,6 +22,7 @@ class EvaluationForm extends Component {
             Workability: this.state.workability,
             artifactID: this.props.artifactID,
         }).then(res => console.log(res)).catch(error => console.error(error));
+        this.props.updateEvaluation(this.props.artifactID);
     }
 
     handleUpdateEval = async () => {
@@ -33,6 +34,7 @@ class EvaluationForm extends Component {
             Popularity: this.state.popularity,
             Workability: this.state.workability,
         }).then(res => console.log(res)).catch(error => console.error(error));
+        this.props.updateEvaluation(this.props.artifactID);
     }
 
     onChangeCreative = (value) => {

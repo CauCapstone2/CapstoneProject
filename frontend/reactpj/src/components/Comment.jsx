@@ -12,6 +12,7 @@ class Comment extends Component {
             content: event.target.elements[0].value,
             artifactID: this.props.artifactID
         }).then(res => console.log(res)).catch(error => console.error(error));
+    this.props.updateComment(this.props.artifactID);
     }
     
     render() {
