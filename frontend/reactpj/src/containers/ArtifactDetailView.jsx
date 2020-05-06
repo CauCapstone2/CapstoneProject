@@ -1,13 +1,19 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Card, Button, Form, Input, List } from 'antd';
 import { Container, Image } from 'react-bootstrap';
-
+import './ArtifactDetail.css';
 import EvaluationForm from '../components/EvaluationForm';
 import Evaluation from '../components/Evaluation';
 import Comment from '../components/Comment';
+import CustomForm from '../components/RegArtifact';
+import { CloseOutlined } from '@ant-design/icons';
 import Report from '../components/Report';
-import './ArtifactDetail.css';
+
+
+const { TextArea } = Input;
+const FormItem = Form.Item;
 
 class ArtifactDetail extends React.Component {
 
@@ -19,6 +25,8 @@ class ArtifactDetail extends React.Component {
     }
 
     componentDidMount() {
+        console.log('mount call');
+        console.log(this.props);
         const artifactID = this.props.match.params.artifactID;
         axios.get('http://127.0.0.1:8000/api/' + artifactID)
             .then(res => {
@@ -92,7 +100,6 @@ class ArtifactDetail extends React.Component {
                         <h5> Mr. Park </h5>
                         <p> {this.state.artifact.description} </p>
                     </div>
-
                     <Evaluation eval={this.state.eval} />
                     <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
 

@@ -19,6 +19,7 @@ class RegArtifact extends React.Component {
 
   handleFormSubmit = (event, requestType, artifactID) => {
     let form_data = new FormData();
+    form_data.append("userID", this.props.userid);
     form_data.append("title", event.target.elements.title.value);
     form_data.append(
       "image",
@@ -95,25 +96,25 @@ class RegArtifact extends React.Component {
         <Row align = 'middle' gutter = {[16, ]} style = {{position : 'relative', top : '25vh'}}>
           <Col span = {12} gutter = {[16, 16]}>
             <Form layout = "vertical" align = 'middle'>
-                <FormItem name = "upload" getValueFromEvent={this.handleUpload}>
+                <Form.Item name = "upload" getValueFromEvent={this.handleUpload}>
                   <Upload name = "image" listType = "picture">
                     <Button>
                       <UploadOutlined/> Click to Upload
                     </Button>
                   </Upload>
-                </FormItem>
+                </Form.Item>
             </Form>
           </Col>
           <Col span = {12} gutter = {[16, ]} >
             <Form layout = "vertical" style = {{marginRight : '20px', marginLeft : '10px', marginTop : '20px'}}>
-              <FormItem label = "Title">
+              <Form.Item label = "Title">
                 <Input.TextArea name = "title" placeholder = "Enter a title for your art" style = {{marginRight : '10px'}}/>
-              </FormItem>
-              <FormItem label = "Description">
+              </Form.Item>
+              <Form.Item label = "Description">
                 <Input.TextArea name = "description" placeholder = "Enter description" 
                     style = {{marginRight : '10px'}} autoSize = {{minRows : 5, maxRows : 30}}/>
-              </FormItem>
-              <FormItem>
+              </Form.Item>
+              <Form.Item>
                 <Button style = {{marginRight : '10px'}} type = "primary" htmlType = "submit">
                   {this.props.btnText}
                 </Button>
@@ -122,7 +123,7 @@ class RegArtifact extends React.Component {
                     Cancel
                   </Button>
                 </NavLink>
-              </FormItem>
+              </Form.Item>
             </Form>
           </Col>
         </Row>

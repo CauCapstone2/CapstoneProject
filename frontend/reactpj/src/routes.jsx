@@ -8,6 +8,7 @@ import Signup from './containers/Signup';
 import RegArtifact from "./components/RegArtifact";
 import MainPage from './containers/MainPage';
 import SearchPage from './containers/Search';
+import Mypage from './containers/Mypage';
 
 const BaseRouter = () => (
     <div>
@@ -24,6 +25,7 @@ const BaseRouter = () => (
         <Route exact path = '/signup/' component={Signup} />
         <Route exact path = '/main/' component = {MainPage} />
         <Route exact path = '/search/' component = {SearchPage} />
+        <Route exact path = '/mypage' component = {Mypage} />
     </div>
 );
 

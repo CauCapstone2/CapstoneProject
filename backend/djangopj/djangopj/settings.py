@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'home',
     'artifacts',
     'comment',
+    'mypage',
     'evaluation',
     'report',
 ]
