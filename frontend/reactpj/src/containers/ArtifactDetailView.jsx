@@ -4,19 +4,24 @@ import { connect } from 'react-redux';
 import { Card, Button, Form, Input, List } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
-
+import EvaluationForm from '../components/EvaluationForm';
+import Evaluation from '../components/Evaluation';
 import Comment from '../components/Comment';
 import CustomForm from '../components/RegArtifact';
 import { CloseOutlined } from '@ant-design/icons';
+import Report from '../components/Report';
+
 
 const { TextArea } = Input;
-const FormItem = Form.Item;;
+const FormItem = Form.Item;
 
 class ArtifactDetail extends React.Component {
 
     state = {
         artifact: [],
-        comment: []
+        comment: [],
+        eval: [],
+        isReported : false,
     }
 
     componentDidMount() {
@@ -29,6 +34,7 @@ class ArtifactDetail extends React.Component {
                     artifact: res.data
                 });
             })
+        this.updateEvaluation(artifactID);
         this.updateComment(artifactID);
     }
 
@@ -40,16 +46,6 @@ class ArtifactDetail extends React.Component {
         window.location.reload();
     }
 
-    handleSubmit = async (event, artifactID) => {
-        await axios.post('http://127.0.0.1:8000/comments/api/', {
-            userID: this.props.userid,
-            content: event.target.elements[0].value,
-            artifactID: artifactID
-        }).then(res => console.log(res))
-          .catch(error => console.error(error));
-        this.updateComment(artifactID);
-    }
-
     updateComment = (artifactID) => {
         axios.get('http://127.0.0.1:8000/comments/api/?artifactID=' + artifactID)
             .then(res => {
@@ -58,6 +54,23 @@ class ArtifactDetail extends React.Component {
                     comment: res.data
                 });
             })
+    }
+
+    updateEvaluation = (artifactID) => {
+        axios.get('http://127.0.0.1:8000/evaluation/api/?artifactID=' + artifactID)
+            .then(res => {
+                this.setState({
+                    eval: res.data
+                });
+            })
+    }
+
+    preEval = () => {
+        for (var i in this.state.eval) {
+            if (this.state.eval[i].userID == this.props.userid) {
+                return this.state.eval[i];
+            }
+        }
     }
 
     editDate = (data) => {
@@ -71,15 +84,6 @@ class ArtifactDetail extends React.Component {
     render() {
         return (
             <div>
-                {/* <Card title = {this.state.artifact.title}>
-                    <img src = {this.state.artifact.image} alt = "img" width={272}></img>
-                    <p>{this.state.artifact.description}</p>
-                </Card>
-                <CustomForm requestType="put" artifactID={this.props.match.params.artifactID} btnText="Update"/>
-                <form onSubmit={this.handleDelete}>
-                    <Button type="danger" htmlType="submit">Delete</Button>
-                </form> */}
-
                 <div className="intro">
                     Iuducium In Foro
                 </div>
@@ -96,57 +100,13 @@ class ArtifactDetail extends React.Component {
                         <h5> Mr. Park </h5>
                         <p> {this.state.artifact.description} </p>
                     </div>
-                    <div className="comments">
-                        <div className="comment-header"><h2>Comments</h2></div>
-                        <List itemLayout="vertical" size="large"
-                            pagination={{
-                                onChange: page => {
-                                    console.log(page);
-                                },
-                                pageSize: 5,
-                            }}
-                            dataSource={this.state.comment}
-                            renderItem={item => (
-                                <List.Item>
-                                    <List.Item.Meta
-                                        content={item.content}
-                                        name={item.username}
-                                        date={item.date} />
-                                    <div classname="comment-info"><p className="comment-username">{item.username}</p>
-                                        <p className="comment-date">{item.date}</p></div>
-                                    <div><p>{item.content}</p></div>
-                                </List.Item>
-                            )}
-                        />
+                    <Evaluation eval={this.state.eval} />
+                    <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
 
-                        <Form onSubmitCapture={(event) => this.handleSubmit(event, this.props.match.params.artifactID)}>
-                            <FormItem>
-                                <TextArea rows={4} allowClear="true" />
-                            </FormItem>
-                            <FormItem className="button-box">
-                                <Button type="primary" htmlType="submit">comment</Button>
-                            </FormItem>
-                        </Form>
-
-                    </div>
+                    <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+                    <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported}/>
                 </Container>
             </div>
-
-            // <div>
-            //     <Row align = 'middle'>
-            //         <Col span = {12} gutter = {[16, 16]} align = 'middle'>
-            //             <div>
-            //                 <img src = {this.state.artifact.image} alt = "img" width = {'100%'} height = {'100%'}></img>
-            //             </div>
-            //         </Col>
-            //         <Col span = {12} align = 'middle'>
-            //             <Typography>
-            //                 <Title>{this.state.artifact.title}</Title>
-            //                 <Paragraph>{this.state.artifact.description}</Paragraph>
-            //             </Typography>
-            //         </Col>
-            //     </Row>
-            // </div>
         )
     }
 }
