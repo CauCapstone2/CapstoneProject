@@ -1,23 +1,41 @@
 import React from 'react';
 import axios from 'axios';
-import { Card, Button } from 'antd'; 
-
+import { connect } from 'react-redux';
+import { Card, Button, Form, Input, List } from 'antd';
+import { Container, Image } from 'react-bootstrap';
+import './ArtifactDetail.css';
+import EvaluationForm from '../components/EvaluationForm';
+import Evaluation from '../components/Evaluation';
+import Comment from '../components/Comment';
 import CustomForm from '../components/RegArtifact';
+import { CloseOutlined } from '@ant-design/icons';
+import Report from '../components/Report';
 
-class ArtifactDetail extends React.Component{
+
+const { TextArea } = Input;
+const FormItem = Form.Item;
+
+class ArtifactDetail extends React.Component {
 
     state = {
-        artifact: {}
+        artifact: [],
+        comment: [],
+        eval: [],
+        isReported : false,
     }
 
     componentDidMount() {
+        console.log('mount call');
+        console.log(this.props);
         const artifactID = this.props.match.params.artifactID;
         axios.get('http://127.0.0.1:8000/api/' + artifactID)
             .then(res => {
                 this.setState({
-                    artifact : res.data
+                    artifact: res.data
                 });
             })
+        this.updateEvaluation(artifactID);
+        this.updateComment(artifactID);
     }
 
     handleDelete = async (event) => {
@@ -28,20 +46,75 @@ class ArtifactDetail extends React.Component{
         window.location.reload();
     }
 
-    render(){
-        return(
+    updateComment = (artifactID) => {
+        axios.get('http://127.0.0.1:8000/comments/api/?artifactID=' + artifactID)
+            .then(res => {
+                this.editDate(res.data);
+                this.setState({
+                    comment: res.data
+                });
+            })
+    }
+
+    updateEvaluation = (artifactID) => {
+        axios.get('http://127.0.0.1:8000/evaluation/api/?artifactID=' + artifactID)
+            .then(res => {
+                this.setState({
+                    eval: res.data
+                });
+            })
+    }
+
+    preEval = () => {
+        for (var i in this.state.eval) {
+            if (this.state.eval[i].userID == this.props.userid) {
+                return this.state.eval[i];
+            }
+        }
+    }
+
+    editDate = (data) => {
+        for (var i in data) {
+            data[i].date = data[i].date.split(".")[0];
+            data[i].date = data[i].date.replace("T", " ");
+            data[i].date = data[i].date.replace("Z", " ")
+        }
+    }
+
+    render() {
+        return (
             <div>
-                <Card title = {this.state.artifact.title}>
-                    <img src = {this.state.artifact.image} alt = "img" width={272}></img>
-                    <p>{this.state.artifact.description}</p>
-                </Card>
-                <CustomForm requestType="put" artifactID={this.props.match.params.artifactID} btnText="Update"/>
-                <form onSubmit={this.handleDelete}>
-                    <Button type="danger" htmlType="submit">Delete</Button>
-                </form>
+                <div className="intro">
+                    Iuducium In Foro
+                </div>
+                <div className="art-intro">
+                    Content
+                </div>
+
+                <Container>
+                    <div className="art-box">
+                        <Image className="art" width="700" src={this.state.artifact.image} />
+                    </div>
+                    <div className="description">
+                        <h2> {this.state.artifact.title} </h2>
+                        <h5> Mr. Park </h5>
+                        <p> {this.state.artifact.description} </p>
+                    </div>
+                    <Evaluation eval={this.state.eval} />
+                    <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+
+                    <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+                    <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported}/>
+                </Container>
             </div>
         )
     }
 }
 
-export default ArtifactDetail;
+const mapStateToProps = (state) => {
+    return {
+        userid: state.userid,
+    }
+}
+
+export default connect(mapStateToProps)(ArtifactDetail);

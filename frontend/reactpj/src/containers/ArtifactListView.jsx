@@ -2,7 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import axios from "axios";
 import Artifact from "../components/Artifact";
-import { Button, Row, Col, Divider, Pagination } from "antd";
+import { Button, Row, Col, Pagination, Typography } from "antd";
+
+const {Title} = Typography;
 
 class ArtifactList extends React.Component {
   constructor(props) {
@@ -53,11 +55,17 @@ class ArtifactList extends React.Component {
     const { isLoading, artifacts, pagination } = this.state;
     return isLoading ? (
       <div ref={this.wrapper}>
-        <span>Loading...</span>
+        <div className = "title-text" title = "loading_message">
+          <Typography>
+            <Title style = {{color : "white"}}>
+              Arts are now loading
+            </Title>
+          </Typography>
+        </div>
       </div>
     ) : (
-      <div ref={this.wrapper}>
-        <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 32 }]}>
+      <div style = {{marginTop : 10, marginLeft : 10, marginRight : 10, marginBottom : 10}} ref={this.wrapper}>
+        <Row align = 'middle' gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
           {artifacts.map((artifact, index) => (
             <Col key={index} span={6}>
               <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
@@ -72,6 +80,7 @@ class ArtifactList extends React.Component {
           </Col>
           <Col span={12} align="middle">
             <Pagination
+              size = "small"
               total={pagination.count}
               showQuickJumper
               showTotal={(total) => `Total ${total} items`}
