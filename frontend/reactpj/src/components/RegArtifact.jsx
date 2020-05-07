@@ -50,22 +50,27 @@ class RegArtifact extends React.Component {
 
   handleFormSubmit = (event, requestType, artifactID) => {
     let form_data = new FormData();
-    form_data.append("userID", this.props.userid);
+    let image_list = [];
+    this.state.fileList.forEach((el) => image_list.push([el.originFileObj, el.originFileObj.name]));
+    // form_data.append("userID", this.props.userid);
+    form_data.append("userID", 2);
     form_data.append("title", event.target.elements.title.value);
+    form_data.append("description", event.target.elements.description.value);
     form_data.append(
-      "image",
+      "images",
       // this.state.image.originFileObj,
       // this.state.image.originFileObj.name
-      this.state.fileList
+
+      image_list
+      // image_list
     );
-    form_data.append("description", event.target.elements.description.value);
     // console.log(artifactID);
     switch (requestType) {
       case "post":
-        let image_list = [];
-        this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
-        console.log(this.state.fileList)
-        console.log(image_list);
+        console.log(this.state.fileList);
+        // console.log(image_list);
+        console.log("form_data");
+        console.log(form_data);
 
         let payload = {
           userID: 2,
@@ -73,6 +78,7 @@ class RegArtifact extends React.Component {
           description: event.target.elements.description.value,
           images: image_list,
         };
+        console.log("payload");
         console.log(payload);
         return axios.post(
           "http://127.0.0.1:8000/artifacts/api/create/",
