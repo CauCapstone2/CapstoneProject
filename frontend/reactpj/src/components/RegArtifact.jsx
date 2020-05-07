@@ -1,20 +1,51 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
-import { Form, Input, Button, Upload, Row, Col } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { Form, Input, Button, Upload, Row, Col, Modal } from "antd";
+import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
 
+function getBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
 class RegArtifact extends React.Component {
   state = {
-    image: "",
+    previewVisible: false,
+    previewImage: "",
+    previewTitle: "",
+    fileList: [],
   };
+
+  handleCancel = () => this.setState({ previewVisible: false });
+
+  handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+
+    this.setState({
+      previewImage: file.url || file.preview,
+      previewVisible: true,
+      previewTitle:
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+    });
+    console.log(this.state);
+  };
+
+  handleChange = ({ fileList }) => this.setState({ fileList });
 
   handleSubmit = async (event, requestType, artifactID) => {
     await this.handleFormSubmit(event, requestType, artifactID);
-    window.location.reload();
+    // window.location.href = "/artifactlist";
+    this.props.history.push("/artifactlist");
   };
 
   handleFormSubmit = (event, requestType, artifactID) => {
@@ -23,21 +54,30 @@ class RegArtifact extends React.Component {
     form_data.append("title", event.target.elements.title.value);
     form_data.append(
       "image",
-      this.state.image.originFileObj,
-      this.state.image.originFileObj.name
+      // this.state.image.originFileObj,
+      // this.state.image.originFileObj.name
+      this.state.fileList
     );
     form_data.append("description", event.target.elements.description.value);
-    console.log(artifactID);
+    // console.log(artifactID);
     switch (requestType) {
       case "post":
-        return axios
-          .post("http://127.0.0.1:8000/api/", form_data, {
-            headers: {
-              "content-type": "multipart/form-data",
-            },
-          })
-          .then((res) => console.log(res))
-          .catch((error) => console.error(error));
+        let image_list = [];
+        this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
+        console.log(this.state.fileList)
+        console.log(image_list);
+
+        let payload = {
+          userID: 2,
+          title: event.target.elements.title.value,
+          description: event.target.elements.description.value,
+          images: image_list,
+        };
+        console.log(payload);
+        return axios.post(
+          "http://127.0.0.1:8000/artifacts/api/create/",
+          payload
+        );
     }
   };
 
@@ -45,52 +85,18 @@ class RegArtifact extends React.Component {
     this.setState({
       image: e.file,
     });
+    console.log(this.state);
   };
 
   render() {
+    const { previewVisible, previewImage, fileList, previewTitle } = this.state;
+    const uploadButton = (
+      <div>
+        <PlusOutlined />
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return (
-      // <div>
-      //   <Form
-      //     onSubmitCapture={(event) =>
-      //       this.handleSubmit(
-      //         event,
-      //         this.props.requestType,
-      //         this.props.artifactID
-      //       )
-      //     }
-      //   >
-      //     <FormItem label="Title">
-      //       <Input name="title" placeholder="Put a title here" />
-      //     </FormItem>
-
-      //     <FormItem
-      //       name="upload"
-      //       label="Upload"
-      //       getValueFromEvent={this.handleUpload}
-      //       extra="upload image"
-      //     >
-      //       <Upload name="image" listType="picture">
-      //         <Button>
-      //           <UploadOutlined /> Click to upload
-      //         </Button>
-      //       </Upload>
-      //     </FormItem>
-
-      //     <FormItem label="Description">
-      //       <Input
-      //         name="description"
-      //         placeholder="Enter some description ..."
-      //       />
-      //     </FormItem>
-      //     <FormItem>
-      //       <Button type="primary" htmlType="submit">
-      //         {this.props.btnText}
-      //       </Button>
-      //     </FormItem>
-      //   </Form>
-      // </div>
-      //from here new comopnent starts
-
       <div
         style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
         onSubmitCapture={(event) =>
@@ -107,15 +113,28 @@ class RegArtifact extends React.Component {
           style={{ position: "relative", top: "25vh" }}
         >
           <Col span={12} gutter={[16, 16]}>
-            <Form layout="vertical" align="middle">
-              <Form.Item name="upload" getValueFromEvent={this.handleUpload}>
-                <Upload name="image" listType="picture">
-                  <Button>
-                    <UploadOutlined /> Click to Upload
-                  </Button>
-                </Upload>
-              </Form.Item>
-            </Form>
+            {/* <Form layout="vertical" align="middle"> */}
+            {/* <Form.Item name="upload" getValueFromEvent={this.handleUpload}> */}
+            <Upload
+              // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+              listType="picture-card"
+              fileList={fileList}
+              onPreview={this.handlePreview}
+              onChange={this.handleChange}
+              beforeUpload={() => false}
+            >
+              {fileList.length >= 8 ? null : uploadButton}
+            </Upload>
+            <Modal
+              visible={previewVisible}
+              title={previewTitle}
+              footer={null}
+              onCancel={this.handleCancel}
+            >
+              <img alt="example" style={{ width: "100%" }} src={previewImage} />
+            </Modal>
+            {/* </Form.Item> */}
+            {/* </Form> */}
           </Col>
           <Col span={12} gutter={[16]}>
             <Form
@@ -163,4 +182,5 @@ class RegArtifact extends React.Component {
   }
 }
 
-export default RegArtifact;
+// export default RegArtifact;
+export default withRouter(RegArtifact);
