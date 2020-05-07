@@ -51,19 +51,20 @@ class RegArtifact extends React.Component {
   handleFormSubmit = (event, requestType, artifactID) => {
     let form_data = new FormData();
     let image_list = [];
-    this.state.fileList.forEach((el) => image_list.push([el.originFileObj, el.originFileObj.name]));
+    this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
     // form_data.append("userID", this.props.userid);
     form_data.append("userID", 2);
     form_data.append("title", event.target.elements.title.value);
     form_data.append("description", event.target.elements.description.value);
-    form_data.append(
-      "images",
-      // this.state.image.originFileObj,
-      // this.state.image.originFileObj.name
+    // form_data.append(
+    //   "images",
+    //   // this.state.image.originFileObj,
+    //   // this.state.image.originFileObj.name
 
-      image_list
-      // image_list
-    );
+    //   image_list
+    //   // image_list
+    // );
+    this.state.fileList.forEach((el) => form_data.append("images", el.originFileObj, el.originFileObj.name));
     // console.log(artifactID);
     switch (requestType) {
       case "post":
@@ -82,7 +83,12 @@ class RegArtifact extends React.Component {
         console.log(payload);
         return axios.post(
           "http://127.0.0.1:8000/artifacts/api/create/",
-          payload
+          form_data,
+          {
+            headers: {
+              "content-type": "multipart/form-data",
+            },
+          }
         );
     }
   };
