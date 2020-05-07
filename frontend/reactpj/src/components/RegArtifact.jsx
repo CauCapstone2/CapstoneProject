@@ -2,10 +2,7 @@ import React from "react";
 import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
 import { Form, Input, Button, Upload, Row, Col, Modal } from "antd";
-import { PlusOutlined, UploadOutlined } from "@ant-design/icons";
-
-const FormItem = Form.Item;
-const { TextArea } = Input;
+import { PlusOutlined } from "@ant-design/icons";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -44,7 +41,6 @@ class RegArtifact extends React.Component {
 
   handleSubmit = async (event, requestType, artifactID) => {
     await this.handleFormSubmit(event, requestType, artifactID);
-    // window.location.href = "/artifactlist";
     this.props.history.push("/artifactlist");
   };
 
@@ -52,52 +48,22 @@ class RegArtifact extends React.Component {
     let form_data = new FormData();
     let image_list = [];
     this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
-    // form_data.append("userID", this.props.userid);
     form_data.append("userID", 2);
     form_data.append("title", event.target.elements.title.value);
     form_data.append("description", event.target.elements.description.value);
-    // form_data.append(
-    //   "images",
-    //   // this.state.image.originFileObj,
-    //   // this.state.image.originFileObj.name
+    this.state.fileList.forEach((el) =>
+      form_data.append("images", el.originFileObj, el.originFileObj.name)
+    );
 
-    //   image_list
-    //   // image_list
-    // );
-    this.state.fileList.forEach((el) => form_data.append("images", el.originFileObj, el.originFileObj.name));
-    // console.log(artifactID);
-    switch (requestType) {
-      case "post":
-        console.log(this.state.fileList);
-        // console.log(image_list);
-        console.log("form_data");
-        console.log(form_data);
-
-        let payload = {
-          userID: 2,
-          title: event.target.elements.title.value,
-          description: event.target.elements.description.value,
-          images: image_list,
-        };
-        console.log("payload");
-        console.log(payload);
-        return axios.post(
-          "http://127.0.0.1:8000/artifacts/api/create/",
-          form_data,
-          {
-            headers: {
-              "content-type": "multipart/form-data",
-            },
-          }
-        );
-    }
-  };
-
-  handleUpload = (e) => {
-    this.setState({
-      image: e.file,
-    });
-    console.log(this.state);
+    return axios.post(
+      "http://127.0.0.1:8000/artifacts/api/create/",
+      form_data,
+      {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      }
+    );
   };
 
   render() {

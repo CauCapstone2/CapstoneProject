@@ -25,8 +25,7 @@ class ArtifactCreateView(APIView):
     def post(self, request, format=None):
         req = request.data
         print('req:', req)
-        images = dict(req.lists())['images']  # postman에선 잘 됨
-        # images = req['images']
+        images = dict(req.lists())['images']
         artifact = {'userID': req['userID'],
                     'title': req['title'], 'description': req['description']}
         serializer_artifact = ArtifactSerializer(data=artifact)
