@@ -1,6 +1,12 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
+export const firstDrawerOpen = () => {
+    return {
+        type : actionTypes.FIRSTDRAWER_OPEN
+    }
+}
+
 export const authStart = () => {
     return {
         type : actionTypes.AUTH_START

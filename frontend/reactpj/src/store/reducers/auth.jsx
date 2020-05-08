@@ -5,7 +5,17 @@ const initialState = {
     token : null,
     userid : null,
     error : null,
-    loading : false
+    loading : false,
+
+    firstdrawer : false,
+    logindrawer : false,
+    signupdrawer : false
+}
+
+const firstDrawerOpen = (state, action) => {
+    return updateObject(state, {
+        firstdrawer : true,
+    });
 }
 
 const authStart = (state, action) => {
@@ -44,6 +54,7 @@ const reducer = (state = initialState, action) => {
         case actionTypes.AUTH_SUCCESS : return authSuccess(state, action);
         case actionTypes.AUTH_FAIL : return authFail(state, action);
         case actionTypes.AUTH_LOGOUT : return authLogout(state, action);
+        case actionTypes.FIRSTDRAWER_OPEN : return firstDrawerOpen(state, action);
         default : return state;
     }
 }
