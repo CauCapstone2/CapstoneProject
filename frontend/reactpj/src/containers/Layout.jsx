@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Drawer, Avatar, Button, Form, Row, Col, Input } from 'antd';
+import { Layout, Menu, Drawer, Avatar, Button, Form, Row, Col, Input, Alert } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
@@ -26,6 +26,14 @@ class CustomLayout extends React.Component {
     }
 
     render() {
+        let errorMessage = null;
+        if (this.props.error) {
+            errorMessage = (
+                <div>
+                    <Alert message = "Login Error" description = {this.props.error.message} type = "error" closable showIcon/>
+                </div>
+            );
+        }
         return (
             <div>
                 <Layout className="layout">
@@ -127,21 +135,22 @@ class CustomLayout extends React.Component {
 const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(actions.logout()),
-        showDrawer: ()=> dispatch(actions.firstDrawerOpen()),
-        onClose : ()=> dispatch(actions.firstDrawerClose()),
-        showLoginDrawer : ()=> dispatch(actions.loginDrawerOpen()),
-        onLoginDrawerClose : ()=> dispatch(actions.loginDrawerClose()),
-        showSignupDrawer : ()=> dispatch(actions.signupDrawerOpen()),
-        onSignupDrawerClose : ()=> dispatch(actions.signupDrawerClose()),
+        showDrawer: () => dispatch(actions.firstDrawerOpen()),
+        onClose: () => dispatch(actions.firstDrawerClose()),
+        showLoginDrawer: () => dispatch(actions.loginDrawerOpen()),
+        onLoginDrawerClose: () => dispatch(actions.loginDrawerClose()),
+        showSignupDrawer: () => dispatch(actions.signupDrawerOpen()),
+        onSignupDrawerClose: () => dispatch(actions.signupDrawerClose()),
 
     }
 }
 
-function mapReduxStateToReactProps(state) { 
+function mapReduxStateToReactProps(state) {
     return {
-        firstdrawer : state.firstdrawer,
-        logindrawer : state.logindrawer,
-        signupdrawer : state.signupdrawer,
+        firstdrawer: state.firstdrawer,
+        logindrawer: state.logindrawer,
+        signupdrawer: state.signupdrawer,
+        error: state.error,
     }
 }
 export default connect(mapReduxStateToReactProps, mapDispatchToProps)(CustomLayout);

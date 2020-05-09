@@ -2,22 +2,18 @@ import React, { Component } from 'react';
 import { Button, Typography } from 'antd';
 import '../css/MainPage.css';
 import {connect} from 'react-redux';
+import * as actions from '../store/actions/auth';
 
 const { Title, Paragraph } = Typography;
 
+
 class MainPage extends Component {
 
-  // showDrawer = () => {
-  //   this.setState({
-  //     signupDrawer : true,
-  //   });
-  // }
 
-  // onClose = () => {
-  //   this.props.setState({
-  //     signupDrawer : false,
-  //   });
-  // }
+  mainpageButtonClick = () => {
+    this.props.firstDrawerOpen();
+    this.props.signupDrawerOpen();
+  }
 
   render() {
     return(
@@ -38,7 +34,7 @@ class MainPage extends Component {
               {/* <div onClick = {this.props.showSignupDrawer}>
                 <Button  type = "primary" ghost size = "large">Start with IIF</Button>
               </div> */}
-                <Button onClick = {this.props.mainpageButtonClick} type = "primary" ghost size = "large">Start with IIF</Button>
+                <Button onClick = {this.mainpageButtonClick} type = "primary" ghost size = "large">Start with IIF</Button>
             </div>
           </div>
     </div>
@@ -47,11 +43,10 @@ class MainPage extends Component {
 }
 //export default MainPage;
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
-      onClick : function() {
-          dispatch({signupDrawer : true});
-      }
+      signupDrawerOpen : () => dispatch(actions.signupDrawerOpen()),
+      firstDrawerOpen : () => dispatch(actions.firstDrawerOpen()),
   }
 }
 
