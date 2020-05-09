@@ -15,7 +15,8 @@ class RegistrationForm extends React.Component{
             if(!err) {
                 this.props.onAuth(e.target.elements[0].value, e.target.elements[1].value, e.target.elements[2].value);
             }
-            this.props.history.push('/');
+            //this.props.history.push('/');
+            //above is for refreshing to mainpage.
         });
     }
 

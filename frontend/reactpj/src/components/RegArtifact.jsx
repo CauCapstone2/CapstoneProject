@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { Form, Input, Button, Upload, Row, Col } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
+import {connect} from 'react-redux';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -132,4 +133,10 @@ class RegArtifact extends React.Component {
   }
 }
 
-export default RegArtifact;
+const mapStateToProps = (state) => {
+  return {
+      userid : state.userid,
+  }
+}
+
+export default connect(mapStateToProps, )(RegArtifact);

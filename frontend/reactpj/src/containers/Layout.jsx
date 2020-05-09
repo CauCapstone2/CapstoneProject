@@ -12,9 +12,7 @@ const { Header, Content, Footer } = Layout;
 
 class CustomLayout extends React.Component {
     state = {
-        visible: false,
         signupDrawer: false,
-        loginDrawer: false,
     };
 
     handleSubmit = (e) => {
@@ -24,49 +22,6 @@ class CustomLayout extends React.Component {
                 this.props.onAuth(e.target.elements[0].value, e.target.elements[1].value, e.target.elements[2].value);
             }
             this.props.history.push('/');
-        });
-    }
-
-    // showDrawer = () => {
-    //     this.setState({
-    //         visible: true,
-    //     });
-    // }
-
-    onClose = () => {
-        this.setState({
-            visible: false,
-        });
-    }
-
-    showSignupDrawer = () => {
-        this.setState({
-            signupDrawer: true,
-        });
-    };
-
-    onSignupDrawerClose = () => {
-        this.setState({
-            signupDrawer: false,
-        });
-    };
-
-    showLoginDrawer = () => {
-        this.setState({
-            loginDrawer: true,
-        });
-    };
-
-    onLoginDrawerClose = () => {
-        this.setState({
-            loginDrawer: false,
-        });
-    };
-
-    mainpageButtonClick = () => {
-        this.setState({
-            visible: true,
-            signupDrawer: true,
         });
     }
 
@@ -90,32 +45,8 @@ class CustomLayout extends React.Component {
                             <Menu.Item key="3" onClick={this.props.showDrawer}>MENU<MenuOutlined /></Menu.Item>
                         </Menu>
                     </Header>
-                    {/* <Header>
-                <div className="logo" />
-                <Menu
-                    theme="dark"
-                    mode="horizontal"
-                    defaultSelectedKeys={['2']}
-                >
-                <Menu.Item key="1"><MenuOutlined />MENU</Menu.Item>
-                    {
-                        this.props.isAuthenticated ?             
-                        <Menu.Item onClick = {this.props.logout} style={{float: 'right'}} key="3">
-                            Logout
-                        </Menu.Item>     
-                            :
-                        <Menu.Item style={{float: 'right'}} key="3">
-                            <Link to = "/login">LOG IN / SIGN UP</Link>
-                        </Menu.Item>
-                    }
-                </Menu>
-                </Header> */}
+
                     <Content style={{ minHeight: '87vh' }}>
-                        {/* <Breadcrumb style={{ margin: '16px 0' }}>
-                    <Breadcrumb.Item><Link to="/">Home</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item><Link to="/">List</Link></Breadcrumb.Item>
-                    <Breadcrumb.Item>App</Breadcrumb.Item>
-                </Breadcrumb> */}
                         <div className="site-layout-content" style={{ background: '#fff', padding: '0px', minHeight: '280px' }}>
                             {this.props.children}
                         </div>
@@ -126,7 +57,7 @@ class CustomLayout extends React.Component {
                     title={this.props.username}
                     placement="right"
                     closable={false}
-                    onClose={this.onClose}
+                    onClose={this.props.onClose}
                     visible={this.props.firstdrawer}
                     bodyStyle={{ paddingBottom: 80 }}
                     footer={
@@ -144,10 +75,10 @@ class CustomLayout extends React.Component {
                                 style={{
                                     textAlign: 'right',
                                 }}>
-                                <Button onClick={this.showSignupDrawer} style={{ marginRight: 8 }}>
+                                <Button onClick={this.props.showSignupDrawer} style={{ marginRight: 8 }}>
                                     SignUp
                             </Button>
-                                <Button onClick={this.showLoginDrawer} type="primary" style={{ marginRight: 8 }}>
+                                <Button onClick={this.props.showLoginDrawer} type="primary" style={{ marginRight: 8 }}>
                                     Login
                             </Button>
                             </div>
@@ -171,75 +102,19 @@ class CustomLayout extends React.Component {
                         title="SignUp"
                         width={360}
                         closable={false}
-                        onClose={this.onSignupDrawerClose}
-                        visible={this.state.signupDrawer}
+                        onClose={this.props.onSignupDrawerClose}
+                        visible={this.props.signupdrawer}
                         bodyStyle={{ paddingBottom: 80 }}
-                    // footer = {
-                    //     <div style = {{ textAlign : 'right', }}>
-                    //         <Button onclick = {this.onClose} style = {{marginRight : 8}}>
-                    //             Cancel
-                    //         </Button>
-                    //         <Button onClick={this.onClose} type="primary">
-                    //             Submit
-                    //         </Button>
-                    //     </div>
-                    // }
                     >
                         <RegistrationForm></RegistrationForm>
-                        {/* <Form layout = "vertical" hideRequiredMark>
-                        <Row gutter = {16}>
-                            <Col span = {12}>
-                                <Form.Item name = "username" label = "Username"
-                                 rules = {[{required : true, message : 'Please enter username'}]}>
-                                     <Input placeholder = "Please enter username" />
-                                 </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row gutter = {16}>
-                            <Col span = {12}>
-                                <Form.Item name = "password" label = "Password"
-                                 rules = {[{required : true, message : 'Please enter password'}]}>
-                                     <Input.Password placeholder = "Please enter password" />
-                                 </Form.Item>
-                            </Col>
-                        </Row>
-                        <Row gutter = {16}>
-                            <Col span = {12}>
-                                <Form.Item name = "password_verification" label = "Password_verification"
-                                 rules = {[{required : true, message : 'Please enter same password above'}, 
-                                 ({ getFieldValue }) => ({
-                                    validator(rule, value) {
-                                    if (!value || getFieldValue('password') === value) {
-                                        return Promise.resolve();
-                                    }
-                                    return Promise.reject('The two passwords that you entered do not match!');
-                                    },
-                                 }),
-                                 ]}
-                                 dependencies={['password']} hasFeedback>
-                                     <Input.Password placeholder = "Please enter same password above" />
-                                 </Form.Item>
-                            </Col>
-                        </Row>
-                    </Form> */}
                     </Drawer>
                     <Drawer
                         title="LogIn"
                         width={360}
                         closable={false}
-                        onClose={this.onLoginDrawerClose}
-                        visible={this.state.loginDrawer}
+                        onClose={this.props.onLoginDrawerClose}
+                        visible={this.props.logindrawer}
                         bodyStyle={{ paddingBottom: 80 }}
-                    // footer = {
-                    //     <div style = {{ textAlign : 'right', }}>
-                    //         <Button onclick = {this.onClose} style = {{marginRight : 8}}>
-                    //             Cancel
-                    //         </Button>
-                    //         <Button onClick={this.onClose} type="primary">
-                    //             Submit
-                    //         </Button>
-                    //     </div>
-                    // }
                     >
                         <LoginForm />
                     </Drawer>
@@ -253,13 +128,20 @@ const mapDispatchToProps = dispatch => {
     return {
         logout: () => dispatch(actions.logout()),
         showDrawer: ()=> dispatch(actions.firstDrawerOpen()),
+        onClose : ()=> dispatch(actions.firstDrawerClose()),
+        showLoginDrawer : ()=> dispatch(actions.loginDrawerOpen()),
+        onLoginDrawerClose : ()=> dispatch(actions.loginDrawerClose()),
+        showSignupDrawer : ()=> dispatch(actions.signupDrawerOpen()),
+        onSignupDrawerClose : ()=> dispatch(actions.signupDrawerClose()),
+
     }
 }
 
-function mapReduxStateToReactProps(state) { // state가 인자인 것은 이미 규약으로 정해져 있는 것이다. redux의 store의 state이다.
-    //redux의 state값이 바뀔때마다 호출되도록 규약되어있다.
+function mapReduxStateToReactProps(state) { 
     return {
-        firstdrawer : state.firstdrawer
+        firstdrawer : state.firstdrawer,
+        logindrawer : state.logindrawer,
+        signupdrawer : state.signupdrawer,
     }
 }
 export default connect(mapReduxStateToReactProps, mapDispatchToProps)(CustomLayout);

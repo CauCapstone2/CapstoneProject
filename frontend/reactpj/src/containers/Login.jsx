@@ -18,8 +18,8 @@ class LoginForm extends React.Component{
                 this.props.onAuth(e.target.elements[0].value, e.target.elements[1].value)
             }
         });
-        console.log('problem point');
-        console.log(this.props);
+        // console.log('problem point');
+        // console.log(this.props);
         //this.props.history.push('/');
         //above is for refreshing to mainpage.
     }
@@ -59,12 +59,11 @@ class LoginForm extends React.Component{
                       <Button type="primary" htmlType="submit" style={{marginRight:'10px'}}>
                           Login
                       </Button>
-                      Or
-                      <NavLink style={{marginRight:'10px'}} to='/signup/'>
-                          <Button style = {{marginRight : '10px', marginLeft : '10px'}}>
-                              SignUp
-                          </Button>
-                      </NavLink>
+                      Or 
+                      {/*this side should be modified */}
+                        <Button style = {{marginRight : '10px', marginLeft : '10px'}}>
+                            SignUp
+                        </Button>
                   </Form.Item> 
               </Form>
             }

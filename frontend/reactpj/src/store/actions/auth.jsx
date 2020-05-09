@@ -7,6 +7,36 @@ export const firstDrawerOpen = () => {
     }
 }
 
+export const firstDrawerClose = () => {
+    return {
+        type : actionTypes.FIRSTDRAWER_CLOSE
+    }
+}
+
+export const loginDrawerOpen = () => {
+    return {
+        type : actionTypes.LOGINDRAWER_OPEN
+    }
+}
+
+export const loginDrawerClose = () => {
+    return {
+        type : actionTypes.LOGINDRAWER_CLOSE
+    }
+}
+
+export const signupDrawerOpen = () => {
+    return {
+        type : actionTypes.SIGNUPDRAWER_OPEN
+    }
+}
+
+export const signupDrawerClose = () => {
+    return {
+        type : actionTypes.SIGNUPDRAWER_CLOSE
+    }
+}
+
 export const authStart = () => {
     return {
         type : actionTypes.AUTH_START
@@ -58,6 +88,7 @@ export const authLogin = (username, password) => {
                     'authorization': 'Token ' + token}
                 }).then(res=>{
                     const userid = res.data.pk;
+                    console.log(res.data);
                     localStorage.setItem('userid', userid);
             })
             const expirationDate = new Date(new Date().getTime() + 3600 * 1000)
