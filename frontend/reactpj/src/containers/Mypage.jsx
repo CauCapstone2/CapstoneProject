@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Descriptions, Form, Input, List, Row, Col, Avatar, Comment} from 'antd';
+import { Descriptions, Form, Input, List, Row, Col, Avatar, Comment } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
 
@@ -18,7 +18,7 @@ class Mypage extends React.Component {
     constructor(props) {
         super(props);
         this.wrapper = React.createRef();
-      }
+    }
 
     state = {
         userInfo: [],
@@ -41,7 +41,7 @@ class Mypage extends React.Component {
         axios.get('http://127.0.0.1:8000/mypage/user/?id=' + 1)
             .then(res => {
                 this.setState({
-                    userInfo : res.data
+                    userInfo: res.data
                 });
             })
     }
@@ -51,7 +51,7 @@ class Mypage extends React.Component {
         axios.get('http://127.0.0.1:8000/mypage/artifacts/?userID=' + 1)
             .then(res => {
                 this.setState({
-                    artifact : res.data
+                    artifact: res.data
                 });
             })
     }
@@ -62,7 +62,7 @@ class Mypage extends React.Component {
             .then(res => {
                 this.editDate(res.data);
                 this.setState({
-                    comment : res.data
+                    comment: res.data
                 });
             })
     }
@@ -76,59 +76,54 @@ class Mypage extends React.Component {
     }
 
     render() {
-        console.log('render state');
-        console.log(this.props.userid);
-        console.log(this.state.userInfo);
-        console.log(this.state.artifact);
-        console.log(this.state.comment);
-        const {userInfo, artifact, comment} = this.state;
+        const { userInfo, artifact, comment } = this.state;
         return (
             <div>
-                <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px', marginBottom : '10px'}}>
-                    <Descriptions title = "User Info" bordered layout = 'vertical'>
-                        <Descriptions.Item label = "User Name">
+                <Row justify='center' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
+                    <Descriptions title="User Info" bordered layout='vertical'>
+                        <Descriptions.Item label="User Name">
                             {userInfo.map((userInfo, index) => (
-                                    <h>{userInfo.username}</h>
-                                ))}
+                                <h>{userInfo.username}</h>
+                            ))}
                         </Descriptions.Item>
-                        <Descriptions.Item label = "registered Email">
+                        <Descriptions.Item label="registered Email">
                             {userInfo.map((userInfo, index) => (
-                                        <h>{userInfo.email}</h>
-                                    ))}
+                                <h>{userInfo.email}</h>
+                            ))}
                         </Descriptions.Item>
-                        <Descriptions.Item label = "current Coins">150 credit</Descriptions.Item>
+                        <Descriptions.Item label="current Coins">150 credit</Descriptions.Item>
                     </Descriptions>
                 </Row>
-                <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px', marginBottom : '10px'}}>
+                <Row align='middle' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
                     <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
                         {artifact.map((artifact, index) => (
                             <Col key={index} span={6}>
-                            <NavLink to={{ pathname: `/artifacts/${artifact.id}` }} style = {{color : 'black'}}>
-                                <Artifact key={artifact.id} data={artifact} />
-                            </NavLink>
+                                <NavLink to={{ pathname: `/artifacts/${artifact.id}` }} style={{ color: 'black' }}>
+                                    <Artifact key={artifact.id} data={artifact} />
+                                </NavLink>
                             </Col>
                         ))}
                     </Row>
                 </Row>
-                <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px'}}>
-                    <List itemLayout = "vertical" size = "large" dataSource = {comment} footer = {<div><b>Iudicium In Foro</b>comment footer part</div>}
-                          pagination = {{onChange : page => {console.log(page);}, pageSize : 5,}}
-                          renderItem = {item => (
-                              <List.Item key = {item.artifactID.id} extra = {<img width = {250} height = {180} alt="logo" src = {item.artifactID.image}/>}
-                                         style = {{marginBottom : '10px'}}>
-                                <List.Item.Meta avatar = {<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"/>}
-                                                title = {<a href = {"http://localhost:3000/artifacts/" + item.artifactID.id}>{item.artifactID.title}</a>}
-                                                description = {item.artifactID.username}
-                                                style = {{minWidth : '80vh', maxWidth : '60vh'}}
+                <Row justify='center' style={{ marginLeft: '10px', marginRight: '10px' }}>
+                    <List itemLayout="vertical" size="large" dataSource={comment} footer={<div><b>Iudicium In Foro</b>comment footer part</div>}
+                        pagination={{ onChange: page => { console.log(page); }, pageSize: 5, }}
+                        renderItem={item => (
+                            <List.Item key={item.artifactID.id} extra={<img width={250} height={180} alt="logo" src={item.artifactID.image} />}
+                                style={{ marginBottom: '10px' }}>
+                                <List.Item.Meta avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                    title={<a href={"http://localhost:3000/artifacts/" + item.artifactID.id}>{item.artifactID.title}</a>}
+                                    description={item.artifactID.username}
+                                    style={{ minWidth: '80vh', maxWidth: '60vh' }}
                                 />
                                 {item.artifactID.description}
-                                <br/>
-                          <Comment author = {<a>{item.username}</a>} 
-                                   content = {item.content}
-                                   datetime = {item.date}
-                          />
-                              </List.Item>
-                          )}
+                                <br />
+                                <Comment author={<a>{item.username}</a>}
+                                    content={item.content}
+                                    datetime={item.date}
+                                />
+                            </List.Item>
+                        )}
                     />
                 </Row>
 

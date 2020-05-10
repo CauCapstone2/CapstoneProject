@@ -50,47 +50,6 @@ class RegArtifact extends React.Component {
 
   render() {
     return (
-      // <div>
-      //   <Form
-      //     onSubmitCapture={(event) =>
-      //       this.handleSubmit(
-      //         event,
-      //         this.props.requestType,
-      //         this.props.artifactID
-      //       )
-      //     }
-      //   >
-      //     <FormItem label="Title">
-      //       <Input name="title" placeholder="Put a title here" />
-      //     </FormItem>
-
-      //     <FormItem
-      //       name="upload"
-      //       label="Upload"
-      //       getValueFromEvent={this.handleUpload}
-      //       extra="upload image"
-      //     >
-      //       <Upload name="image" listType="picture">
-      //         <Button>
-      //           <UploadOutlined /> Click to upload
-      //         </Button>
-      //       </Upload>
-      //     </FormItem>
-
-      //     <FormItem label="Description">
-      //       <Input
-      //         name="description"
-      //         placeholder="Enter some description ..."
-      //       />
-      //     </FormItem>
-      //     <FormItem>
-      //       <Button type="primary" htmlType="submit">
-      //         {this.props.btnText}
-      //       </Button>
-      //     </FormItem>
-      //   </Form>
-      // </div>
-//from here new comopnent starts
 
       <div style = {{backgroundColor : 'rgba(0,0,0,0.05)'}} onSubmitCapture = {(event) =>
        this.handleSubmit(event, this.props.requestType, this.props.artifactID)}>

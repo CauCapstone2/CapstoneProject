@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input, Button, Spin, Row, Col, Alert } from 'antd';
+import { Input, Button, Spin, Row, Col, message } from 'antd';
 import { LoadingOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import { connect } from 'react-redux';
@@ -8,6 +8,13 @@ import * as actions from '../store/actions/auth';
 import '@ant-design/compatible/assets/index.css';
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+
+const success_info = () => {
+    message.success("Welcome to Iudicium In Foro");
+}
+const error_info = () => {
+    message.error("Please type correct information again")
+}
 
 class LoginForm extends React.Component {
 
@@ -33,22 +40,16 @@ class LoginForm extends React.Component {
     componentDidUpdate() {
         if (this.props.isAuthenticated) {
             this.closeTabs();
+            success_info();
+        }
+        else {
+            error_info();
         }
     }
 
     render() {
-        let errorMessage = null;
-        if (this.props.error) {
-            errorMessage = (
-                <div>
-                    <Alert message="Login Error" description={this.props.error.message} type="error" closable showIcon />
-                </div>
-            );
-        }
-
         return (
             <div>
-                {errorMessage}
                 {
                     this.props.loading ?
                         <Spin indicator={antIcon} />
@@ -93,6 +94,7 @@ const mapStateToProps = (state) => {
         loading: state.loading,
         error: state.error,
         isAuthenticated: state.token,
+        type : state.type,
     }
 }
 
@@ -106,3 +108,16 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedLoginForm);
+
+// import { message, Button } from 'antd';
+
+// const info = () => {
+//   message.info('This is a normal message');
+// };
+
+// ReactDOM.render(
+//   <Button type="primary" onClick={info}>
+//     Display normal message
+//   </Button>,
+//   mountNode,
+// );

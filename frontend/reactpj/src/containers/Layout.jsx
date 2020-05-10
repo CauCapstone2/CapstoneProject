@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layout, Menu, Drawer, Avatar, Button, Form, Row, Col, Input, Alert } from 'antd';
+import { Layout, Menu, Drawer, Avatar, Button, message } from 'antd';
 import { MenuOutlined, UserOutlined } from '@ant-design/icons';
 import { NavLink } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
@@ -11,29 +11,9 @@ import LoginForm from './Login';
 const { Header, Content, Footer } = Layout;
 
 class CustomLayout extends React.Component {
-    state = {
-        signupDrawer: false,
-    };
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFieldsAndScroll((err, values) => {
-            if (!err) {
-                this.props.onAuth(e.target.elements[0].value, e.target.elements[1].value, e.target.elements[2].value);
-            }
-            this.props.history.push('/');
-        });
-    }
 
     render() {
-        let errorMessage = null;
-        if (this.props.error) {
-            errorMessage = (
-                <div>
-                    <Alert message = "Login Error" description = {this.props.error.message} type = "error" closable showIcon/>
-                </div>
-            );
-        }
+        
         return (
             <div>
                 <Layout className="layout">
@@ -94,16 +74,16 @@ class CustomLayout extends React.Component {
                 >
                     <Avatar icon={<UserOutlined />} />
                     <p></p>
-                    <NavLink onClick={this.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
                         <p>Arts</p>
                     </NavLink>
-                    <NavLink onClick={this.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
                         <p>Status</p>
                     </NavLink>
-                    <NavLink onClick={this.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
                         <p>Ranking</p>
                     </NavLink>
-                    <NavLink onClick={this.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
                         <p>Arts Synthesis</p>
                     </NavLink>
                     <Drawer
