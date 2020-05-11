@@ -22,6 +22,13 @@ class RegArtifact extends React.Component {
     fileList: [],
   };
 
+  error = (userid) => {
+    if (userid == null)
+      Modal.error({
+        title: "Please Log in",
+      });
+  };
+
   handleCancel = () => this.setState({ previewVisible: false });
 
   handlePreview = async (file) => {
@@ -48,7 +55,7 @@ class RegArtifact extends React.Component {
     let form_data = new FormData();
     let image_list = [];
     this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
-    form_data.append("userID", 2);
+    form_data.append("userID", this.props.userid);
     form_data.append("title", event.target.elements.title.value);
     form_data.append("description", event.target.elements.description.value);
     this.state.fileList.forEach((el) =>
@@ -140,6 +147,7 @@ class RegArtifact extends React.Component {
                   style={{ marginRight: "10px" }}
                   type="primary"
                   htmlType="submit"
+                  onClick={() => this.error(this.props.userid)}
                 >
                   {this.props.btnText}
                 </Button>

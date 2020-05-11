@@ -15,7 +15,9 @@ class ArtifactSerializer(serializers.ModelSerializer):
 
     def get_image(self, data):
         image = ArtifactImage.objects.filter(artifactId=data.id)
-        return ArtifactImageSerializer(image, many=True, read_only=True, context=self.context).data[0]['image']
+        artifact_image = ArtifactImageSerializer(image, many=True, read_only=True, context=self.context).data
+        if artifact_image:
+            return artifact_image[0]['image']
 
     class Meta:
         model = Artifact
