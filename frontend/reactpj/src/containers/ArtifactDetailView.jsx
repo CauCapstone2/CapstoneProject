@@ -2,11 +2,14 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Container, Image } from 'react-bootstrap';
+import { Row, Col, Typography, List, Avatar } from 'antd';
 import './ArtifactDetail.css';
 import EvaluationForm from '../components/EvaluationForm';
 import Evaluation from '../components/Evaluation';
 import Comment from '../components/Comment';
 import Report from '../components/Report';
+
+const { Title, Paragraph, Text } = Typography;
 
 class ArtifactDetail extends React.Component {
 
@@ -77,29 +80,62 @@ class ArtifactDetail extends React.Component {
     render() {
         return (
             <div>
-                <div className="intro">
-                    Iuducium In Foro
-                </div>
-                <div className="art-intro">
-                    Content
-                </div>
-
-                <Container>
-                    <div className="art-box">
+                <Row>
+                    <Col>
                         <Image className="art" width="700" src={this.state.artifact.image} />
-                    </div>
-                    <div className="description">
-                        <h2> {this.state.artifact.title} </h2>
-                        <h5> Mr. Park </h5>
-                        <p> {this.state.artifact.description} </p>
-                    </div>
-                    <Evaluation eval={this.state.eval} />
-                    <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
-
-                    <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
-                    <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported} />
-                </Container>
+                    </Col>
+                    <Col>
+                        <Row>
+                            <Title>{this.state.artifact.title}</Title>
+                        </Row>
+                        <Row>
+                            <Paragraph>{this.state.artifact.description}</Paragraph>
+                        </Row>
+                    </Col>
+                </Row>
+                <Row>
+                    <List itemLayout="vertical" size="large" dataSource={this.state.comment} footer={<div><b>Iudicium In Foro</b>comment footer part</div>}
+                        pagination={{ onChange: page => { console.log(page); }, pageSize: 10, }}
+                        renderItem={item => (
+                            <List.Item key={item.artifactID.id} extra={<h1>evaluation Part</h1>}
+                                style={{ marginBottom: '10px' }}>
+                                <List.Item.Meta avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                                    title={<a href={"http://localhost:3000/artifacts/" + item.artifactID.id}>{item.artifactID.title}</a>}
+                                    description={item.artifactID.username}
+                                    style={{ minWidth: '50vh', maxWidth: '50vh' }}
+                                />
+                                {item.artifactID.description}
+                                <br />
+                                />
+                            </List.Item>
+                        )}
+                    />
+                </Row>
             </div>
+            // <div>
+            //     <div className="intro">
+            //         Iuducium In Foro
+            //     </div>
+            //     <div className="art-intro">
+            //         Content
+            //     </div>
+
+            //     <Container>
+            //         <div className="art-box">
+            //             <Image className="art" width="700" src={this.state.artifact.image} />
+            //         </div>
+            //         <div className="description">
+            //             <h2> {this.state.artifact.title} </h2>
+            //             <h5> Mr. Park </h5>
+            //             <p> {this.state.artifact.description} </p>
+            //         </div>
+            //         <Evaluation eval={this.state.eval} />
+            //         <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+
+            //         <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+            //         <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported} />
+            //     </Container>
+            // </div>
         )
     }
 }

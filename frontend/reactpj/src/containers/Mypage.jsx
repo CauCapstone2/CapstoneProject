@@ -68,12 +68,12 @@ class Mypage extends React.Component {
     }
 
     userEvaluationCall = async (data) => {
-        var _evaluation = [0,0,0,0,0];
+        var _evaluation = [0, 0, 0, 0, 0];
         var _eval_num = 0;
-        for(var i in data) {
+        for (var i in data) {
             await axios.get('http://127.0.0.1:8000/evaluation/api/?artifactID=' + data[i].id)
                 .then(res => {
-                    if(res.data[0]) {
+                    if (res.data[0]) {
                         _eval_num++;
                         _evaluation[0] += res.data[0].Creative;
                         _evaluation[1] += res.data[0].Expressive;
@@ -83,11 +83,11 @@ class Mypage extends React.Component {
                     }
                 });
         }
-        for(var i in _evaluation) {
+        for (var i in _evaluation) {
             _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
         }
         this.setState({
-            evaluation : _evaluation
+            evaluation: _evaluation
         });
     }
 
@@ -99,15 +99,15 @@ class Mypage extends React.Component {
         }
     }
     render() {
-        
+
         const { userInfo, artifact, comment, evaluation } = this.state;
         return (
             <div className='outer-div'>
                 <Row>
-                    <Col align = 'middle' span={8} style = {{marginTop : '10px', marginBottom : '10px'}}>
-                        <Row style = {{marginTop : '10%'}}>
+                    <Col align='middle' span={8} style={{ marginTop: '10px', marginBottom: '10px' }}>
+                        <Row style={{ marginTop: '10%' }}>
                             <Col align='middle' span={8}>
-                                <Card bordered={false} style = {{marginLeft : '5px'}}>
+                                <Card bordered={false} style={{ marginLeft: '5px' }}>
                                     <Statistic title="Written Artifacts" value={artifact.length} precision={0} valueStyle={{ color: '#0be881' }}
                                         prefix={<Avatar>Art</Avatar>} />
                                 </Card>
@@ -119,7 +119,7 @@ class Mypage extends React.Component {
                                 </Card>
                             </Col>
                             <Col align='middle' span={8}>
-                                <Card bordered={false} style = {{marginRight : '5px'}}>
+                                <Card bordered={false} style={{ marginRight: '5px' }}>
                                     <Statistic title="Done Evaluations" value={comment.length} precision={0} valueStyle={{ color: '#0fbcf9' }}
                                         prefix={<Avatar>Eval</Avatar>} />
                                 </Card>
@@ -130,7 +130,7 @@ class Mypage extends React.Component {
                             <Text strong>Your Activities</Text>
                         </Row> */}
                     </Col>
-                    <Col span={8} justify='center' align='middle' style = {{marginTop : '10px', marginBottom : '10px'}}>
+                    <Col span={8} justify='center' align='middle' style={{ marginTop: '10px', marginBottom: '10px' }}>
                         {userInfo.map((userInfo, index) => (
                             <div className='user-info'>
                                 <Avatar size={100} style={{ marginTop: '15px', marginBottom: '10px' }} src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
@@ -142,8 +142,8 @@ class Mypage extends React.Component {
                             </div>
                         ))}
                     </Col>
-                    <Col align='middle' span={8} style = {{marginTop : '10px', marginBottom : '10px'}}>
-                        <Row style = {{marginTop : '20%'}}>
+                    <Col align='middle' span={8} style={{ marginTop: '10px', marginBottom: '10px' }}>
+                        <Row style={{ marginTop: '20%' }}>
                             {/* {evaluation.map((evaluation, index) => (
                                  <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
                                     <Progress strokeColor='#D2691E' type="circle" percent={evaluation[index]} width={60} />
@@ -170,7 +170,7 @@ class Mypage extends React.Component {
                 </Row>
                 <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>Uploaded Artifacts</Divider>
                 <Row align='middle' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
-                    <Row align = 'middle' justify='center' gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
+                    <Row align='middle' justify='center' gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
                         {artifact.map((artifact, index) => (
                             <Col key={index} >
                                 <NavLink to={{ pathname: `/artifacts/${artifact.id}` }} style={{ color: 'black' }}>
