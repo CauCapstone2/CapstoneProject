@@ -107,6 +107,8 @@ class RegistrationForm extends React.Component {
 const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
 const mapStateToProps = (state) => {
+    console.log("mapStateToProps_signup");
+    console.log(state);
     return {
         loading: state.loading,
         error: state.error,

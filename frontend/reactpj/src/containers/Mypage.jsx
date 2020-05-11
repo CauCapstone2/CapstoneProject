@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Descriptions, Form, Input, List, Row, Col, Avatar, Comment } from 'antd';
+import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
 
@@ -12,12 +12,17 @@ import Artifact from '../components/Artifact';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
 
 const { TextArea } = Input;
-const FormItem = Form.Item;;
+const { Title, Paragraph } = Typography;
+const FormItem = Form.Item;
+const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
+
 
 class Mypage extends React.Component {
     constructor(props) {
         super(props);
         this.wrapper = React.createRef();
+        console.log("constructor");
+        console.log(this.props.userid);
     }
 
     state = {
@@ -27,28 +32,31 @@ class Mypage extends React.Component {
     }
 
     componentDidMount() {
+        console.log("componentDidmount start");
+        console.log(this.props.userid);
         this.userInformationCall(this.props.userid);
         this.userArtifactCall(this.props.userid);
         this.userCommentCall(this.props.userid);
-        console.log('mount state');
+        console.log("componentDidmount end");
         console.log(this.props.userid);
-        console.log(this.state.userInfo);
-        console.log(this.state.artifact);
-        console.log(this.state.comment);
     }
 
     userInformationCall = async (userID) => {
-        axios.get('http://127.0.0.1:8000/mypage/user/?id=' + 1)
+        console.log("userInfoCall start");
+        console.log(userID);
+        console.log(this.props.userid);
+        await axios.get('http://127.0.0.1:8000/mypage/user/?id=' + 1)
             .then(res => {
                 this.setState({
                     userInfo: res.data
                 });
             })
+        console.log("userInfoCall end");
     }
 
     userArtifactCall = async (userID) => {
         //const userID = this.props.userid
-        axios.get('http://127.0.0.1:8000/mypage/artifacts/?userID=' + 1)
+        await axios.get('http://127.0.0.1:8000/mypage/artifacts/?userID=' + 1)
             .then(res => {
                 this.setState({
                     artifact: res.data
@@ -58,7 +66,7 @@ class Mypage extends React.Component {
 
     userCommentCall = async (userID) => {
         //const userID = this.props.userid
-        axios.get('http://127.0.0.1:8000/mypage/comments/?userID=' + 1)
+        await axios.get('http://127.0.0.1:8000/mypage/comments/?userID=' + 1)
             .then(res => {
                 this.editDate(res.data);
                 this.setState({
@@ -74,28 +82,74 @@ class Mypage extends React.Component {
             data[i].date = data[i].date.replace("Z", " ")
         }
     }
-
+//<Progress type="circle" percent={30} width={80} />
     render() {
         const { userInfo, artifact, comment } = this.state;
+        console.log("render start");
+        console.log(this.props.userid);
         return (
             <div>
+                {console.log("render start")}
                 <Row justify='center' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
-                    <Descriptions title="User Info" bordered layout='vertical'>
-                        <Descriptions.Item label="User Name">
+                        <Col justify='center' align = 'middle' span={8} style = {{marginLeft : '10px', marginRight : '10px'}}>
+                            <Row justify = 'center' align = 'middle' gutter = {16}>
+                                <Col span = {8}>
+                                    <Card>
+                                        <Statistic title="Written Artifacts" value = {artifact.length} precision={2} valueStyle={{ color : '#0be881'}}
+                                                   prefix={<Avatar>Art</Avatar>}/>
+                                    </Card>
+                                </Col>
+                                <Col span = {8}>
+                                    <Card>
+                                        <Statistic title="Left Comments" value = {comment.length} precision={2} valueStyle={{ color : '#ff3f34'}}
+                                                   prefix={<Avatar>Com</Avatar>}/>
+                                    </Card>
+                                </Col>
+                                <Col span = {8}>
+                                    <Card>
+                                        <Statistic title="Done Evaluations" value = 'undefine' precision={2} valueStyle={{ color : '#0fbcf9'}}
+                                                   prefix={<Avatar>Eval</Avatar>}/>
+                                    </Card>
+                                </Col>
+                            </Row>
+                        </Col>
+                        <Col span={8} justify = 'center' align = 'middle'>
                             {userInfo.map((userInfo, index) => (
-                                <h>{userInfo.username}</h>
+                                <div>
+                                    <Avatar size={100} style = {{marginTop : '15px', marginBottom : '10px'}} src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"/>
+                                    <Typography>
+                                        <Title>{userInfo.username}</Title>
+                                        <Paragraph type = 'secondary'>{userInfo.email}</Paragraph>
+                                        <Paragraph>Web developer, not only for performance but design factors also.</Paragraph>
+                                    </Typography>
+                                </div>
                             ))}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="registered Email">
-                            {userInfo.map((userInfo, index) => (
-                                <h>{userInfo.email}</h>
-                            ))}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="current Coins">150 credit</Descriptions.Item>
-                    </Descriptions>
+                        </Col>
+                        <Col align = 'middle' span={8} style = {{marginLeft : '10px', marginRight : '10px'}}>
+                            <div>
+                            <Col span={4} style = {{marginRight : '5px', marginLeft : '5px'}}>
+                                <Progress type="circle" percent={35.6} width={60} />
+                            </Col>
+                            <Col span = {4} style = {{marginRight : '5px', marginLeft : '5px'}}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            <Col span = {4} style = {{marginRight : '5px', marginLeft : '5px'}}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            <Col span = {4} style = {{marginRight : '5px', marginLeft : '5px'}}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            <Col span = {4} style = {{marginRight : '5px', marginLeft : '5px'}}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            {/* <Col span = {4} style = {{marginRight : '5px'}}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col> */}
+                            </div>
+                        </Col>
                 </Row>
                 <Row align='middle' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
-                    <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
+                    <Row align='middle' gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
                         {artifact.map((artifact, index) => (
                             <Col key={index} span={6}>
                                 <NavLink to={{ pathname: `/artifacts/${artifact.id}` }} style={{ color: 'black' }}>
@@ -126,32 +180,20 @@ class Mypage extends React.Component {
                         )}
                     />
                 </Row>
-
-                {/* <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px'}}>
-                    <List itemLayout="vertical" size="large" style={{alignItems : 'middle'}}
-                        dataSource={comment}
-                        renderItem={item => (
-                            <NavLink to={{pathname : `/artifacts/${item.artifactID.id}`}}>
-                                <List.Item>
-                                    <div classname="comment-info">
-                                        <p className="comment-username">{item.username}</p>
-                                        <p className="comment-date">{item.date}</p>
-                                    </div>
-                                    <div><p>{item.content}</p></div>
-                                </List.Item>
-                            </NavLink>
-                        )}
-                        />
-                </Row> */}
+                {console.log("render done")}
             </div>
         )
     }
+
 }
 
 const mapStateToProps = (state) => {
+    console.log("mapStateToProps_mypage");
+    console.log(state);
     return {
         userid: state.userid,
     }
 }
 
-export default connect(mapStateToProps, null)(Mypage);
+export default connect(mapStateToProps)(Mypage);
+
