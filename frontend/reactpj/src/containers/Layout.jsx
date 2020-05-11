@@ -74,16 +74,16 @@ class CustomLayout extends React.Component {
                 >
                     <Avatar icon={<UserOutlined />} />
                     <p></p>
-                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
                         <p>Arts</p>
                     </NavLink>
-                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
                         <p>Status</p>
                     </NavLink>
-                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
                         <p>Ranking</p>
                     </NavLink>
-                    <NavLink onClick={this.props.onClose} to={{ pathname: `/` }}>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
                         <p>Arts Synthesis</p>
                     </NavLink>
                     <Drawer

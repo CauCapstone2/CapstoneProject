@@ -154,4 +154,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(Mypage);
+export default connect(mapStateToProps)(Mypage);

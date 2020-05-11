@@ -37,7 +37,7 @@ class SearchPage extends Component {
           enterButton>
         </Search>
         {/* <ArtifactList data = '4'></ArtifactList> */}
-        <Row justify = 'center' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
+        {/* <Row justify = 'center' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}> */}
           <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
             {artifact.map((artifact, index) => (
               <Col key={index} span={6}>
@@ -47,7 +47,7 @@ class SearchPage extends Component {
               </Col>
             ))}
           </Row>
-        </Row>
+        {/* </Row> */}
       </div>
     );
   }
