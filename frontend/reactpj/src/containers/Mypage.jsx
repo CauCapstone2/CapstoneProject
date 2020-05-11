@@ -126,7 +126,7 @@ class Mypage extends React.Component {
                             ))}
                         </Col>
                         <Col align = 'middle' span={8} style = {{marginLeft : '10px', marginRight : '10px'}}>
-                            <div>
+                            <Row>
                             <Col span={4} style = {{marginRight : '5px', marginLeft : '5px'}}>
                                 <Progress type="circle" percent={35.6} width={60} />
                             </Col>
@@ -145,7 +145,7 @@ class Mypage extends React.Component {
                             {/* <Col span = {4} style = {{marginRight : '5px'}}>
                                 <Progress type="circle" percent={30} width={60} />
                             </Col> */}
-                            </div>
+                            </Row>
                         </Col>
                 </Row>
                 <Row align='middle' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
