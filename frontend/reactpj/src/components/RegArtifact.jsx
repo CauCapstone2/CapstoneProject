@@ -3,6 +3,7 @@ import { NavLink, withRouter } from "react-router-dom";
 import axios from "axios";
 import { Form, Input, Button, Upload, Row, Col, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { connect } from "react-redux";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -160,5 +161,10 @@ class RegArtifact extends React.Component {
   }
 }
 
-// export default RegArtifact;
-export default withRouter(RegArtifact);
+const mapStateToProps = (state) => {
+  return {
+    userid: state.userid,
+  };
+};
+
+export default withRouter(connect(mapStateToProps, null)(RegArtifact));
