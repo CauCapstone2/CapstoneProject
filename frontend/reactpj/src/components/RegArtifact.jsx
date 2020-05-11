@@ -35,7 +35,6 @@ class RegArtifact extends React.Component {
       previewTitle:
         file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
     });
-    console.log(this.state);
   };
 
   handleChange = ({ fileList }) => this.setState({ fileList });
@@ -49,7 +48,7 @@ class RegArtifact extends React.Component {
     let form_data = new FormData();
     let image_list = [];
     this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
-    form_data.append("userID", 2);
+    form_data.append("userID", this.props.userid);
     form_data.append("title", event.target.elements.title.value);
     form_data.append("description", event.target.elements.description.value);
     this.state.fileList.forEach((el) =>
@@ -89,20 +88,18 @@ class RegArtifact extends React.Component {
         <Row
           align="middle"
           gutter={[16]}
-          style={{ position: "relative", top: "25vh" }}
+          style={{ position: "relative", top: "5vh" }}
         >
-          <Col span={12} gutter={[16, 16]}>
-            {/* <Form layout="vertical" align="middle"> */}
-            {/* <Form.Item name="upload" getValueFromEvent={this.handleUpload}> */}
+          <Col span={12} offset={6}>
             <Upload
-              // action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
               listType="picture-card"
+              multiple={true}
               fileList={fileList}
               onPreview={this.handlePreview}
               onChange={this.handleChange}
               beforeUpload={() => false}
             >
-              {fileList.length >= 8 ? null : uploadButton}
+              {fileList.length >= 12 ? null : uploadButton}
             </Upload>
             <Modal
               visible={previewVisible}
@@ -112,10 +109,8 @@ class RegArtifact extends React.Component {
             >
               <img alt="example" style={{ width: "100%" }} src={previewImage} />
             </Modal>
-            {/* </Form.Item> */}
-            {/* </Form> */}
           </Col>
-          <Col span={12} gutter={[16]}>
+          <Col span={12} offset={6}>
             <Form
               layout="vertical"
               style={{
@@ -136,7 +131,8 @@ class RegArtifact extends React.Component {
                   name="description"
                   placeholder="Enter description"
                   style={{ marginRight: "10px" }}
-                  autoSize={{ minRows: 5, maxRows: 30 }}
+                  rows={5}
+                  // autoSize={{ minRows: 5, maxRows: 30 }}
                 />
               </Form.Item>
               <Form.Item>
