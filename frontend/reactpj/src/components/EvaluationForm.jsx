@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Button, InputNumber } from 'antd';
+import { Modal, Button, InputNumber } from 'antd';
 
 class EvaluationForm extends Component {
     state = {
@@ -12,7 +12,12 @@ class EvaluationForm extends Component {
     }
 
     handleSubmitEval = async () => {
-        console.log(this.state);
+        if(this.props.userid == null){
+            Modal.error({
+                title: 'Please Log in',
+            });
+            return;
+        }
         await axios.post('http://127.0.0.1:8000/evaluation/api/', {
             userID: this.props.userid,
             Creative: this.state.creative,
