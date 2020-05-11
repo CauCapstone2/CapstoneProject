@@ -125,3 +125,7 @@ h2, h5{
     display : inline;
     font-size : 12px;
 }
+.comment-delete{
+    display: inline;
+    text-align: right;
+}

@@ -19,7 +19,7 @@ class CustomLayout extends React.Component {
                 <Layout className="layout">
                     <Header>
                         <div className="image-container">
-                            <NavLink to={{ pathname: `/main/` }}>
+                            <NavLink to={{ pathname: `/` }}>
                                 <img className="img" src={logo} alt="" />
                             </NavLink>
                         </div>

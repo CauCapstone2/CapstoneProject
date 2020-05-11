@@ -21,7 +21,6 @@ class Report extends Component {
     updateReport = () => {
         axios.get('http://127.0.0.1:8000/report/api/?artifactID=' + this.props.artifactID)
         .then(res => {
-            console.log(res.data);
             for (var i in res.data) {
                 if (this.props.userid == res.data[i].userID) {
                     this.state.isReported=true;          
