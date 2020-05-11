@@ -1,6 +1,42 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
+export const firstDrawerOpen = () => {
+    return {
+        type : actionTypes.FIRSTDRAWER_OPEN
+    }
+}
+
+export const firstDrawerClose = () => {
+    return {
+        type : actionTypes.FIRSTDRAWER_CLOSE
+    }
+}
+
+export const loginDrawerOpen = () => {
+    return {
+        type : actionTypes.LOGINDRAWER_OPEN
+    }
+}
+
+export const loginDrawerClose = () => {
+    return {
+        type : actionTypes.LOGINDRAWER_CLOSE
+    }
+}
+
+export const signupDrawerOpen = () => {
+    return {
+        type : actionTypes.SIGNUPDRAWER_OPEN
+    }
+}
+
+export const signupDrawerClose = () => {
+    return {
+        type : actionTypes.SIGNUPDRAWER_CLOSE
+    }
+}
+
 export const authStart = () => {
     return {
         type : actionTypes.AUTH_START
