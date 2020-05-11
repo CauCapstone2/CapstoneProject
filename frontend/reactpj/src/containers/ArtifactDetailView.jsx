@@ -1,19 +1,12 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import { Card, Button, Form, Input, List } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
 import EvaluationForm from '../components/EvaluationForm';
 import Evaluation from '../components/Evaluation';
 import Comment from '../components/Comment';
-import CustomForm from '../components/RegArtifact';
-import { CloseOutlined } from '@ant-design/icons';
 import Report from '../components/Report';
-
-
-const { TextArea } = Input;
-const FormItem = Form.Item;
 
 class ArtifactDetail extends React.Component {
 
@@ -21,7 +14,7 @@ class ArtifactDetail extends React.Component {
         artifact: [],
         comment: [],
         eval: [],
-        isReported : false,
+        isReported: false,
     }
 
     componentDidMount() {
@@ -51,7 +44,7 @@ class ArtifactDetail extends React.Component {
             .then(res => {
                 this.editDate(res.data);
                 this.setState({
-                    comment: res.data
+                    comment: res.data.reverse()
                 });
             })
     }
@@ -77,7 +70,7 @@ class ArtifactDetail extends React.Component {
         for (var i in data) {
             data[i].date = data[i].date.split(".")[0];
             data[i].date = data[i].date.replace("T", " ");
-            data[i].date = data[i].date.replace("Z", " ")
+            data[i].date = data[i].date.replace("Z", " ");
         }
     }
 
@@ -104,7 +97,7 @@ class ArtifactDetail extends React.Component {
                     <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
 
                     <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
-                    <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported}/>
+                    <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported} />
                 </Container>
             </div>
         )

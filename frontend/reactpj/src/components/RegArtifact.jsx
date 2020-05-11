@@ -3,9 +3,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import { Form, Input, Button, Upload, Row, Col } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-
-const FormItem = Form.Item;
-const { TextArea } = Input;
+import { connect } from "react-redux";
 
 class RegArtifact extends React.Component {
   state = {
@@ -27,18 +25,15 @@ class RegArtifact extends React.Component {
       this.state.image.originFileObj.name
     );
     form_data.append("description", event.target.elements.description.value);
-    console.log(artifactID);
-    switch (requestType) {
-      case "post":
-        return axios
-          .post("http://127.0.0.1:8000/api/", form_data, {
-            headers: {
-              "content-type": "multipart/form-data",
-            },
-          })
-          .then((res) => console.log(res))
-          .catch((error) => console.error(error));
-    }
+    // console.log(artifactID);
+    return axios
+      .post("http://127.0.0.1:8000/api/", form_data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      })
+      .then((res) => console.log(res))
+      .catch((error) => console.error(error));
   };
 
   handleUpload = (e) => {
@@ -49,77 +44,66 @@ class RegArtifact extends React.Component {
 
   render() {
     return (
-      // <div>
-      //   <Form
-      //     onSubmitCapture={(event) =>
-      //       this.handleSubmit(
-      //         event,
-      //         this.props.requestType,
-      //         this.props.artifactID
-      //       )
-      //     }
-      //   >
-      //     <FormItem label="Title">
-      //       <Input name="title" placeholder="Put a title here" />
-      //     </FormItem>
-
-      //     <FormItem
-      //       name="upload"
-      //       label="Upload"
-      //       getValueFromEvent={this.handleUpload}
-      //       extra="upload image"
-      //     >
-      //       <Upload name="image" listType="picture">
-      //         <Button>
-      //           <UploadOutlined /> Click to upload
-      //         </Button>
-      //       </Upload>
-      //     </FormItem>
-
-      //     <FormItem label="Description">
-      //       <Input
-      //         name="description"
-      //         placeholder="Enter some description ..."
-      //       />
-      //     </FormItem>
-      //     <FormItem>
-      //       <Button type="primary" htmlType="submit">
-      //         {this.props.btnText}
-      //       </Button>
-      //     </FormItem>
-      //   </Form>
-      // </div>
-//from here new comopnent starts
-
-      <div style = {{backgroundColor : 'rgba(0,0,0,0.05)'}} onSubmitCapture = {(event) =>
-       this.handleSubmit(event, this.props.requestType, this.props.artifactID)}>
-        <Row align = 'middle' gutter = {[16, ]} style = {{position : 'relative', top : '25vh'}}>
-          <Col span = {12} gutter = {[16, 16]}>
-            <Form layout = "vertical" align = 'middle'>
-                <Form.Item name = "upload" getValueFromEvent={this.handleUpload}>
-                  <Upload name = "image" listType = "picture">
-                    <Button>
-                      <UploadOutlined/> Click to Upload
-                    </Button>
-                  </Upload>
-                </Form.Item>
+      <div
+        style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
+        onSubmitCapture={(event) =>
+          this.handleSubmit(
+            event,
+            this.props.requestType,
+            this.props.artifactID
+          )
+        }
+      >
+        <Row
+          align="middle"
+          gutter={[16]}
+          style={{ position: "relative", top: "25vh" }}
+        >
+          <Col span={12} gutter={[16, 16]}>
+            <Form layout="vertical" align="middle">
+              <Form.Item name="upload" getValueFromEvent={this.handleUpload}>
+                <Upload name="image" listType="picture">
+                  <Button>
+                    <UploadOutlined /> Click to Upload
+                  </Button>
+                </Upload>
+              </Form.Item>
             </Form>
           </Col>
-          <Col span = {12} gutter = {[16, ]} >
-            <Form layout = "vertical" style = {{marginRight : '20px', marginLeft : '10px', marginTop : '20px'}}>
-              <Form.Item label = "Title">
-                <Input.TextArea name = "title" placeholder = "Enter a title for your art" style = {{marginRight : '10px'}}/>
+          <Col span={12} gutter={[16]}>
+            <Form
+              layout="vertical"
+              style={{
+                marginRight: "20px",
+                marginLeft: "10px",
+                marginTop: "20px",
+              }}
+            >
+              <Form.Item label="Title">
+                <Input.TextArea
+                  name="title"
+                  placeholder="Enter a title for your art"
+                  style={{ marginRight: "10px" }}
+                />
               </Form.Item>
-              <Form.Item label = "Description">
-                <Input.TextArea name = "description" placeholder = "Enter description" 
-                    style = {{marginRight : '10px'}} autoSize = {{minRows : 5, maxRows : 30}}/>
+              <Form.Item label="Description">
+                <Input.TextArea
+                  name="description"
+                  placeholder="Enter description"
+                  style={{ marginRight: "10px" }}
+                  autoSize={{ minRows: 5, maxRows: 30 }}
+                />
               </Form.Item>
               <Form.Item>
-                <Button style = {{marginRight : '10px'}} type = "primary" htmlType = "submit">
+                <Button
+                  style={{ marginRight: "10px" }}
+                  type="primary"
+                  htmlType="submit"
+                >
                   {this.props.btnText}
                 </Button>
                 <NavLink to={{ pathname: `/` }}>
-                  <Button style = {{marginRight : '10px', marginLeft : '10px'}} >
+                  <Button style={{ marginRight: "10px", marginLeft: "10px" }}>
                     Cancel
                   </Button>
                 </NavLink>
@@ -132,4 +116,10 @@ class RegArtifact extends React.Component {
   }
 }
 
-export default RegArtifact;
+const mapStateToProps = (state) => {
+  return {
+    userid: state.userid,
+  };
+};
+
+export default connect(mapStateToProps, null)(RegArtifact);
