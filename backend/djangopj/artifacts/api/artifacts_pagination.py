@@ -1,5 +1,5 @@
 from rest_framework.pagination import PageNumberPagination
 
 
-class ArtifactsPagenation(PageNumberPagination):
+class ArtifactsPagination(PageNumberPagination):
     page_size = 12
