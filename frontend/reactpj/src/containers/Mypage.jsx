@@ -21,8 +21,6 @@ class Mypage extends React.Component {
     constructor(props) {
         super(props);
         this.wrapper = React.createRef();
-        console.log("constructor");
-        console.log(this.props.userid);
     }
 
     state = {
@@ -32,26 +30,21 @@ class Mypage extends React.Component {
     }
 
     componentDidMount() {
-        console.log("componentDidmount start");
+        console.log("A")
         console.log(this.props.userid);
         this.userInformationCall(this.props.userid);
         this.userArtifactCall(this.props.userid);
         this.userCommentCall(this.props.userid);
-        console.log("componentDidmount end");
-        console.log(this.props.userid);
     }
 
-    userInformationCall = async (userID) => {
-        console.log("userInfoCall start");
-        console.log(userID);
-        console.log(this.props.userid);
-        await axios.get('http://127.0.0.1:8000/mypage/user/?id=' + 1)
+    userInformationCall = (userID) => {
+        axios.get('http://127.0.0.1:8000/mypage/user/?id=' + 1)
             .then(res => {
+                console.log(res.data);
                 this.setState({
                     userInfo: res.data
                 });
             })
-        console.log("userInfoCall end");
     }
 
     userArtifactCall = async (userID) => {
@@ -84,12 +77,12 @@ class Mypage extends React.Component {
     }
 //<Progress type="circle" percent={30} width={80} />
     render() {
+        //this.userInformationCall(this.props.userid);
         const { userInfo, artifact, comment } = this.state;
-        console.log("render start");
-        console.log(this.props.userid);
+        // console.log("b");
+        // console.log(userInfo);
         return (
             <div>
-                {console.log("render start")}
                 <Row justify='center' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
                         <Col justify='center' align = 'middle' span={8} style = {{marginLeft : '10px', marginRight : '10px'}}>
                             <Row justify = 'center' align = 'middle' gutter = {16}>
@@ -180,7 +173,6 @@ class Mypage extends React.Component {
                         )}
                     />
                 </Row>
-                {console.log("render done")}
             </div>
         )
     }
@@ -188,8 +180,6 @@ class Mypage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("mapStateToProps_mypage");
-    console.log(state);
     return {
         userid: state.userid,
     }
