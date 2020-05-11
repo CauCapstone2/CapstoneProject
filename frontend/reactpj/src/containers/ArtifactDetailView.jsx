@@ -21,7 +21,7 @@ class ArtifactDetail extends React.Component {
         console.log('mount call');
         console.log(this.props);
         const artifactID = this.props.match.params.artifactID;
-        axios.get('http://127.0.0.1:8000/api/' + artifactID)
+        axios.get('http://127.0.0.1:8000/artifacts/api/' + artifactID)
             .then(res => {
                 this.setState({
                     artifact: res.data
@@ -33,7 +33,7 @@ class ArtifactDetail extends React.Component {
 
     handleDelete = async (event) => {
         const artifactID = this.props.match.params.artifactID;
-        axios.delete('http://127.0.0.1:8000/api/' + artifactID);
+        axios.delete('http://127.0.0.1:8000/artifacts/api/' + artifactID);
         await this.props.history.push('/');
         this.forceUpdate();
         window.location.reload();

@@ -5,12 +5,11 @@ from django.conf.urls.static import static
 
 import home.views
 
-urlpatterns = [
-    
+urlpatterns = [    
     path('admin/', admin.site.urls),
     path('', home.views.home, name="home"),
-    path('artifacts/', include('artifacts.urls')),
-    path('api/', include('artifacts.api.urls')),
+    # path('artifacts/', include('artifacts.urls')),
+    path('artifacts/api/', include('artifacts.api.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('rest-auth/', include('rest_auth.urls')),
     path('rest-auth/registration/', include('rest_auth.registration.urls')),
