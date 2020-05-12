@@ -60,22 +60,22 @@ class EvaluationForm extends Component {
 
     render() {
         return this.props.preEval ? (
-            <div className="eval-input">
-                <p>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></p>
-                <p>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></p>
-                <p>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></p>
-                <p>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></p>
-                <p>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></p>
-                <Button type="primary" onClick={this.handleUpdateEval}>Update</Button>
+            <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}} className="eval-input">
+                <p style={{marginLeft:'10px'}}>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></p>
+                <p style={{marginLeft:'10px'}}>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></p>
+                <p style={{marginLeft:'10px'}}>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></p>
+                <p style={{marginLeft:'10px'}}>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></p>
+                <p style={{marginLeft:'10px'}}>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></p>
+                <Button type="primary" onClick={this.handleUpdateEval} style={{marginLeft:'10px'}}>Update</Button>
             </div>
         ) : (
-            <div className="eval-input">
-                <p>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></p>
-                <p>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></p>
-                <p>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></p>
-                <p>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></p>
-                <p>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></p>
-                <Button type="primary" onClick={this.handleSubmitEval}>Evaluate</Button>
+            <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}} className="eval-input">
+                <p style={{marginLeft:'10px'}}>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></p>
+                <p style={{marginLeft:'10px'}}>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></p>
+                <p style={{marginLeft:'10px'}}>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></p>
+                <p style={{marginLeft:'10px'}}>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></p>
+                <p style={{marginLeft:'10px'}}>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></p>
+                <Button type="primary" onClick={this.handleSubmitEval} style={{marginLeft:'10px'}}>Evaluate</Button>
             </div>
             )
     }
