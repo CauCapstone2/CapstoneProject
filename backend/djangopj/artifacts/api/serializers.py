@@ -15,9 +15,26 @@ class ArtifactSerializer(serializers.ModelSerializer):
 
     def get_image(self, data):
         image = ArtifactImage.objects.filter(artifactId=data.id)
-        artifact_image = ArtifactImageSerializer(image, many=True, read_only=True, context=self.context).data
+        artifact_image = ArtifactImageSerializer(
+            image, many=True, read_only=True, context=self.context).data
         if artifact_image:
             return artifact_image[0]['image']
+
+    class Meta:
+        model = Artifact
+        fields = ('id', 'userID', 'username', 'title', 'image', 'description')
+
+
+class ArtifactDetailSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(source='userID.username', read_only=True)
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, data):
+        image = ArtifactImage.objects.filter(artifactId=data.id)
+        artifact_image = ArtifactImageSerializer(
+            image, many=True, read_only=True, context=self.context).data
+        if artifact_image:
+            return artifact_image
 
     class Meta:
         model = Artifact

@@ -2,6 +2,7 @@ from artifacts.models import Artifact
 from artifacts.models import ArtifactImage
 from .serializers import ArtifactSerializer
 from .serializers import ArtifactImageSerializer
+from .serializers import ArtifactDetailSerializer
 from .artifacts_pagination import ArtifactsPagination
 from rest_framework import viewsets
 from rest_framework.views import APIView
@@ -47,3 +48,8 @@ class ArtifactCreateView(APIView):
                     return Response(serializer_image.errors, status=400)
 
         return Response("success", status=201)
+
+
+class ArtifactDetailViewSet(viewsets.ModelViewSet):
+    serializer_class = ArtifactDetailSerializer
+    queryset = Artifact.objects.all()
