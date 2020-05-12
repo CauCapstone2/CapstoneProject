@@ -17,7 +17,7 @@ class Evaluation extends Component {
                     }}
                     dataSource={this.props.eval}
                     renderItem={item => (
-                        <div>
+                        <Row>
                             <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
                                 <Tooltip title="Creative">
                                     <Progress strokeColor='#D2691E' type="circle" percent={item.Creative} format={percent => `${percent / 10}`} width={60} />
@@ -43,7 +43,7 @@ class Evaluation extends Component {
                                     <Progress strokeColor='#98FB98' type="circle" percent={item.Workability} format={percent => `${percent / 10}`} width={60} />
                                 </Tooltip>
                             </Col>
-                        </div>
+                        </Row>
                         // <List.Item>
                         //     <div className="eval-container">
                         //         <div className="eval-info"><p className="eval-username">{item.username}</p></div>
