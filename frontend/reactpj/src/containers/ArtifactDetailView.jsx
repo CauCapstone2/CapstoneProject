@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import { Redirect, NavLink } from "react-router-dom";
 import { Container, Image } from "react-bootstrap";
-import { Row, Col, Typography, List, Avatar, Divider, Carousel } from "antd";
+import { Button, Row, Col, Typography, List, Avatar, Divider, Carousel } from "antd";
 import "./ArtifactDetail.css";
 import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
@@ -20,7 +21,6 @@ class ArtifactDetail extends React.Component {
     };
 
     componentDidMount() {
-        console.log("mount call");
         console.log(this.props);
         const artifactID = this.props.match.params.artifactID;
         axios
@@ -35,13 +35,25 @@ class ArtifactDetail extends React.Component {
         this.updateComment(artifactID);
     }
 
-    handleDelete = async (event) => {
-        const artifactID = this.props.match.params.artifactID;
-        axios.delete("http://127.0.0.1:8000/artifacts/api/" + artifactID);
-        await this.props.history.push("/");
+    deleteArtifact = async (id) => {
+        await axios.delete('http://127.0.0.1:8000/artifacts/api/' + id);
+        this.props.history.push('/artifactlist');
         this.forceUpdate();
         window.location.reload();
     };
+
+    modifyButton = (id, userID) => {
+        return this.props.userid == userID ? (
+            <div>
+                <Button type="link" onClick={() => this.deleteArtifact(id)}>delete</Button>
+                <NavLink to = {{ 
+                    pathname: '/artifacts/s/register', 
+                    state: { id: id, userid : userID, requestType:"put", btnText : "update" } }}>
+                        Update
+                </NavLink>
+            </div>
+        ) : null
+    }
 
     updateComment = (artifactID) => {
         axios
@@ -83,6 +95,23 @@ class ArtifactDetail extends React.Component {
     render() {
         return (
             <div>
+      <!--      <div className="intro">
+                    Iuducium In Foro
+                </div>
+                <div className="art-intro">
+                    Content
+                <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
+                </div>
+
+                <Container>
+                    <div className="art-box">
+                        <Image className="art" width="700" src={this.state.artifact.image} />
+                    </div>
+                    <div className="description">
+                        <h2> {this.state.artifact.title} </h2>
+                        <h5> {this.state.artifact.username} </h5>
+                        <p> {this.state.artifact.description} </p>
+                    </div> -->
                 <Row justify='center' align='middle'>
                     <Col style={{ margin: "10px", minWidth: "50%", maxWidth: "50%", backgroundColor: 'rgba(0,0,0,0.05)' }}>
                         <Carousel autoplay style={{ maxWidth: '100%', alignItems: 'center' }}>

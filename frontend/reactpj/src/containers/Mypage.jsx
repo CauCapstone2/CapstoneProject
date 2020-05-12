@@ -5,11 +5,11 @@ import { NavLink } from 'react-router-dom';
 import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress, Divider, Tooltip } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
-
 // import Comment from '../components/Comment';
 import CustomForm from '../components/RegArtifact';
 import Artifact from '../components/Artifact';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
+import MypageInfo from '../components/MypageInfo';
 
 const { TextArea } = Input;
 const { Title, Paragraph, Text } = Typography;
@@ -18,10 +18,6 @@ const DemoBox = props => <p className={`height-${props.value}`}>{props.children}
 
 
 class Mypage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.wrapper = React.createRef();
-    }
 
     state = {
         userInfo: [],
@@ -30,14 +26,16 @@ class Mypage extends React.Component {
         evaluation: [],
     }
 
-    componentDidMount() {
-        this.userInformationCall(this.props.userid);
-        this.userArtifactCall(this.props.userid);
-        this.userCommentCall(this.props.userid);
+    componentWillReceiveProps=(nextprops) => {
+        if(this.props.userid != nextprops){
+            this.userInformationCall(nextprops.userid);
+            this.userArtifactCall(nextprops.userid);
+            this.userCommentCall(nextprops.userid);
+        }
     }
 
     userInformationCall = (userID) => {
-        axios.get('http://127.0.0.1:8000/mypage/user/?id=' + 1)
+        axios.get('http://127.0.0.1:8000/mypage/user/?id=' + userID)
             .then(res => {
                 this.setState({
                     userInfo: res.data
@@ -45,20 +43,19 @@ class Mypage extends React.Component {
             })
     }
 
-    userArtifactCall = async (userID) => {
-        //const userID = this.props.userid
-        await axios.get('http://127.0.0.1:8000/mypage/artifacts/?userID=' + 1)
+    userArtifactCall = (userID) => {
+        axios.get('http://127.0.0.1:8000/artifacts/api/?userID=' + userID)
             .then(res => {
                 this.setState({
-                    artifact: res.data
+                    artifact: res.data.results
                 });
                 this.userEvaluationCall(res.data);
             })
+        console.log(this.state.artifact);
     }
 
-    userCommentCall = async (userID) => {
-        //const userID = this.props.userid
-        await axios.get('http://127.0.0.1:8000/mypage/comments/?userID=' + 1)
+    userCommentCall = (userID) => {
+        axios.get('http://127.0.0.1:8000/comments/api/?userID=' + userID)
             .then(res => {
                 this.editDate(res.data);
                 this.setState({
@@ -99,7 +96,6 @@ class Mypage extends React.Component {
         }
     }
     render() {
-
         const { userInfo, artifact, comment, evaluation } = this.state;
         return (
             <div className='outer-div'>
@@ -125,23 +121,26 @@ class Mypage extends React.Component {
                                 </Card>
                             </Col>
                         </Row>
-                        <Divider style={{ color: '#333', fontWeight: 'normal' }}>Your Activities</Divider>
+
+                    <Divider style={{ color: '#333', fontWeight: 'normal' }}>Your Activities</Divider>
                         {/* <Row align = 'middle' justify = 'center'>
                             <Text strong>Your Activities</Text>
                         </Row> */}
                     </Col>
-                    <Col span={8} justify='center' align='middle' style={{ marginTop: '10px', marginBottom: '10px' }}>
-                        {userInfo.map((userInfo, index) => (
-                            <div className='user-info'>
-                                <Avatar size={100} style={{ marginTop: '15px', marginBottom: '10px' }} src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-                                <Typography>
-                                    <Title>{userInfo.username}</Title>
-                                    <Paragraph type='secondary'>{userInfo.email}</Paragraph>
-                                    <Paragraph>Web developer, not only for performance but design factors also.</Paragraph>
-                                </Typography>
-                            </div>
-                        ))}
-                    </Col>
+                    <MypageInfo userid={this.props.userid} userInfo={userInfo} userInformationCall={this.userInformationCall}/>
+                    //<Col span={8} justify='center' align='middle'>
+                    //    {userInfo.map((userInfo, index) => (
+                    //        <div>
+                    //            <Avatar size={100} style={{ marginTop: '15px', marginBottom: '10px' }} src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                    //            <Typography>
+                    //                <Title>{userInfo.username} {this.props.userid}</Title>
+                    //                <Paragraph type='secondary'>{userInfo.email}</Paragraph>
+                    //                <Paragraph>Web developer, not only for performance but design factors also.</Paragraph>
+                    //            </Typography>
+                    //        </div>
+                    //       ))}
+                    //</Col>
+        
                     <Col align='middle' span={8} style={{ marginTop: '10px', marginBottom: '10px' }}>
                         <Row style={{ marginTop: '20%' }}>
                             {/* {evaluation.map((evaluation, index) => (
@@ -176,6 +175,7 @@ class Mypage extends React.Component {
                             </Col>
                         </Row>
                         <Divider style={{ color: '#333', fontWeight: 'normal' }}>Your Abilities</Divider>
+
                     </Col>
                 </Row>
                 <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>Uploaded Artifacts</Divider>
@@ -219,10 +219,10 @@ class Mypage extends React.Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log("redux"+state.userid);
     return {
         userid: state.userid,
     }
 }
 
 export default connect(mapStateToProps)(Mypage);
-
