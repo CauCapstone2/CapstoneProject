@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from comment.api.serializers import CommentDetailSerializer
 from artifacts.api.serializers import ArtifactSerializer
+from artifacts.models import ArtifactImage
+from artifacts.api.serializers import ArtifactImageSerializer
 
 class MypageCommentSerializer(serializers.ModelSerializer) :
     username = serializers.CharField(source='userID.username', read_only = True)
@@ -16,10 +18,17 @@ class MypageCommentSerializer(serializers.ModelSerializer) :
         fields = ('id', 'userID', 'username', 'date', 'content', 'artifactID')
 
 class MypageArtifactSerializer(serializers.ModelSerializer) :
-    username = serializers.CharField(source='userID.username', read_only = True)
-    class Meta :
+    username = serializers.CharField(source='userID.username', read_only=True)
+    image = serializers.SerializerMethodField()
+
+    def get_image(self, data):
+        image = ArtifactImage.objects.filter(artifactId=data.id)
+        artifact_image = ArtifactImageSerializer(image, many=True, read_only=True, context=self.context).data
+        if artifact_image:
+            return artifact_image[0]['image']
+
+    class Meta:
         model = Artifact
-        #fields = ('id', 'username', 'myArtifact')
         fields = ('id', 'userID', 'username', 'title', 'image', 'description')
 
 class MypageUserSerializer(serializers.ModelSerializer) :
