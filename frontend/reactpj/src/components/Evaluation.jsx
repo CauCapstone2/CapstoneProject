@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
-import { List, Col, Row, Tooltip, Progress } from 'antd';
+import { List, Col, Row, Tooltip, Progress, Avatar, Typography } from 'antd';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import Paragraph from 'antd/lib/skeleton/Paragraph';
+
+const { Text } = Typography;
 
 class Evaluation extends Component {
     render() {
         return (
             <div>
-                <div className="evaluation-header"><h2>Evaluation</h2></div>
                 <List itemLayout="vertical" size="large"
                     pagination={{
                         onChange: page => {
@@ -17,33 +19,46 @@ class Evaluation extends Component {
                     }}
                     dataSource={this.props.eval}
                     renderItem={item => (
-                        <Row>
-                            <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Tooltip title="Creative">
-                                    <Progress strokeColor='#D2691E' type="circle" percent={item.Creative} format={percent => `${percent / 10}`} width={60} />
-                                </Tooltip>
-                            </Col>
-                            <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Tooltip title="Expressive">
-                                    <Progress strokeColor='#FFD700' type="circle" percent={item.Expressive} format={percent => `${percent / 10}`} width={60} />
-                                </Tooltip>
-                            </Col>
-                            <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Tooltip title="Quality">
-                                    <Progress strokeColor='#1E90FF' type="circle" percent={item.Quality} format={percent => `${percent / 10}`} width={60} />
-                                </Tooltip>
-                            </Col>
-                            <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Tooltip title="Popularity">
-                                    <Progress strokeColor='#0000CD' type="circle" percent={item.Popularity} format={percent => `${percent / 10}`} width={60} />
-                                </Tooltip>
-                            </Col>
-                            <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Tooltip title="Workability">
-                                    <Progress strokeColor='#98FB98' type="circle" percent={item.Workability} format={percent => `${percent / 10}`} width={60} />
-                                </Tooltip>
-                            </Col>
-                        </Row>
+                        <div style = {{minWidth : '90vh'}}>
+                            <Row>
+                                <Col span={12}>
+                                    <Col>
+                                        <Avatar style = {{marginRight:'20px'}} src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                                        <Text strong>{item.username}</Text>
+                                    </Col>
+                                </Col>
+                                <Col span={12}>
+                                    <Row style={{ marginTop: '10px' }}>
+                                        <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                            <Tooltip title="Creative">
+                                                <Progress strokeColor='#D2691E' type="circle" percent={(item.Creative) * 10} format={percent => `${percent / 10}`} width={60} />
+                                            </Tooltip>
+                                        </Col>
+                                        <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                            <Tooltip title="Expressive">
+                                                <Progress strokeColor='#FFD700' type="circle" percent={(item.Expressive) * 10} format={percent => `${percent / 10}`} width={60} />
+                                            </Tooltip>
+                                        </Col>
+                                        <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                            <Tooltip title="Quality">
+                                                <Progress strokeColor='#1E90FF' type="circle" percent={(item.Quality) * 10} format={percent => `${percent / 10}`} width={60} />
+                                            </Tooltip>
+                                        </Col>
+                                        <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                            <Tooltip title="Popularity">
+                                                <Progress strokeColor='#0000CD' type="circle" percent={(item.Popularity) * 10} format={percent => `${percent / 10}`} width={60} />
+                                            </Tooltip>
+                                        </Col>
+                                        <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                            <Tooltip title="Workability">
+                                                <Progress strokeColor='#98FB98' type="circle" percent={(item.Workability) * 10} format={percent => `${percent / 10}`} width={60} />
+                                            </Tooltip>
+                                        </Col>
+                                    </Row>
+                                </Col>
+                            </Row>
+
+                        </div>
                         // <List.Item>
                         //     <div className="eval-container">
                         //         <div className="eval-info"><p className="eval-username">{item.username}</p></div>

@@ -52,7 +52,7 @@ class Comment extends Component {
                     renderItem={item => (
                         <List.Item>
                             <List.Item.Meta
-                                style = {{minWidth : '60vh', maxWidth : '60vh'}}
+                                style = {{minWidth : '70vh', maxWidth : '60vh'}}
                                 content={item.content}
                                 name={item.username}
                                 date={item.date} />
