@@ -4,21 +4,26 @@ from .serializers import ArtifactSerializer
 from .serializers import ArtifactImageSerializer
 from .ArtifactsPagenation import ArtifactsPagenation
 from rest_framework import viewsets
+from rest_framework.generics import UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
 import json
-
+from django_filters import rest_framework as filters
 
 class ArtifactViewSet(viewsets.ModelViewSet):
     serializer_class = ArtifactSerializer
     pagination_class = ArtifactsPagenation
     queryset = Artifact.objects.all()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('userID',)
 
 
 class ArtifactImageViewSet(viewsets.ModelViewSet):
     serializer_class = ArtifactImageSerializer
     queryset = ArtifactImage.objects.all()
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_fields = ('artifactId',)
 
 
 class ArtifactCreateView(APIView):

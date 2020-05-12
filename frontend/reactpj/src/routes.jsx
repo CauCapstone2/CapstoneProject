@@ -15,17 +15,11 @@ const BaseRouter = () => (
     <Route exact path="/" component={MainPage} />
     <Route exact path="/artifactlist" component={ArtifactList} />
     <Route exact path="/artifacts/:artifactID" component={ArtifactDetail} />
-    <Route exact path="/artifacts/s/register">
-      <RegArtifact
-        requestType="post"
-        artifactID={null}
-        btnText="Create"
-      ></RegArtifact>
-    </Route>
+    <Route exact path="/artifacts/s/register" component={RegArtifact} />
     <Route exact path="/login/" component={Login} />
     <Route exact path="/signup/" component={Signup} />
     <Route exact path="/search/" component={SearchPage} />
-    <Route exact path="/mypage" component={Mypage} />
+    <Route exact path="/mypage/" component={Mypage} />
   </div>
 );
 

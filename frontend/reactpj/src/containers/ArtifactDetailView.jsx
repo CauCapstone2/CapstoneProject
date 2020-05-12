@@ -1,7 +1,9 @@
 import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Redirect, NavLink } from "react-router-dom";
 import { Container, Image } from 'react-bootstrap';
+import { Button } from 'antd';
 import './ArtifactDetail.css';
 import EvaluationForm from '../components/EvaluationForm';
 import Evaluation from '../components/Evaluation';
@@ -18,7 +20,6 @@ class ArtifactDetail extends React.Component {
     }
 
     componentDidMount() {
-        console.log('mount call');
         console.log(this.props);
         const artifactID = this.props.match.params.artifactID;
         axios.get('http://127.0.0.1:8000/artifacts/api/' + artifactID)
@@ -31,12 +32,24 @@ class ArtifactDetail extends React.Component {
         this.updateComment(artifactID);
     }
 
-    handleDelete = async (event) => {
-        const artifactID = this.props.match.params.artifactID;
-        axios.delete('http://127.0.0.1:8000/artifacts/api/' + artifactID);
-        await this.props.history.push('/');
+    deleteArtifact = async (id) => {
+        await axios.delete('http://127.0.0.1:8000/artifacts/api/' + id);
+        this.props.history.push('/artifactlist');
         this.forceUpdate();
         window.location.reload();
+    }
+
+    modifyButton = (id, userID) => {
+        return this.props.userid == userID ? (
+            <div>
+                <Button type="link" onClick={() => this.deleteArtifact(id)}>delete</Button>
+                <NavLink to = {{ 
+                    pathname: '/artifacts/s/register', 
+                    state: { id: id, userid : userID, requestType:"put", btnText : "update" } }}>
+                        Update
+                </NavLink>
+            </div>
+        ) : null
     }
 
     updateComment = (artifactID) => {
@@ -82,6 +95,7 @@ class ArtifactDetail extends React.Component {
                 </div>
                 <div className="art-intro">
                     Content
+                <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
                 </div>
 
                 <Container>
@@ -90,7 +104,7 @@ class ArtifactDetail extends React.Component {
                     </div>
                     <div className="description">
                         <h2> {this.state.artifact.title} </h2>
-                        <h5> Mr. Park </h5>
+                        <h5> {this.state.artifact.username} </h5>
                         <p> {this.state.artifact.description} </p>
                     </div>
                     <Evaluation eval={this.state.eval} />

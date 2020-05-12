@@ -2,43 +2,38 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Descriptions, Form, Input, List, Row, Col, Avatar, Comment } from 'antd';
+import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
-
 // import Comment from '../components/Comment';
 import CustomForm from '../components/RegArtifact';
 import Artifact from '../components/Artifact';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
+import MypageInfo from '../components/MypageInfo';
 
 const { TextArea } = Input;
-const FormItem = Form.Item;;
+const { Title, Paragraph } = Typography;
+const FormItem = Form.Item;
+const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
+
 
 class Mypage extends React.Component {
-    constructor(props) {
-        super(props);
-        this.wrapper = React.createRef();
-    }
 
     state = {
         userInfo: [],
         artifact: [],
         comment: []
     }
-
-    componentDidMount() {
-        this.userInformationCall(this.props.userid);
-        this.userArtifactCall(this.props.userid);
-        this.userCommentCall(this.props.userid);
-        console.log('mount state');
-        console.log(this.props.userid);
-        console.log(this.state.userInfo);
-        console.log(this.state.artifact);
-        console.log(this.state.comment);
+    componentWillReceiveProps=(nextprops) => {
+        if(this.props.userid != nextprops){
+            this.userInformationCall(nextprops.userid);
+            this.userArtifactCall(nextprops.userid);
+            this.userCommentCall(nextprops.userid);
+        }
     }
 
-    userInformationCall = async (userID) => {
-        axios.get('http://127.0.0.1:8000/mypage/user/?id=' + 1)
+    userInformationCall = (userID) => {
+        axios.get('http://127.0.0.1:8000/mypage/user/?id=' + userID)
             .then(res => {
                 this.setState({
                     userInfo: res.data
@@ -46,19 +41,19 @@ class Mypage extends React.Component {
             })
     }
 
-    userArtifactCall = async (userID) => {
-        //const userID = this.props.userid
-        axios.get('http://127.0.0.1:8000/mypage/artifacts/?userID=' + 1)
+    userArtifactCall = (userID) => {
+        axios.get('http://127.0.0.1:8000/artifacts/api/?userID=' + userID)
             .then(res => {
                 this.setState({
-                    artifact: res.data
+                    artifact: res.data.results
                 });
             })
+        console.log(this.state.artifact);
+
     }
 
-    userCommentCall = async (userID) => {
-        //const userID = this.props.userid
-        axios.get('http://127.0.0.1:8000/mypage/comments/?userID=' + 1)
+    userCommentCall = (userID) => {
+        axios.get('http://127.0.0.1:8000/comments/api/?userID=' + userID)
             .then(res => {
                 this.editDate(res.data);
                 this.setState({
@@ -77,22 +72,67 @@ class Mypage extends React.Component {
 
     render() {
         const { userInfo, artifact, comment } = this.state;
+        console.log("render"+this.props.userid)
         return (
             <div>
                 <Row justify='center' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
-                    <Descriptions title="User Info" bordered layout='vertical'>
-                        <Descriptions.Item label="User Name">
-                            {userInfo.map((userInfo, index) => (
-                                <h>{userInfo.username}</h>
-                            ))}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="registered Email">
-                            {userInfo.map((userInfo, index) => (
-                                <h>{userInfo.email}</h>
-                            ))}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="current Coins">150 credit</Descriptions.Item>
-                    </Descriptions>
+                    <Col justify='center' align='middle' span={8} style={{ marginLeft: '10px', marginRight: '10px' }}>
+                        <Row justify='center' align='middle' gutter={16}>
+                            <Col span={8}>
+                                <Card>
+                                    <Statistic title="Written Artifacts" value={artifact.length} precision={2} valueStyle={{ color: '#0be881' }}
+                                        prefix={<Avatar>Art</Avatar>} />
+                                </Card>
+                            </Col>
+                            <Col span={8}>
+                                <Card>
+                                    <Statistic title="Left Comments" value={comment.length} precision={2} valueStyle={{ color: '#ff3f34' }}
+                                        prefix={<Avatar>Com</Avatar>} />
+                                </Card>
+                            </Col>
+                            <Col span={8}>
+                                <Card>
+                                    <Statistic title="Done Evaluations" value='undefine' precision={2} valueStyle={{ color: '#0fbcf9' }}
+                                        prefix={<Avatar>Eval</Avatar>} />
+                                </Card>
+                            </Col>
+                        </Row>
+                    </Col>
+                    <MypageInfo userid={this.props.userid} userInfo={userInfo} userInformationCall={this.userInformationCall}/>
+                    {/* <Col span={8} justify='center' align='middle'>
+                        {userInfo.map((userInfo, index) => (
+                            <div>
+                                <Avatar size={100} style={{ marginTop: '15px', marginBottom: '10px' }} src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                                <Typography>
+                                    <Title>{userInfo.username} {this.props.userid}</Title>
+                                    <Paragraph type='secondary'>{userInfo.email}</Paragraph>
+                                    <Paragraph>Web developer, not only for performance but design factors also.</Paragraph>
+                                </Typography>
+                            </div>
+                        ))}
+                    </Col> */}
+                    <Col align='middle' span={8} style={{ marginLeft: '10px', marginRight: '10px' }}>
+                        <Row>
+                            <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                <Progress type="circle" percent={35.6} width={60} />
+                            </Col>
+                            <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            <Col span={4} style={{ marginRight: '5px', marginLeft: '5px' }}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col>
+                            {/* <Col span = {4} style = {{marginRight : '5px'}}>
+                                <Progress type="circle" percent={30} width={60} />
+                            </Col> */}
+                        </Row>
+                    </Col>
                 </Row>
                 <Row align='middle' style={{ marginLeft: '10px', marginRight: '10px', marginBottom: '10px' }}>
                     <Row gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]} >
@@ -126,32 +166,17 @@ class Mypage extends React.Component {
                         )}
                     />
                 </Row>
-
-                {/* <Row justify = 'center' style = {{marginLeft : '10px', marginRight : '10px'}}>
-                    <List itemLayout="vertical" size="large" style={{alignItems : 'middle'}}
-                        dataSource={comment}
-                        renderItem={item => (
-                            <NavLink to={{pathname : `/artifacts/${item.artifactID.id}`}}>
-                                <List.Item>
-                                    <div classname="comment-info">
-                                        <p className="comment-username">{item.username}</p>
-                                        <p className="comment-date">{item.date}</p>
-                                    </div>
-                                    <div><p>{item.content}</p></div>
-                                </List.Item>
-                            </NavLink>
-                        )}
-                        />
-                </Row> */}
             </div>
         )
     }
+
 }
 
 const mapStateToProps = (state) => {
+    console.log("redux"+state.userid);
     return {
         userid: state.userid,
     }
 }
 
-export default connect(mapStateToProps)(Mypage);
+export default connect(mapStateToProps,null)(Mypage);

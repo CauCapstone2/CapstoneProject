@@ -51,7 +51,8 @@ class RegArtifact extends React.Component {
     this.props.history.push("/artifactlist");
   };
 
-  handleFormSubmit = (event, requestType, artifactID) => {
+  handleFormSubmit = async (event) => {
+    const artifactID = this.props.location.state.id;
     let form_data = new FormData();
     let image_list = [];
     this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
@@ -62,16 +63,26 @@ class RegArtifact extends React.Component {
       form_data.append("images", el.originFileObj, el.originFileObj.name)
     );
 
-    return axios.post(
-      "http://127.0.0.1:8000/artifacts/api/create/",
-      form_data,
-      {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      }
-    );
-  };
+    switch ( this.props.location.state.requestType ){
+      case "post":
+          await axios.post("http://127.0.0.1:8000/artifacts/api/create/", form_data,{
+            headers: {
+             "content-type": "multipart/form-data",
+            },
+        });
+        break;
+
+      case "put":
+        // await axios.delete("http://127.0.0.1:8000/artifacts/update/?artifactId=" + artifactID);
+        // await this.state.fileList.forEach((el) =>
+        //   axios.post("http://127.0.0.1:8000/artifacts/update/?artifactId=" + artifactID, {
+        //       artifactId : artifactID,
+        //       image : el.originFileObj,
+        //   })
+        // );
+        this.props.history.push("/artifacts/"+artifactID);
+    }
+  }
 
   render() {
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
@@ -149,7 +160,7 @@ class RegArtifact extends React.Component {
                   htmlType="submit"
                   onClick={() => this.error(this.props.userid)}
                 >
-                  {this.props.btnText}
+                  {this.props.location.state.btnText}
                 </Button>
                 <NavLink to={{ pathname: `/` }}>
                   <Button style={{ marginRight: "10px", marginLeft: "10px" }}>

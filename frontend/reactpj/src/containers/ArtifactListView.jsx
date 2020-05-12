@@ -76,7 +76,12 @@ class ArtifactList extends React.Component {
         </Row>
         <Row type="flex" align="middle">
           <Col span={6} align="middle">
-            <Button href="/artifacts/s/register">Write</Button>
+           <NavLink to = {{ 
+             pathname: '/artifacts/s/register', 
+             state: { requestType :"post", btnText : "Create"} 
+             }}>
+               <Button >Write</Button>
+          </NavLink>
           </Col>
           <Col span={12} align="middle">
             <Pagination
