@@ -17,5 +17,5 @@ urlpatterns = [
     path('mypage/', include('mypage.urls')),
     path('evaluation/api/', include('evaluation.api.urls')),
     path('report/api/', include('report.api.urls')),
-    path('search/', include('search.urls')),
+    path('search/', include('search.api.urls')),
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

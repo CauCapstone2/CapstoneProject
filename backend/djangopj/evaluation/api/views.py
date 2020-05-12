@@ -7,4 +7,4 @@ class EvaluationViewSet(viewsets.ModelViewSet):
     serializer_class = EvaluationDetailSerializer
     queryset = Evaluation.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('artifactID',)
+    filterset_fields = ('artifactID', 'userID',)
