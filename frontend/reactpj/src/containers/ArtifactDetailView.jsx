@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Container, Image } from 'react-bootstrap';
-import { Row, Col, Typography, List, Avatar } from 'antd';
+import { Row, Col, Typography, List, Avatar, Divider } from 'antd';
 import './ArtifactDetail.css';
 import EvaluationForm from '../components/EvaluationForm';
 import Evaluation from '../components/Evaluation';
@@ -81,35 +81,44 @@ class ArtifactDetail extends React.Component {
         return (
             <div>
                 <Row>
-                    <Col>
+                    <Col style={{ margin: '10px', minWidth: '40vh' }}>
                         <Image className="art" width="700" src={this.state.artifact.image} />
                     </Col>
-                    <Col>
-                        <Row>
+                    <Col align='middle' justify='center' style={{ maxWidth: '50vh' }}>
+                        <Row style={{ minHeight: '50%' }}>
                             <Title>{this.state.artifact.title}</Title>
                         </Row>
-                        <Row>
-                            <Paragraph>{this.state.artifact.description}</Paragraph>
+                        <Row style={{ minHeight: '50%' }}>
+                            <Paragraph ellipsis={{ rows: 3, expandable: true }}>{this.state.artifact.description}</Paragraph>
                         </Row>
                     </Col>
                 </Row>
-                <Row>
+                {/* <Row>
                     <List itemLayout="vertical" size="large" dataSource={this.state.comment} footer={<div><b>Iudicium In Foro</b>comment footer part</div>}
                         pagination={{ onChange: page => { console.log(page); }, pageSize: 10, }}
                         renderItem={item => (
-                            <List.Item key={item.artifactID.id} extra={<h1>evaluation Part</h1>}
+                            <List.Item key={item.artifactID.id}
                                 style={{ marginBottom: '10px' }}>
                                 <List.Item.Meta avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
-                                    title={<a href={"http://localhost:3000/artifacts/" + item.artifactID.id}>{item.artifactID.title}</a>}
-                                    description={item.artifactID.username}
+                                    title={item.username}
+                                    description={item.date}
                                     style={{ minWidth: '50vh', maxWidth: '50vh' }}
                                 />
-                                {item.artifactID.description}
-                                <br />
-                                />
+                                {item.content}
                             </List.Item>
                         )}
                     />
+                </Row> */}
+                <Row>
+                    <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+                    <Evaluation eval={this.state.eval} />
+                </Row>
+                <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>Comments</Divider>
+                <Row>
+                    <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
+                </Row>
+                <Row>
+                    <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported} />
                 </Row>
             </div>
             // <div>

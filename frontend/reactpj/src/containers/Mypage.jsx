@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress, Divider } from 'antd';
+import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress, Divider, Tooltip } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
 
@@ -150,19 +150,29 @@ class Mypage extends React.Component {
                                  </Col>
                             ))} */}
                             <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Progress strokeColor='#D2691E' type="circle" percent={evaluation[0]} format={percent => `${percent / 10}`} width={60} />
+                                <Tooltip title="Creative">
+                                    <Progress strokeColor='#D2691E' type="circle" percent={evaluation[0]} format={percent => `${percent / 10}`} width={60} />
+                                </Tooltip>
                             </Col>
                             <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Progress strokeColor='#FFD700' type="circle" percent={evaluation[1]} format={percent => `${percent / 10}`} width={60} />
+                                <Tooltip title="Expressive">
+                                    <Progress strokeColor='#FFD700' type="circle" percent={evaluation[1]} format={percent => `${percent / 10}`} width={60} />
+                                </Tooltip>
                             </Col>
                             <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Progress strokeColor='#1E90FF' type="circle" percent={evaluation[2]} format={percent => `${percent / 10}`} width={60} />
+                                <Tooltip title="Quality">
+                                    <Progress strokeColor='#1E90FF' type="circle" percent={evaluation[2]} format={percent => `${percent / 10}`} width={60} />
+                                </Tooltip>
                             </Col>
                             <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Progress strokeColor='#0000CD' type="circle" percent={evaluation[3]} format={percent => `${percent / 10}`} width={60} />
+                                <Tooltip title="Popularity">
+                                    <Progress strokeColor='#0000CD' type="circle" percent={evaluation[3]} format={percent => `${percent / 10}`} width={60} />
+                                </Tooltip>
                             </Col>
                             <Col span={4} style={{ marginRight: '3px', marginLeft: '3px' }}>
-                                <Progress strokeColor='#98FB98' type="circle" percent={evaluation[4]} format={percent => `${percent / 10}`} width={60} />
+                                <Tooltip title="Workability">
+                                    <Progress strokeColor='#98FB98' type="circle" percent={evaluation[4]} format={percent => `${percent / 10}`} width={60} />
+                                </Tooltip>
                             </Col>
                         </Row>
                         <Divider style={{ color: '#333', fontWeight: 'normal' }}>Your Abilities</Divider>
