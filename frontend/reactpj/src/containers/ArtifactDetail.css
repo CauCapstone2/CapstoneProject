@@ -132,3 +132,16 @@ h2, h5{
     display: inline;
     text-align: right;
 }
+
+.ant-carousel .slick-slide {
+    display:flex;
+    align-content: center;
+    height:100%;
+    background: #364d79;
+  }
+  
+  .ant-carousel .slick-slide h3 {
+    display:flex;
+    align-content: center;
+    color: #fff;
+  }

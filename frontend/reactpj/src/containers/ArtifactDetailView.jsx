@@ -46,11 +46,11 @@ class ArtifactDetail extends React.Component {
         return this.props.userid == userID ? (
             <div>
                 <Button type="link" onClick={() => this.deleteArtifact(id)}>delete</Button>
-                <NavLink to = {{ 
+                {/* <NavLink to = {{ 
                     pathname: '/artifacts/s/register', 
                     state: { id: id, userid : userID, requestType:"put", btnText : "update" } }}>
                         Update
-                </NavLink>
+                </NavLink> */}
             </div>
         ) : null
     }
@@ -95,7 +95,7 @@ class ArtifactDetail extends React.Component {
     render() {
         return (
             <div>
-      <!--      <div className="intro">
+            {/* <div className="intro">
                     Iuducium In Foro
                 </div>
                 <div className="art-intro">
@@ -111,19 +111,19 @@ class ArtifactDetail extends React.Component {
                         <h2> {this.state.artifact.title} </h2>
                         <h5> {this.state.artifact.username} </h5>
                         <p> {this.state.artifact.description} </p>
-                    </div> -->
-                <Row justify='center' align='middle'>
-                    <Col style={{ margin: "10px", minWidth: "50%", maxWidth: "50%", backgroundColor: 'rgba(0,0,0,0.05)' }}>
-                        <Carousel autoplay style={{ maxWidth: '100%', alignItems: 'center' }}>
+                    </div> */}
+                <Row>
+                    <Col span={12} style={{ margin: "10px", maxWidth: "50vh", backgroundColor: 'rgba(0,0,0,0.05)' }}>
+                        <Carousel autoplay style={{ backgroundColor:'#010101', display:'flex', alignContent:'center' }}>
                             {this.state.artifact.image &&
                                 this.state.artifact.image.map((el, index) => (
                                     <div className="art-box">
-                                        <Image className="art" style={{ width: '100%' }} src={el.image}></Image>
+                                        <Image className="art" style={{ width: '100%', height:'100%' }} src={el.image}></Image>
                                     </div>
                                 ))}
                         </Carousel>
                     </Col>
-                    <Col align='middle' justify="center" style={{ maxWidth: "50vh", backgroundColor: '' }}>
+                    <Col span={12} align='middle' justify="center" style={{ display:'flex', alignItems: 'center', justifyContent: 'center', maxWidth: "50vh", backgroundColor: '' }}>
                         <Row align='middle' justify="center" style={{ backgroundColor: '' }}>
                             <Typography>
                                 <Title>
@@ -173,32 +173,9 @@ class ArtifactDetail extends React.Component {
                         userid={this.props.userid}
                         isReported={this.state.isReported}
                     />
+                    <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
                 </Row>
             </div>
-            // <div>
-            //     <div className="intro">
-            //         Iuducium In Foro
-            //     </div>
-            //     <div className="art-intro">
-            //         Content
-            //     </div>
-
-            //     <Container>
-            //         <div className="art-box">
-            //             <Image className="art" width="700" src={this.state.artifact.image} />
-            //         </div>
-            //         <div className="description">
-            //             <h2> {this.state.artifact.title} </h2>
-            //             <h5> Mr. Park </h5>
-            //             <p> {this.state.artifact.description} </p>
-            //         </div>
-            //         <Evaluation eval={this.state.eval} />
-            //         <EvaluationForm updateEvaluation={this.updateEvaluation} preEval={this.preEval()} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
-
-            //         <Comment updateComment={this.updateComment} comment={this.state.comment} artifactID={this.props.match.params.artifactID} userid={this.props.userid} />
-            //         <Report artifactID={this.props.match.params.artifactID} userid={this.props.userid} isReported={this.state.isReported} />
-            //     </Container>
-            // </div>
         );
     }
 }

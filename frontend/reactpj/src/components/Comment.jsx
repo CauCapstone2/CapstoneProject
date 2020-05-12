@@ -66,7 +66,7 @@ class Comment extends Component {
 
                 <Form onSubmitCapture={(event) => this.handleComment(event)} resetFields>
                     <FormItem>
-                        <TextArea id="comment-input" rows={4} allowClear="true" initialValue="" />
+                        <TextArea style = {{minWidth : '70vh'}}id="comment-input" rows={4} allowClear="true" initialValue="" />
                     </FormItem>
                     <FormItem className="button-box">
                         <Button type="primary" htmlType="submit" onClick={() => this.error(this.props.userid)}>comment</Button>

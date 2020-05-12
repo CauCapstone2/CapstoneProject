@@ -22,7 +22,7 @@ class ArtifactList extends React.Component {
     const res = await axios.get("http://127.0.0.1:8000/artifacts/api/");
     this.setState({
       isLoading: false,
-      artifacts: res.data.results,
+      artifacts: res.data.results.reverse(),
       pagination: {
         count: res.data.count,
         prev: res.data.previous,
@@ -34,7 +34,7 @@ class ArtifactList extends React.Component {
   getArtifactsPage = async (page) => {
     const res = await axios.get("http://127.0.0.1:8000/artifacts/api?page=" + page);
     this.setState({
-      artifacts: res.data.results,
+      artifacts: res.data.results.reverse(),
       pagination: {
         count: res.data.count,
         prev: res.data.previous,

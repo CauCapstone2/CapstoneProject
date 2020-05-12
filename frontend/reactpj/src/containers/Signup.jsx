@@ -11,7 +11,7 @@ const success_info = () => {
     message.success("SignUp has Successively Done");
 }
 const error_info = () => {
-    message.error("Please type correct information again")
+    // message.error("Please type correct information again")
 }
 
 class RegistrationForm extends React.Component {

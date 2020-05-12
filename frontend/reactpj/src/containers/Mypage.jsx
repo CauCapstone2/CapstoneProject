@@ -49,13 +49,13 @@ class Mypage extends React.Component {
                 this.setState({
                     artifact: res.data.results
                 });
-                this.userEvaluationCall(res.data);
+                this.userEvaluationCall(res.data.results);
             })
         console.log(this.state.artifact);
     }
 
     userCommentCall = (userID) => {
-        axios.get('http://127.0.0.1:8000/comments/api/?userID=' + userID)
+        axios.get('http://127.0.0.1:8000/mypage/comments?userID=' + userID)
             .then(res => {
                 this.editDate(res.data);
                 this.setState({
@@ -127,19 +127,19 @@ class Mypage extends React.Component {
                             <Text strong>Your Activities</Text>
                         </Row> */}
                     </Col>
-                    <MypageInfo userid={this.props.userid} userInfo={userInfo} userInformationCall={this.userInformationCall}/>
-                    //<Col span={8} justify='center' align='middle'>
-                    //    {userInfo.map((userInfo, index) => (
-                    //        <div>
-                    //            <Avatar size={100} style={{ marginTop: '15px', marginBottom: '10px' }} src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
-                    //            <Typography>
-                    //                <Title>{userInfo.username} {this.props.userid}</Title>
-                    //                <Paragraph type='secondary'>{userInfo.email}</Paragraph>
-                    //                <Paragraph>Web developer, not only for performance but design factors also.</Paragraph>
-                    //            </Typography>
-                    //        </div>
-                    //       ))}
-                    //</Col>
+                    {/* <MypageInfo userid={this.props.userid} userInfo={userInfo} userInformationCall={this.userInformationCall}/> */}
+                    <Col span={8} justify='center' align='middle'>
+                        {userInfo.map((userInfo, index) => (
+                            <div>
+                                <Avatar size={100} style={{ marginTop: '15px', marginBottom: '10px' }} src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png" />
+                                <Typography>
+                                    <Title>{userInfo.username}</Title>
+                                    <Paragraph type='secondary'>{userInfo.email}</Paragraph>
+                                    <Paragraph>Web developer, not only for performance but design factors also.</Paragraph>
+                                </Typography>
+                            </div>
+                           ))}
+                    </Col>
         
                     <Col align='middle' span={8} style={{ marginTop: '10px', marginBottom: '10px' }}>
                         <Row style={{ marginTop: '20%' }}>

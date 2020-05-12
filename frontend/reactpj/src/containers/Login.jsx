@@ -13,7 +13,7 @@ const success_info = () => {
     message.success("Welcome to Iudicium In Foro");
 }
 const error_info = () => {
-    message.error("Please type correct information again")
+    // message.error("Please type correct information again")
 }
 
 class LoginForm extends React.Component {

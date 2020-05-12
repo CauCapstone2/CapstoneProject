@@ -24,7 +24,7 @@ class SearchPage extends Component {
     axios.get("http://127.0.0.1:8000/search?search=" + keyword).then((res) => {
       this.setState({
         keyword: keyword,
-        artifact: res.data.results,
+        artifact: res.data.results.reverse(),
         pagination: {
           count: res.data.count,
           prev: res.data.previous,
@@ -43,7 +43,7 @@ class SearchPage extends Component {
       "http://127.0.0.1:8000/search/?search=" + keyword + "&page=" + page;
     const res = await axios.get(path);
     this.setState({
-      artifact: res.data.results,
+      artifact: res.data.results.reverse(),
       pagination: {
         count: res.data.count,
         prev: res.data.previous,
