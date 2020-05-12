@@ -82,6 +82,7 @@ class ArtifactList extends React.Component {
             <Pagination
               size = "small"
               total={pagination.count}
+              pageSize={12}
               showQuickJumper
               showTotal={(total) => `Total ${total} items`}
               onChange={this.onChange}

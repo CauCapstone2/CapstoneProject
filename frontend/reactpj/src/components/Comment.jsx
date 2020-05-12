@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Modal, Button, Form, Input, List } from 'antd';
+import { Modal, Button, Form, Input, List, Divider } from 'antd';
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -41,7 +41,6 @@ class Comment extends Component {
     render() {
         return (
             <div className="comments">
-                <div className="comment-header"><h2>Comments</h2></div>
                 <List itemLayout="vertical" size="large"
                     pagination={{
                         onChange: page => {
@@ -53,6 +52,7 @@ class Comment extends Component {
                     renderItem={item => (
                         <List.Item>
                             <List.Item.Meta
+                                style = {{minWidth : '70vh', maxWidth : '60vh'}}
                                 content={item.content}
                                 name={item.username}
                                 date={item.date} />

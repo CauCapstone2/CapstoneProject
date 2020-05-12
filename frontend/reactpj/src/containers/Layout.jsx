@@ -83,8 +83,8 @@ class CustomLayout extends React.Component {
                     <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
                         <p>Ranking</p>
                     </NavLink>
-                    <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
-                        <p>Arts Synthesis</p>
+                    <NavLink onClick={this.props.onClose} to={{ pathname: `/mypage` }}>
+                        <p>My Page</p>
                     </NavLink>
                     <Drawer
                         title="SignUp"
