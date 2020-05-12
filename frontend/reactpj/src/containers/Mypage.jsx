@@ -24,6 +24,7 @@ class Mypage extends React.Component {
         artifact: [],
         comment: [],
         evaluation: [],
+        _eval_length: 0,
     }
 
     componentWillReceiveProps=(nextprops) => {
@@ -84,7 +85,8 @@ class Mypage extends React.Component {
             _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
         }
         this.setState({
-            evaluation: _evaluation
+            evaluation: _evaluation,
+            _eval_length : _eval_num
         });
     }
 
@@ -96,7 +98,7 @@ class Mypage extends React.Component {
         }
     }
     render() {
-        const { userInfo, artifact, comment, evaluation } = this.state;
+        const { userInfo, artifact, comment, evaluation, _eval_length } = this.state;
         return (
             <div className='outer-div'>
                 <Row>
@@ -116,7 +118,7 @@ class Mypage extends React.Component {
                             </Col>
                             <Col align='middle' span={8}>
                                 <Card bordered={false} style={{ marginRight: '5px' }}>
-                                    <Statistic title="Done Evaluations" value={comment.length} precision={0} valueStyle={{ color: '#0fbcf9' }}
+                                    <Statistic title="Done Evaluations" value={_eval_length} precision={0} valueStyle={{ color: '#0fbcf9' }}
                                         prefix={<Avatar>Eval</Avatar>} />
                                 </Card>
                             </Col>
