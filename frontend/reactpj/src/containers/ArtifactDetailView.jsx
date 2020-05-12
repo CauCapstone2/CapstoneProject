@@ -9,77 +9,92 @@ import Evaluation from '../components/Evaluation';
 import Comment from '../components/Comment';
 import Report from '../components/Report';
 
+
 const { Title, Paragraph, Text } = Typography;
 
 class ArtifactDetail extends React.Component {
+  state = {
+    artifact: [],
+    comment: [],
+    eval: [],
+    isReported: false,
+  };
 
-    state = {
-        artifact: [],
-        comment: [],
-        eval: [],
-        isReported: false,
+  componentDidMount() {
+    // console.log("mount call");
+    // console.log(this.props);
+    const artifactID = this.props.match.params.artifactID;
+    axios
+      .get("http://127.0.0.1:8000/artifacts/api/detail/" + artifactID)
+      .then((res) => {
+        this.setState({
+          artifact: res.data,
+        });
+        console.log(this.state);
+      });
+    this.updateEvaluation(artifactID);
+    this.updateComment(artifactID);
+  }
+
+  handleDelete = async (event) => {
+    const artifactID = this.props.match.params.artifactID;
+    axios.delete("http://127.0.0.1:8000/artifacts/api/" + artifactID);
+    await this.props.history.push("/");
+    this.forceUpdate();
+    window.location.reload();
+  };
+
+  updateComment = (artifactID) => {
+    axios
+      .get("http://127.0.0.1:8000/comments/api/?artifactID=" + artifactID)
+      .then((res) => {
+        this.editDate(res.data);
+        this.setState({
+          comment: res.data.reverse(),
+        });
+      });
+  };
+
+  updateEvaluation = (artifactID) => {
+    axios
+      .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + artifactID)
+      .then((res) => {
+        this.setState({
+          eval: res.data,
+        });
+      });
+  };
+
+  preEval = () => {
+    for (var i in this.state.eval) {
+      if (this.state.eval[i].userID == this.props.userid) {
+        return this.state.eval[i];
+      }
     }
+  };
 
-    componentDidMount() {
-        console.log('mount call');
-        console.log(this.props);
-        const artifactID = this.props.match.params.artifactID;
-        axios.get('http://127.0.0.1:8000/artifacts/api/' + artifactID)
-            .then(res => {
-                this.setState({
-                    artifact: res.data
-                });
-            })
-        this.updateEvaluation(artifactID);
-        this.updateComment(artifactID);
+  editDate = (data) => {
+    for (var i in data) {
+      data[i].date = data[i].date.split(".")[0];
+      data[i].date = data[i].date.replace("T", " ");
+      data[i].date = data[i].date.replace("Z", " ");
     }
+  };
 
-    handleDelete = async (event) => {
-        const artifactID = this.props.match.params.artifactID;
-        axios.delete('http://127.0.0.1:8000/artifacts/api/' + artifactID);
-        await this.props.history.push('/');
-        this.forceUpdate();
-        window.location.reload();
-    }
+  render() {
+    return (
+      <div>
+        <div className="intro">Iuducium In Foro</div>
+        <div className="art-intro">Content</div>
 
-    updateComment = (artifactID) => {
-        axios.get('http://127.0.0.1:8000/comments/api/?artifactID=' + artifactID)
-            .then(res => {
-                this.editDate(res.data);
-                this.setState({
-                    comment: res.data.reverse()
-                });
-            })
-    }
-
-    updateEvaluation = (artifactID) => {
-        axios.get('http://127.0.0.1:8000/evaluation/api/?artifactID=' + artifactID)
-            .then(res => {
-                this.setState({
-                    eval: res.data
-                });
-            })
-    }
-
-    preEval = () => {
-        for (var i in this.state.eval) {
-            if (this.state.eval[i].userID == this.props.userid) {
-                return this.state.eval[i];
-            }
-        }
-    }
-
-    editDate = (data) => {
-        for (var i in data) {
-            data[i].date = data[i].date.split(".")[0];
-            data[i].date = data[i].date.replace("T", " ");
-            data[i].date = data[i].date.replace("Z", " ");
-        }
-    }
-
-    render() {
-        return (
-            <div>
+        {/* <div className="art-box"> */}
+        {/* <Image
+              className="art"
+              width="700"
+              src={this.state.artifact.image}
+            />
+             */}
+        {/* </div> */}
                 <Row>
                     <Col style={{ margin: '10px', minWidth: '40vh' }}>
                         <Image className="art" width="700" src={this.state.artifact.image} />
@@ -150,9 +165,9 @@ class ArtifactDetail extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-        userid: state.userid,
-    }
-}
+  return {
+    userid: state.userid,
+  };
+};
 
 export default connect(mapStateToProps)(ArtifactDetail);

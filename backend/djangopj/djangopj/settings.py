@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'mypage',
     'evaluation',
     'report',
+    'search',
 ]
 
 SITE_ID = 1
