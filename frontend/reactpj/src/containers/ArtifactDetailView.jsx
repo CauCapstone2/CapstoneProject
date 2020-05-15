@@ -112,7 +112,7 @@ class ArtifactDetail extends React.Component {
                         <h5> {this.state.artifact.username} </h5>
                         <p> {this.state.artifact.description} </p>
                     </div> */}
-                <Row>
+                <Row align='middle' justify='center'>
                     <Col span={12} style={{ margin: "10px", maxWidth: "50vh", backgroundColor: 'rgba(0,0,0,0.05)' }}>
                         <Carousel autoplay style={{ backgroundColor:'#010101', display:'flex', alignContent:'center' }}>
                             {this.state.artifact.image &&
