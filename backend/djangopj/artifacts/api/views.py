@@ -11,6 +11,11 @@ from rest_framework.response import Response
 from django.db import transaction
 import json
 from django_filters import rest_framework as filters
+from predictor.apps import PredictorConfig
+import tensorflow as tf
+import numpy as np
+import tempfile
+
 
 class ArtifactViewSet(viewsets.ModelViewSet):
     serializer_class = ArtifactSerializer
@@ -34,6 +39,8 @@ class ArtifactCreateView(APIView):
         artifact = {'userID': req['userID'],
                     'title': req['title'], 'description': req['description']}
         serializer_artifact = ArtifactSerializer(data=artifact)
+        channels = 3
+        img_size = 224
 
         with transaction.atomic():
             sid = transaction.savepoint()
@@ -44,9 +51,21 @@ class ArtifactCreateView(APIView):
                 return Response(serializer_artifact.errors, status=400)
 
             for img_name in images:
+                predictor = PredictorConfig.picture_age_model
+
                 image_file = {'artifactId': artifact_obj.id, 'image': img_name}
                 serializer_image = ArtifactImageSerializer(data=image_file)
                 if serializer_image.is_valid():
+                    image = serializer_image.validated_data['image'].read()
+                    image_decoded = tf.io.decode_image(
+                        image, channels=channels)
+                    image_resized = tf.image.resize(
+                        image_decoded, [img_size, img_size])
+                    image_normalized = image_resized / 255.0
+                    pred = predictor.predict(image_normalized[np.newaxis, ...])
+                    result = predictor.predict_classes(
+                        image_normalized[np.newaxis, ...])
+
                     serializer_image.save()
                     # transaction.savepoint_commit(sid)
                 else:

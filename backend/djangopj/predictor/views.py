@@ -24,14 +24,6 @@ class call_picture_age_model(APIView):
             print(pred_probs)
             print(result)
 
-            response = {'pred_probs': pred_probs.tolist(), 'result': result.tolist()}
+            response = {'pred_probs': pred_probs.tolist(),
+                        'result': result.tolist()}
             return JsonResponse(response)
-
-            # # vectorize sound
-            # vector = PredictorConfig.vectorizer.transform([sound])
-            # # predict based on vector
-            # prediction = PredictorConfig.regressor.predict(vector)[0]
-            # # build response
-            # response = {'dog': prediction}
-            # # return response
-            # return JsonResponse(response)
