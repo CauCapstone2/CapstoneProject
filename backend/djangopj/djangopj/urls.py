@@ -1,11 +1,11 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls.static import static 
+from django.conf.urls.static import static
 
 import home.views
 
-urlpatterns = [    
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('', home.views.home, name="home"),
     path('artifacts/', include('artifacts.urls')),
@@ -18,4 +18,5 @@ urlpatterns = [
     path('evaluation/api/', include('evaluation.api.urls')),
     path('report/api/', include('report.api.urls')),
     path('search/', include('search.api.urls')),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+    path('predictor/', include('predictor.urls'))
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'evaluation',
     'report',
     'search',
+    'predictor',
 ]
 
 SITE_ID = 1
@@ -159,3 +160,4 @@ CORS_ORIGIN_ALLOW_ALL = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
 ACCOUNT_EMAIL_REQUIRED = False
+PICTURE_AGE_MODEL = os.path.join(BASE_DIR, 'predictor/models')
