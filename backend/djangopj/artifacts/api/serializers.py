@@ -6,7 +6,7 @@ from artifacts.models import ArtifactImage
 class ArtifactImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtifactImage
-        fields = ('id', 'artifactId', 'image')
+        fields = ('id', 'artifactId', 'image', 'predict', 'tendency')
 
 
 class ArtifactSerializer(serializers.ModelSerializer):

@@ -15,6 +15,8 @@ from predictor.apps import PredictorConfig
 import tensorflow as tf
 import numpy as np
 import tempfile
+import json
+import copy
 
 
 class ArtifactViewSet(viewsets.ModelViewSet):
@@ -51,21 +53,25 @@ class ArtifactCreateView(APIView):
                 return Response(serializer_artifact.errors, status=400)
 
             for img_name in images:
+                temp_img_file = copy.deepcopy(img_name)
                 predictor = PredictorConfig.picture_age_model
+                image = temp_img_file.read()
+                image_decoded = tf.io.decode_image(
+                    image, channels=channels)
+                image_resized = tf.image.resize(
+                    image_decoded, [img_size, img_size])
+                image_normalized = image_resized / 255.0
+                tendency = predictor.predict(
+                    image_normalized[np.newaxis, ...])[0].tolist()
+                pred = predictor.predict_classes(
+                    image_normalized[np.newaxis, ...])[0]
+                tendency_json = json.dumps(tendency)
 
-                image_file = {'artifactId': artifact_obj.id, 'image': img_name}
+                image_file = {'artifactId': artifact_obj.id,
+                              'image': img_name, 'predict': pred, 'tendency': tendency_json}
                 serializer_image = ArtifactImageSerializer(data=image_file)
-                if serializer_image.is_valid():
-                    image = serializer_image.validated_data['image'].read()
-                    image_decoded = tf.io.decode_image(
-                        image, channels=channels)
-                    image_resized = tf.image.resize(
-                        image_decoded, [img_size, img_size])
-                    image_normalized = image_resized / 255.0
-                    pred = predictor.predict(image_normalized[np.newaxis, ...])
-                    result = predictor.predict_classes(
-                        image_normalized[np.newaxis, ...])
 
+                if serializer_image.is_valid():
                     serializer_image.save()
                     # transaction.savepoint_commit(sid)
                 else:
