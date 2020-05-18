@@ -29,7 +29,7 @@ class ArtifactDetail extends React.Component {
                 this.setState({
                     artifact: res.data,
                 });
-                console.log(this.state.artifact);
+                console.log(this.state);
             });
         this.updateEvaluation(artifactID);
         this.updateComment(artifactID);
