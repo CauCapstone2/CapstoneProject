@@ -77,14 +77,16 @@ class Recreation extends React.Component {
 
     regModalhandleOk = () => {
         this.setState({
-            visible: false,
+            showCreate: false,
         });
+        console.log(this.state.showCreate);
     }
 
     regModalhandleCancel = () => {
         this.setState({
-            visible: false,
+            showCreate: false,
         });
+        console.log(this.state.showCreate);
     }
 
     render() {
@@ -98,7 +100,6 @@ class Recreation extends React.Component {
                     renderItem={item => (
                         <List.Item key={item.id} extra={<img width={100} height={100} src={item.image} />}
                             style={{ marginLeft: '5px', marginRight: '5px' }}>
-                            {item.title}
                         </List.Item>
                     )}
                 />

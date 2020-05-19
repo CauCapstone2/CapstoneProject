@@ -91,7 +91,7 @@ class RegCreation extends React.Component {
             <Modal title="Recreation Upload" visible={this.props.visible} onOk={this.props.onOk} onCancel={this.props.onCancel}
                    width='80vh'>
                 <div
-                    style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
+                    style={{ backgroundColor: "rgba(0,0,0,0.05)", paddingBottom:'5vh' }}
                     onSubmitCapture={(event) =>
                         this.handleSubmit(
                             event,
