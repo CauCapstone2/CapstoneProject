@@ -8,6 +8,7 @@ import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
 import Comment from "../components/Comment";
 import Report from "../components/Report";
+import PredictPicture from "../components/PredictPicture";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -19,10 +20,10 @@ class ArtifactDetail extends React.Component {
     isReported: false,
     modalVisible: false,
     previewImage: "",
+    predict: -1,
   };
 
   componentDidMount() {
-    console.log(this.props);
     const artifactID = this.props.match.params.artifactID;
     axios
       .get("http://127.0.0.1:8000/artifacts/api/detail/" + artifactID)
@@ -94,9 +95,15 @@ class ArtifactDetail extends React.Component {
     }
   };
 
-  showModal = (image, e) => {
-    this.setState({ modalVisible: true, previewImage: image });
+  showModal = (image, predict, e) => {
+    e.preventDefault();
+    this.setState({
+      modalVisible: true,
+      previewImage: image,
+      predict: predict,
+    });
     console.log(image);
+    console.log(predict);
   };
 
   closeModal = () => {
@@ -147,7 +154,7 @@ class ArtifactDetail extends React.Component {
                       className="art"
                       style={{ width: "100%", height: "100%" }}
                       src={el.image}
-                      onClick={(e) => this.showModal(el.image, e)}
+                      onClick={(e) => this.showModal(el.image, el.predict, e)}
                     ></Image>
                     <Modal
                       visible={this.state.modalVisible}
@@ -162,11 +169,10 @@ class ArtifactDetail extends React.Component {
                         </Button>,
                       ]}
                     >
-                      <Image
-                        className="art"
-                        style={{ width: "100%", height: "100%" }}
-                        src={this.state.previewImage}
-                      ></Image>
+                      <PredictPicture
+                        previewImage={this.state.previewImage}
+                        predict={this.state.predict}
+                      ></PredictPicture>
                     </Modal>
                   </div>
                 ))}
