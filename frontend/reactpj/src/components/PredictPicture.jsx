@@ -28,7 +28,7 @@ class PredictPicture extends React.Component {
         return this.resultContent(image, "Mannerism ", "abcd");
       case 4:
         return this.resultContent(image, "Rococo", "abcdefghijk");
-      case 4:
+      case 5:
         return this.resultContent(image, "Neoclassicism", "abcd");
       case 6:
         return this.resultContent(image, "Romanticism", "abcd");
@@ -44,6 +44,8 @@ class PredictPicture extends React.Component {
         return this.resultContent(image, "Kinetic", "abcdefg");
       case 12:
         return this.resultContent(image, "Baroque", "abcdefg");
+      default:
+        return <div>error</div>;
     }
   };
 

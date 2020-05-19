@@ -2,19 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress, Divider, Tooltip } from 'antd';
-import { Container, Image } from 'react-bootstrap';
+import { Card, Statistic, List, Row, Col, Avatar, Comment, Typography, Progress, Divider, Tooltip } from 'antd';
 import './ArtifactDetail.css';
 // import Comment from '../components/Comment';
-import CustomForm from '../components/RegArtifact';
 import Artifact from '../components/Artifact';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
-import MypageInfo from '../components/MypageInfo';
 
-const { TextArea } = Input;
-const { Title, Paragraph, Text } = Typography;
-const FormItem = Form.Item;
-const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
+const { Title, Paragraph } = Typography;
 
 
 class Mypage extends React.Component {

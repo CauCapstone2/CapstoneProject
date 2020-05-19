@@ -10,7 +10,7 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
 class ArtifactDetail extends React.Component {
   state = {
@@ -44,16 +44,11 @@ class ArtifactDetail extends React.Component {
   };
 
   modifyButton = (id, userID) => {
-    return this.props.userid == userID ? (
+    return parseInt(this.props.userid) === userID ? (
       <div>
         <Button type="link" onClick={() => this.deleteArtifact(id)}>
           delete
         </Button>
-        {/* <NavLink to = {{ 
-                    pathname: '/artifacts/s/register', 
-                    state: { id: id, userid : userID, requestType:"put", btnText : "update" } }}>
-                        Update
-                </NavLink> */}
       </div>
     ) : null;
   };
@@ -81,7 +76,7 @@ class ArtifactDetail extends React.Component {
 
   preEval = () => {
     for (var i in this.state.eval) {
-      if (this.state.eval[i].userID == this.props.userid) {
+      if (this.state.eval[i].userID === parseInt(this.props.userid)) {
         return this.state.eval[i];
       }
     }
@@ -102,8 +97,6 @@ class ArtifactDetail extends React.Component {
       previewImage: image,
       predict: predict,
     });
-    console.log(image);
-    console.log(predict);
   };
 
   closeModal = () => {
@@ -113,23 +106,6 @@ class ArtifactDetail extends React.Component {
   render() {
     return (
       <div>
-        {/* <div className="intro">
-                    Iuducium In Foro
-                </div>
-                <div className="art-intro">
-                    Content
-                <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
-                </div>
-
-                <Container>
-                    <div className="art-box">
-                        <Image className="art" width="700" src={this.state.artifact.image} />
-                    </div>
-                    <div className="description">
-                        <h2> {this.state.artifact.title} </h2>
-                        <h5> {this.state.artifact.username} </h5>
-                        <p> {this.state.artifact.description} </p>
-                    </div> */}
         <Row align="middle" justify="center">
           <Col
             span={12}
@@ -149,7 +125,7 @@ class ArtifactDetail extends React.Component {
             >
               {this.state.artifact.image &&
                 this.state.artifact.image.map((el, index) => (
-                  <div className="art-box">
+                  <div className="art-box" key={index}>
                     <Image
                       className="art"
                       style={{ width: "100%", height: "100%" }}

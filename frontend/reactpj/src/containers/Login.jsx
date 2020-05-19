@@ -1,9 +1,8 @@
 import React from 'react';
 import { Input, Button, Spin, Row, Col, message } from 'antd';
-import { LoadingOutlined, ConsoleSqlOutlined } from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { Form } from '@ant-design/compatible';
 import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
 import * as actions from '../store/actions/auth';
 import '@ant-design/compatible/assets/index.css';
 

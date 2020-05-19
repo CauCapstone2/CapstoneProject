@@ -63,26 +63,14 @@ class RegArtifact extends React.Component {
       form_data.append("images", el.originFileObj, el.originFileObj.name)
     );
 
-    switch ( this.props.location.state.requestType ){
-      case "post":
-          await axios.post("http://127.0.0.1:8000/artifacts/api/create/", form_data,{
-            headers: {
-             "content-type": "multipart/form-data",
-            },
-        });
-        break;
+    await axios.post("http://127.0.0.1:8000/artifacts/api/create/", form_data, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
 
-      case "put":
-        // await axios.delete("http://127.0.0.1:8000/artifacts/update/?artifactId=" + artifactID);
-        // await this.state.fileList.forEach((el) =>
-        //   axios.post("http://127.0.0.1:8000/artifacts/update/?artifactId=" + artifactID, {
-        //       artifactId : artifactID,
-        //       image : el.originFileObj,
-        //   })
-        // );
-        this.props.history.push("/artifacts/"+artifactID);
-    }
-  }
+    this.props.history.push("/artifacts/" + artifactID);
+  };
 
   render() {
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;

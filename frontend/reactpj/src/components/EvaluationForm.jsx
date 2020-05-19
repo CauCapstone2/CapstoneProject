@@ -26,55 +26,54 @@ class EvaluationForm extends Component {
             Popularity: this.state.popularity,
             Workability: this.state.workability,
             artifactID: this.props.artifactID,
-        }).then(res => console.log(res)).catch(error => console.error(error));
+        });
         this.props.updateEvaluation(this.props.artifactID);
     }
 
     handleUpdateEval = async () => {
-        console.log(this.props.preEval.id);
         await axios.patch('http://127.0.0.1:8000/evaluation/api/' + this.props.preEval.id + '/', {
             Creative: this.state.creative,
             Expressive: this.state.expressive,
             Quality: this.state.quality,
             Popularity: this.state.popularity,
             Workability: this.state.workability,
-        }).then(res => console.log(res)).catch(error => console.error(error));
+        });
         this.props.updateEvaluation(this.props.artifactID);
     }
 
     onChangeCreative = (value) => {
-        this.state.creative = value;
+        this.setState({creative: value})
     }
     onChangeExpressive = (value) => {
-        this.state.expressive = value;
+        this.setState({expressive: value})
     }
     onChangeQuality = (value) => {
-        this.state.quality = value;
+        this.setState({quality: value})
     }
     onChangePopularity = (value) => {
-        this.state.popularity = value;
+        this.setState({popularity: value})
     }
     onChangeWorkability = (value) => {
-        this.state.workability = value;
+        this.setState({workability: value})
     }
 
     render() {
         return this.props.preEval ? (
             <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}} className="eval-input">
-                <p style={{marginLeft:'10px'}}>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></p>
-                <p style={{marginLeft:'10px'}}>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></p>
-                <p style={{marginLeft:'10px'}}>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></p>
-                <p style={{marginLeft:'10px'}}>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></p>
-                <p style={{marginLeft:'10px'}}>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></p>
+                <span style={{marginLeft:'10px'}}>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></span>
+                <span style={{marginLeft:'10px'}}>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></span>
+                <span style={{marginLeft:'10px'}}>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></span>
+                <span style={{marginLeft:'10px'}}>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></span>
+                <span style={{marginLeft:'10px'}}>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></span>
                 <Button type="primary" onClick={this.handleUpdateEval} style={{marginLeft:'10px'}}>Update</Button>
             </div>
         ) : (
             <div style={{display:'flex', justifyContent:'space-between', flexDirection:'row'}} className="eval-input">
-                <p style={{marginLeft:'10px'}}>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></p>
-                <p style={{marginLeft:'10px'}}>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></p>
-                <p style={{marginLeft:'10px'}}>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></p>
-                <p style={{marginLeft:'10px'}}>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></p>
-                <p style={{marginLeft:'10px'}}>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></p>
+                <span style={{marginLeft:'10px'}}>Creative : <InputNumber min={0} max={10} onChange={this.onChangeCreative} /></span>
+                <span style={{marginLeft:'10px'}}>Expressive : <InputNumber min={0} max={10} onChange={this.onChangeExpressive} /></span>
+                <span style={{marginLeft:'10px'}}>Quality : <InputNumber min={0} max={10} onChange={this.onChangeQuality} /></span>
+                <span style={{marginLeft:'10px'}}>Popularity : <InputNumber min={0} max={10} onChange={this.onChangePopularity} /></span>
+                <span style={{marginLeft:'10px'}}>Workability : <InputNumber min={0} max={10} onChange={this.onChangeWorkability} /></span>
                 <Button type="primary" onClick={this.handleSubmitEval} style={{marginLeft:'10px'}}>Evaluate</Button>
             </div>
             )
