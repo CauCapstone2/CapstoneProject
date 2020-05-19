@@ -9,6 +9,7 @@ import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
 import Comment from "../components/Comment";
 import Report from "../components/Report";
+import Recreation from "../containers/Recreation";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -174,6 +175,12 @@ class ArtifactDetail extends React.Component {
                         isReported={this.state.isReported}
                     />
                     <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
+                </Row>
+                <Divider orientation="left" style={{color:"#333", fontWeight: "normal"}}>
+                    Recreation
+                </Divider>
+                <Row align='middle' justify='center'>
+                    <Recreation artifactID={this.props.match.params.artifactID}/>
                 </Row>
             </div>
         );
