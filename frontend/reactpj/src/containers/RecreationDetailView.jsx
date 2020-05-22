@@ -151,14 +151,14 @@ class RecreationDetail extends React.Component {
                         userid={this.props.userid}
                     />
                 </Row> */}
-                <Row>
+                {/* <Row>
                     <Report
                         artifactID={this.props.match.params.artifactID}
                         userid={this.props.userid}
                         isReported={this.state.isReported}
                     />
                     <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
-                </Row>
+                </Row> */}
                 {/* <Divider orientation="left" style={{ color: "#333", fontWeight: "normal" }}>
                     Recreation
                 </Divider>
