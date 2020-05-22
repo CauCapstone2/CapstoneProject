@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Redirect, NavLink } from "react-router-dom";
 import { Container, Image } from "react-bootstrap";
 import { Button, Row, Col, Typography, List, Avatar, Divider, Carousel } from "antd";
-import "./ArtifactDetail.css";
+import "./RecreationDetail.css";
 import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
 import Comment from "../components/Comment";
@@ -13,7 +13,7 @@ import Recreation from "../containers/Recreation";
 
 const { Title, Paragraph, Text } = Typography;
 
-class ArtifactDetail extends React.Component {
+class RecreationDetail extends React.Component {
     state = {
         artifact: [],
         comment: [],
@@ -23,9 +23,9 @@ class ArtifactDetail extends React.Component {
 
     componentDidMount() {
         console.log(this.props);
-        const artifactID = this.props.match.params.artifactID;
+        const recreationID = this.props.match.params.artifactID;
         axios
-            .get("http://127.0.0.1:8000/artifacts/api/detail/" + artifactID)
+            .get("http://127.0.0.1:8000/recreate/detail" + recreationID)
             .then((res) => {
                 this.setState({
                     artifact: res.data,
@@ -96,23 +96,6 @@ class ArtifactDetail extends React.Component {
     render() {
         return (
             <div>
-                {/* <div className="intro">
-                    Iuducium In Foro
-                </div>
-                <div className="art-intro">
-                    Content
-                <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
-                </div>
-
-                <Container>
-                    <div className="art-box">
-                        <Image className="art" width="700" src={this.state.artifact.image} />
-                    </div>
-                    <div className="description">
-                        <h2> {this.state.artifact.title} </h2>
-                        <h5> {this.state.artifact.username} </h5>
-                        <p> {this.state.artifact.description} </p>
-                    </div> */}
                 <Row align='middle' justify='center'>
                     <Col span={12} style={{ margin: "10px", maxWidth: "50vh", backgroundColor: 'rgba(0,0,0,0.05)' }}>
                         <Carousel autoplay style={{ backgroundColor: '#010101', display: 'flex', alignContent: 'center' }}>
@@ -193,4 +176,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(ArtifactDetail);
+export default connect(mapStateToProps)(RecreationDetail);

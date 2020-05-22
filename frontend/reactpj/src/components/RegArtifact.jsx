@@ -47,8 +47,9 @@ class RegArtifact extends React.Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   handleSubmit = async (event, requestType, artifactID) => {
+    console.log(event);
     await this.handleFormSubmit(event, requestType, artifactID);
-    this.props.history.push("/artifactlist");
+    //this.props.history.push("/artifactlist");
   };
 
   handleFormSubmit = async (event) => {

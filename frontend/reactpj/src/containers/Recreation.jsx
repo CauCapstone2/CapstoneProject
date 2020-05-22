@@ -2,10 +2,10 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { Redirect, NavLink, withRouter } from "react-router-dom";
-import { Container, Image } from "react-bootstrap";
+import { Container, Image, Nav } from "react-bootstrap";
 import { Button, Row, Col, Typography, List, Avatar, Divider, Carousel, Progress } from "antd";
 import "./ArtifactDetail.css";
-import RegModal from "../containers/RegreCreation";
+import RegCreation from "../containers/RegreCreation";
 
 const { Title, Paragraph, Text } = Typography;
 
@@ -79,14 +79,12 @@ class Recreation extends React.Component {
         this.setState({
             showCreate: false,
         });
-        console.log(this.state.showCreate);
     }
 
     regModalhandleCancel = () => {
         this.setState({
             showCreate: false,
         });
-        console.log(this.state.showCreate);
     }
 
     render() {
@@ -96,15 +94,17 @@ class Recreation extends React.Component {
             <div>
                 <List itemLayout='horizontal' size='large' dataSource={recreationItems} footer={<div><b>total {total} items</b><br />
                     <Button type="primary" onClick={this.createButtonClicked}>Create</Button></div>}
-                    pagination={{ onChange: page => { console.log(page); }, pageSize: 7 }} grid={{ gutter: 5, column: 7 }}
+                    pagination={{ onChange: page => { console.log(page); }, pageSize: 7 }} grid={{ gutter: 5 }}
                     renderItem={item => (
-                        <List.Item key={item.id} extra={<img width={100} height={100} src={item.image} />}
+                        <List.Item key={item.id} extra={
+                            <NavLink
+                                to={{pathname: '/recreate/' + item.id}}><img width={100} height={100} src={item.image} /></NavLink>}
                             style={{ marginLeft: '5px', marginRight: '5px' }}>
                         </List.Item>
                     )}
                 />
-                <RegModal artifactID={this.props.artifactID} visible={this.state.showCreate}
-                          onOk={this.regModalhandleOk} onCancel={this.regModalhandleCancel} />
+                <RegCreation artifactID={this.props.artifactID} visible={this.state.showCreate}
+                    onOk={this.regModalhandleOk} onCancel={this.regModalhandleCancel} requestType={this.props.requestType} />
             </div>
         )
     }
@@ -117,3 +117,93 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Recreation);
+
+
+// import React, { useState } from 'react';
+// import { Button, Modal, Form, Input, Radio } from 'antd';
+
+// const CollectionCreateForm = ({ visible, onCreate, onCancel }) => {
+//   const [form] = Form.useForm();
+//   return (
+//     <Modal
+//       visible={visible}
+//       title="Create a new collection"
+//       okText="Create"
+//       cancelText="Cancel"
+//       onCancel={onCancel}
+//       onOk={() => {
+//         form
+//           .validateFields()
+//           .then(values => {
+//             form.resetFields();
+//             onCreate(values);
+//           })
+//           .catch(info => {
+//             console.log('Validate Failed:', info);
+//           });
+//       }}
+//     >
+//       <Form
+//         form={form}
+//         layout="vertical"
+//         name="form_in_modal"
+//         initialValues={{
+//           modifier: 'public',
+//         }}
+//       >
+//         <Form.Item
+//           name="title"
+//           label="Title"
+//           rules={[
+//             {
+//               required: true,
+//               message: 'Please input the title of collection!',
+//             },
+//           ]}
+//         >
+//           <Input />
+//         </Form.Item>
+//         <Form.Item name="description" label="Description">
+//           <Input type="textarea" />
+//         </Form.Item>
+//         <Form.Item name="modifier" className="collection-create-form_last-form-item">
+//           <Radio.Group>
+//             <Radio value="public">Public</Radio>
+//             <Radio value="private">Private</Radio>
+//           </Radio.Group>
+//         </Form.Item>
+//       </Form>
+//     </Modal>
+//   );
+// };
+
+// const CollectionsPage = () => {
+//   const [visible, setVisible] = useState(false);
+
+//   const onCreate = values => {
+//     console.log('Received values of form: ', values);
+//     setVisible(false);
+//   };
+
+//   return (
+//     <div>
+//       <Button
+//         type="primary"
+//         onClick={() => {
+//           setVisible(true);
+//         }}
+//       >
+//         New Collection
+//       </Button>
+//       <CollectionCreateForm
+//         visible={visible}
+//         onCreate={onCreate}
+//         onCancel={() => {
+//           setVisible(false);
+//         }}
+//       />
+//     </div>
+//   );
+// };
+
+// ReactDOM.render(<CollectionsPage />, mountNode);

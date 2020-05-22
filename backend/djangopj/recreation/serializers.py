@@ -35,4 +35,4 @@ class RecreationDetailSerializer(serializers.ModelSerializer) :
 
     class Meta :
         model = Recreation
-        fields = ('id', 'userID', 'username')
+        fields = ('id', 'userID', 'username', 'title', 'image', 'description', 'artifactID')

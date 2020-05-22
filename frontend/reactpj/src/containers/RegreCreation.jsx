@@ -20,6 +20,8 @@ class RegCreation extends React.Component {
         previewImage: "",
         previewTitle: "",
         fileList: [],
+        title: "",
+        description: "",
     };
 
     error = (userid) => {
@@ -48,34 +50,34 @@ class RegCreation extends React.Component {
 
     handleSubmit = async (event, requestType, artifactID) => {
         await this.handleFormSubmit(event, requestType, artifactID);
-        this.props.history.push("/recreationList");
+        this.props.history.push("/artifacts/" + artifactID);
+        this.props.onCancel();
+        window.location.reload();
     };
 
     handleFormSubmit = async (event) => {
+
+        console.log(event);
+        console.log(this.state.fileList);
         const artifactID = this.props.artifactID;
+        console.log(artifactID);
         let form_data = new FormData();
         let image_list = [];
         this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
         form_data.append("userID", this.props.userid);
+        form_data.append('artifactID', artifactID);
         form_data.append("title", event.target.elements.title.value);
         form_data.append("description", event.target.elements.description.value);
-        form_data.append('artifactID', artifactID);
         this.state.fileList.forEach((el) =>
             form_data.append("images", el.originFileObj, el.originFileObj.name)
         );
+        console.log(this.props.location);
 
-        switch (this.props.location.state.requestType) {
-            case "post":
-                await axios.post("http://127.0.0.1:8000/recreate/create/", form_data, {
-                    headers: {
-                        "content-type": "multipart/form-data",
-                    },
-                });
-                break;
-
-            case "put":
-                this.props.history.push("/artifacts/" + artifactID);
-        }
+        await axios.post("http://127.0.0.1:8000/recreate/create/", form_data, {
+            headers: {
+                "content-type": "multipart/form-data",
+            },
+        });
     }
 
     render() {
@@ -88,16 +90,18 @@ class RegCreation extends React.Component {
             </div>
         );
         return (
-            <Modal title="Recreation Upload" visible={this.props.visible} onOk={this.props.onOk} onCancel={this.props.onCancel}
-                   width='80vh'>
+            <Modal title="Recreation Upload" visible={this.props.visible} footer={null}
+                onCancel={this.props.onCancel}
+                width='80vh'>
                 <div
-                    style={{ backgroundColor: "rgba(0,0,0,0.05)", paddingBottom:'5vh' }}
-                    onSubmitCapture={(event) =>
+                    style={{ backgroundColor: "rgba(0,0,0,0.05)" }}
+                    onSubmitCapture={(event) => {
                         this.handleSubmit(
                             event,
                             this.props.requestType,
                             this.props.artifactID
                         )
+                    }
                     }
                 >
                     <Row
@@ -145,12 +149,12 @@ class RegCreation extends React.Component {
                                     <Input.TextArea
                                         name="description"
                                         placeholder="Enter description"
-                                        style={{ marginRight: "10px" }}
+                                        style={{ marginRight: "10px", marginBottom: "3vh" }}
                                         rows={5}
                                     // autoSize={{ minRows: 5, maxRows: 30 }}
                                     />
                                 </Form.Item>
-                                {/* <Form.Item>
+                                <Form.Item style={{ marginBottom: '5vh' }}>
                                     <Button
                                         style={{ marginRight: "10px" }}
                                         type="primary"
@@ -164,7 +168,7 @@ class RegCreation extends React.Component {
                                             Cancel
                                     </Button>
                                     </NavLink>
-                                </Form.Item> */}
+                                </Form.Item>
                             </Form>
                         </Col>
                     </Row>
