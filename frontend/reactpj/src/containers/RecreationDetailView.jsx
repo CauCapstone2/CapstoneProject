@@ -23,22 +23,22 @@ class RecreationDetail extends React.Component {
 
     componentDidMount() {
         console.log(this.props);
-        const recreationID = this.props.match.params.artifactID;
+        const recreationID = this.props.match.params.recreationID;
         axios
-            .get("http://127.0.0.1:8000/recreate/detail" + recreationID)
+            .get("http://127.0.0.1:8000/recreate/detail/" + recreationID)
             .then((res) => {
                 this.setState({
                     artifact: res.data,
                 });
                 console.log(this.props);
             });
-        this.updateEvaluation(artifactID);
-        this.updateComment(artifactID);
+        // this.updateEvaluation(artifactID);
+        // this.updateComment(artifactID);
     }
 
     deleteArtifact = async (id) => {
-        await axios.delete('http://127.0.0.1:8000/artifacts/api/' + id);
-        this.props.history.push('/artifactlist');
+        await axios.delete('http://127.0.0.1:8000/recreate/' + id);
+        this.props.history.push('/artifacts/' + id);
         this.forceUpdate();
         window.location.reload();
     };
@@ -56,26 +56,26 @@ class RecreationDetail extends React.Component {
         ) : null
     }
 
-    updateComment = (artifactID) => {
-        axios
-            .get("http://127.0.0.1:8000/comments/api/?artifactID=" + artifactID)
-            .then((res) => {
-                this.editDate(res.data);
-                this.setState({
-                    comment: res.data.reverse(),
-                });
-            });
-    };
+    // updateComment = (artifactID) => {
+    //     axios
+    //         .get("http://127.0.0.1:8000/comments/api/?artifactID=" + artifactID)
+    //         .then((res) => {
+    //             this.editDate(res.data);
+    //             this.setState({
+    //                 comment: res.data.reverse(),
+    //             });
+    //         });
+    // };
 
-    updateEvaluation = (artifactID) => {
-        axios
-            .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + artifactID)
-            .then((res) => {
-                this.setState({
-                    eval: res.data,
-                });
-            });
-    };
+    // updateEvaluation = (artifactID) => {
+    //     axios
+    //         .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + artifactID)
+    //         .then((res) => {
+    //             this.setState({
+    //                 eval: res.data,
+    //             });
+    //         });
+    // };
 
     preEval = () => {
         for (var i in this.state.eval) {
@@ -128,7 +128,7 @@ class RecreationDetail extends React.Component {
                         userid={this.props.userid}
                     />
                 </Row>
-                <Divider
+                {/* <Divider
                     orientation="left"
                     style={{ color: "#333", fontWeight: "normal" }}
                 >
@@ -150,7 +150,7 @@ class RecreationDetail extends React.Component {
                         artifactID={this.props.match.params.artifactID}
                         userid={this.props.userid}
                     />
-                </Row>
+                </Row> */}
                 <Row>
                     <Report
                         artifactID={this.props.match.params.artifactID}
@@ -159,12 +159,12 @@ class RecreationDetail extends React.Component {
                     />
                     <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
                 </Row>
-                <Divider orientation="left" style={{ color: "#333", fontWeight: "normal" }}>
+                {/* <Divider orientation="left" style={{ color: "#333", fontWeight: "normal" }}>
                     Recreation
                 </Divider>
                 <Row align='middle' justify='center'>
                     <Recreation artifactID={this.props.match.params.artifactID} requestType={this.props.requestType} />
-                </Row>
+                </Row> */}
             </div>
         );
     }
