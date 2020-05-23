@@ -22,20 +22,40 @@ class Comment extends Component {
     }
 
     deleteComment = async (id) => {
+        console.log("deletecomment");
+        console.log(id);
+        console.log(this.props.recreationID);
         await axios.delete('http://127.0.0.1:8000/comments/api/' + id)
             .then(res => console.log(res)).catch(error => console.error(error));
-        this.props.updateComment(this.props.artifactID);
+        if (this.props.category == 'recreration') {
+            this.props.updateComment(this.props.recreationID);
+        }
+        else {
+            this.props.updateComment(this.props.artifactID);
+        }
     }
 
     handleComment = async (event) => {
         if (this.props.userid == null) return;
         var input = event.target.elements[0].value;
-        await axios.post('http://127.0.0.1:8000/comments/api/', {
-            userID: this.props.userid,
-            content: input,
-            artifactID: this.props.artifactID
-        }).then(res => console.log(res)).catch(error => console.error(error));
-        this.props.updateComment(this.props.artifactID);
+        console.log(input);
+        if (this.props.category == 'recreation') {
+            await axios.post('http://127.0.0.1:8000/comments/api/', {
+                userID: this.props.userid,
+                content: input,
+                recreationID: this.props.recreationID,
+            }).then(res => console.log(res)).catch(error => console.error(error));
+            this.props.updateComment(this.props.recreationID);
+        }
+        else {
+            await axios.post('http://127.0.0.1:8000/comments/api/', {
+                userID: this.props.userid,
+                content: input,
+                artifactID: this.props.artifactID
+            }).then(res => console.log(res)).catch(error => console.error(error));
+            this.props.updateComment(this.props.artifactID);
+        }
+
     }
 
     render() {
@@ -52,7 +72,7 @@ class Comment extends Component {
                     renderItem={item => (
                         <List.Item>
                             <List.Item.Meta
-                                style = {{minWidth : '70vh', maxWidth : '60vh'}}
+                                style={{ minWidth: '70vh', maxWidth: '60vh' }}
                                 content={item.content}
                                 name={item.username}
                                 date={item.date} />
@@ -66,7 +86,7 @@ class Comment extends Component {
 
                 <Form onSubmitCapture={(event) => this.handleComment(event)} resetFields>
                     <FormItem>
-                        <TextArea style = {{minWidth : '70vh'}}id="comment-input" rows={4} allowClear="true" initialValue="" />
+                        <TextArea style={{ minWidth: '70vh' }} id="comment-input" rows={4} allowClear="true" initialValue="" />
                     </FormItem>
                     <FormItem className="button-box">
                         <Button type="primary" htmlType="submit" onClick={() => this.error(this.props.userid)}>comment</Button>

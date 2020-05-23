@@ -33,7 +33,7 @@ class RecreationDetail extends React.Component {
                 console.log(this.props);
             });
         // this.updateEvaluation(artifactID);
-        // this.updateComment(artifactID);
+        this.updateComment(recreationID);
     }
 
     deleteArtifact = async (id) => {
@@ -56,16 +56,17 @@ class RecreationDetail extends React.Component {
         ) : null
     }
 
-    // updateComment = (artifactID) => {
-    //     axios
-    //         .get("http://127.0.0.1:8000/comments/api/?artifactID=" + artifactID)
-    //         .then((res) => {
-    //             this.editDate(res.data);
-    //             this.setState({
-    //                 comment: res.data.reverse(),
-    //             });
-    //         });
-    // };
+    updateComment = (recreationID) => {
+        axios
+            .get("http://127.0.0.1:8000/comments/api/?recreationID=" + recreationID)
+            .then((res) => {
+                this.editDate(res.data);
+                this.setState({
+                    comment: res.data.reverse(),
+                });
+            });
+        console.log(this.state.comment);
+    };
 
     // updateEvaluation = (artifactID) => {
     //     axios
@@ -94,6 +95,7 @@ class RecreationDetail extends React.Component {
     };
 
     render() {
+        console.log(this.props.match.params.recreationID);
         return (
             <div>
                 <Row align='middle' justify='center'>
@@ -120,14 +122,14 @@ class RecreationDetail extends React.Component {
                         </Row>
                     </Col>
                 </Row>
-                <Row align='middle' justify='center'>
+                {/* <Row align='middle' justify='center'>
                     <EvaluationForm
                         updateEvaluation={this.updateEvaluation}
                         preEval={this.preEval()}
                         artifactID={this.props.match.params.artifactID}
                         userid={this.props.userid}
                     />
-                </Row>
+                </Row> */}
                 {/* <Divider
                     orientation="left"
                     style={{ color: "#333", fontWeight: "normal" }}
@@ -136,7 +138,7 @@ class RecreationDetail extends React.Component {
                 </Divider>
                 <Row align='middle' justify='center'>
                     <Evaluation eval={this.state.eval} />
-                </Row>
+                </Row> */}
                 <Divider
                     orientation="left"
                     style={{ color: "#333", fontWeight: "normal" }}
@@ -147,10 +149,12 @@ class RecreationDetail extends React.Component {
                     <Comment
                         updateComment={this.updateComment}
                         comment={this.state.comment}
+                        recreationID={this.props.match.params.recreationID}
                         artifactID={this.props.match.params.artifactID}
                         userid={this.props.userid}
+                        category='recreation'
                     />
-                </Row> */}
+                </Row>
                 {/* <Row>
                     <Report
                         artifactID={this.props.match.params.artifactID}
