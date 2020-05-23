@@ -58,11 +58,13 @@ class Mypage extends React.Component {
     userCommentCall = (userID) => {
         axios.get('http://127.0.0.1:8000/mypage/comments?userID=' + userID)
             .then(res => {
+                console.log(res.data);
+                this.recreationErase(res.data);
                 this.editDate(res.data);
                 this.setState({
-                    comment: res.data
+                    comment: res.data,
                 });
-            })
+            });
     }
 
     userEvaluationCall = async (data) => {
@@ -90,6 +92,21 @@ class Mypage extends React.Component {
         });
     }
 
+    recreationErase = (data) => {
+        console.log(data.length);
+        console.log(data);
+        for(var i in data) {
+            console.log(i);
+            console.log(data[i]);
+            if(data[i].artifactID == null) {
+                console.log("continue");
+                data.splice(i, 1);
+            }
+            console.log("if passed");
+        }
+        console.log(data);
+    }
+
     editDate = (data) => {
         for (var i in data) {
             data[i].date = data[i].date.split(".")[0];
@@ -99,6 +116,7 @@ class Mypage extends React.Component {
     }
     render() {
         const { userInfo, artifact, comment, evaluation, _eval_length } = this.state;
+        console.log(comment);
         return (
             <div className='outer-div'>
                 <Row>
