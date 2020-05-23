@@ -22,12 +22,10 @@ class Comment extends Component {
     }
 
     deleteComment = async (id) => {
-        console.log("deletecomment");
-        console.log(id);
-        console.log(this.props.recreationID);
         await axios.delete('http://127.0.0.1:8000/comments/api/' + id)
             .then(res => console.log(res)).catch(error => console.error(error));
-        if (this.props.category == 'recreration') {
+
+        if (this.props.category == 'recreation') {
             this.props.updateComment(this.props.recreationID);
         }
         else {
@@ -38,7 +36,6 @@ class Comment extends Component {
     handleComment = async (event) => {
         if (this.props.userid == null) return;
         var input = event.target.elements[0].value;
-        console.log(input);
         if (this.props.category == 'recreation') {
             await axios.post('http://127.0.0.1:8000/comments/api/', {
                 userID: this.props.userid,

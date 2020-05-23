@@ -22,7 +22,6 @@ class RecreationDetail extends React.Component {
     };
 
     componentDidMount() {
-        console.log(this.props);
         const recreationID = this.props.match.params.recreationID;
         axios
             .get("http://127.0.0.1:8000/recreate/detail/" + recreationID)
@@ -30,7 +29,6 @@ class RecreationDetail extends React.Component {
                 this.setState({
                     artifact: res.data,
                 });
-                console.log(this.props);
             });
         // this.updateEvaluation(artifactID);
         this.updateComment(recreationID);
@@ -65,7 +63,6 @@ class RecreationDetail extends React.Component {
                     comment: res.data.reverse(),
                 });
             });
-        console.log(this.state.comment);
     };
 
     // updateEvaluation = (artifactID) => {
@@ -95,7 +92,6 @@ class RecreationDetail extends React.Component {
     };
 
     render() {
-        console.log(this.props.match.params.recreationID);
         return (
             <div>
                 <Row align='middle' justify='center'>
