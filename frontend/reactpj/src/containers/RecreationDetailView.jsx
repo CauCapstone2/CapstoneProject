@@ -30,7 +30,7 @@ class RecreationDetail extends React.Component {
                     artifact: res.data,
                 });
             });
-        // this.updateEvaluation(artifactID);
+        this.updateEvaluation(recreationID);
         this.updateComment(recreationID);
     }
 
@@ -65,15 +65,15 @@ class RecreationDetail extends React.Component {
             });
     };
 
-    // updateEvaluation = (artifactID) => {
-    //     axios
-    //         .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + artifactID)
-    //         .then((res) => {
-    //             this.setState({
-    //                 eval: res.data,
-    //             });
-    //         });
-    // };
+    updateEvaluation = (recreationID) => {
+        axios
+            .get("http://127.0.0.1:8000/evaluation/api/?recreationID=" + recreationID)
+            .then((res) => {
+                this.setState({
+                    eval: res.data,
+                });
+            });
+    };
 
     preEval = () => {
         for (var i in this.state.eval) {
@@ -118,15 +118,17 @@ class RecreationDetail extends React.Component {
                         </Row>
                     </Col>
                 </Row>
-                {/* <Row align='middle' justify='center'>
+                <Row align='middle' justify='center'>
                     <EvaluationForm
                         updateEvaluation={this.updateEvaluation}
                         preEval={this.preEval()}
                         artifactID={this.props.match.params.artifactID}
+                        recreationID={this.props.match.params.recreationID}
                         userid={this.props.userid}
+                        category='recreation'
                     />
-                </Row> */}
-                {/* <Divider
+                </Row>
+                <Divider
                     orientation="left"
                     style={{ color: "#333", fontWeight: "normal" }}
                 >
@@ -134,7 +136,7 @@ class RecreationDetail extends React.Component {
                 </Divider>
                 <Row align='middle' justify='center'>
                     <Evaluation eval={this.state.eval} />
-                </Row> */}
+                </Row>
                 <Divider
                     orientation="left"
                     style={{ color: "#333", fontWeight: "normal" }}
