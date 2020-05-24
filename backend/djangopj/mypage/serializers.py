@@ -12,7 +12,6 @@ from artifacts.api.serializers import ArtifactImageSerializer
 
 class MypageCommentSerializer(serializers.ModelSerializer) :
     username = serializers.CharField(source='userID.username', read_only = True)
-    # Comment = CommentDetailSerializer(read_only = True)
     artifactID = ArtifactSerializer(read_only = True)
     recreationID = RecreationSerializer(read_only=True)
     class Meta :

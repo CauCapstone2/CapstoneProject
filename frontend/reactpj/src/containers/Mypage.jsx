@@ -23,6 +23,7 @@ class Mypage extends React.Component {
         userInfo: [],
         artifact: [],
         comment: [],
+        _new_comments: [],
         evaluation: [],
         _eval_length: 0,
     }
@@ -34,6 +35,12 @@ class Mypage extends React.Component {
             this.userCommentCall(nextprops.userid);
         }
     }
+
+    // componentDidMount() {
+    //     this.userInformationCall(this.props.userid);
+    //     this.userArtifactCall(this.props.userid);
+    //     this.userCommentCall(this.props.userid);
+    // }
 
     userInformationCall = (userID) => {
         axios.get('http://127.0.0.1:8000/mypage/user/?id=' + userID)
@@ -52,19 +59,20 @@ class Mypage extends React.Component {
                 });
                 this.userEvaluationCall(res.data.results);
             })
-        console.log(this.state.artifact);
     }
 
     userCommentCall = (userID) => {
-        axios.get('http://127.0.0.1:8000/mypage/comments?userID=' + userID)
+        axios.get('http://127.0.0.1:8000/mypage/comments/?userID=' + userID)
             .then(res => {
                 console.log(res.data);
-                this.recreationErase(res.data);
-                this.editDate(res.data);
                 this.setState({
                     comment: res.data,
                 });
-            });
+                console.log("setstate done");
+                this.recreationErase();
+                console.log("recreationErase done");
+            })
+        //this.recreationErase();
     }
 
     userEvaluationCall = async (data) => {
@@ -92,19 +100,19 @@ class Mypage extends React.Component {
         });
     }
 
-    recreationErase = (data) => {
-        console.log(data.length);
-        console.log(data);
-        for(var i in data) {
-            console.log(i);
-            console.log(data[i]);
-            if(data[i].artifactID == null) {
-                console.log("continue");
-                data.splice(i, 1);
+    recreationErase = () => {
+        var _comments = this.state.comment;
+        var _new_comments = [];
+        for(var i in _comments) {
+            if(_comments[i].artifactID === null) {
+                continue;
             }
-            console.log("if passed");
+            _new_comments.push(_comments[i]);
         }
-        console.log(data);
+        this.editDate(_new_comments);
+        this.setState({
+            _new_comments: _new_comments,
+        })
     }
 
     editDate = (data) => {
@@ -115,8 +123,8 @@ class Mypage extends React.Component {
         }
     }
     render() {
-        const { userInfo, artifact, comment, evaluation, _eval_length } = this.state;
-        console.log(comment);
+        const { userInfo, artifact, _new_comments, evaluation, _eval_length } = this.state;
+        console.log(_new_comments);
         return (
             <div className='outer-div'>
                 <Row>
@@ -130,7 +138,7 @@ class Mypage extends React.Component {
                             </Col>
                             <Col align='middle' span={8}>
                                 <Card bordered={false}>
-                                    <Statistic title="Left Comments" value={comment.length} precision={0} valueStyle={{ color: '#ff3f34' }}
+                                    <Statistic title="Left Comments" value={_new_comments.length} precision={0} valueStyle={{ color: '#ff3f34' }}
                                         prefix={<Avatar>Com</Avatar>} />
                                 </Card>
                             </Col>
@@ -212,7 +220,7 @@ class Mypage extends React.Component {
                 </Row>
                 <Divider orientation="left" style={{ color: '#333', fontWeight: 'normal' }}>Written Comments</Divider>
                 <Row justify='center' style={{ marginLeft: '10px', marginRight: '10px' }}>
-                    <List itemLayout="vertical" size="large" dataSource={comment} footer={<div><b>Iudicium In Foro</b>comment footer part</div>}
+                    <List itemLayout="vertical" size="large" dataSource={_new_comments} footer={<div><b>Iudicium In Foro</b>comment footer part</div>}
                         pagination={{ onChange: page => { console.log(page); }, pageSize: 5, }}
                         renderItem={item => (
                             <List.Item key={item.artifactID.id} extra={<img width={250} height={180} alt="logo" src={item.artifactID.image} />}
