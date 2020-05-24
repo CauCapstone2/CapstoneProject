@@ -161,12 +161,6 @@ class RecreationDetail extends React.Component {
                     />
                     <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
                 </Row> */}
-                {/* <Divider orientation="left" style={{ color: "#333", fontWeight: "normal" }}>
-                    Recreation
-                </Divider>
-                <Row align='middle' justify='center'>
-                    <Recreation artifactID={this.props.match.params.artifactID} requestType={this.props.requestType} />
-                </Row> */}
             </div>
         );
     }
