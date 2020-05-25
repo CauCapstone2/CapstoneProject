@@ -36,7 +36,7 @@ class RecreationDetail extends React.Component {
 
     deleteArtifact = async (id) => {
         await axios.delete('http://127.0.0.1:8000/recreate/' + id);
-        this.props.history.push('/artifacts/' + id);
+        this.props.history.push('/artifactlist/');
         this.forceUpdate();
         window.location.reload();
     };
@@ -153,14 +153,15 @@ class RecreationDetail extends React.Component {
                         category='recreation'
                     />
                 </Row>
-                {/* <Row>
+                <Row>
                     <Report
-                        artifactID={this.props.match.params.artifactID}
+                        recreationID={this.props.match.params.recreationID}
                         userid={this.props.userid}
                         isReported={this.state.isReported}
+                        category='recreation'
                     />
                     <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
-                </Row> */}
+                </Row>
             </div>
         );
     }

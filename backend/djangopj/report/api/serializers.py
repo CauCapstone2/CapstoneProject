@@ -6,4 +6,4 @@ class ReportSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Report
-        fields = ('userID','artifactID')
+        fields = ('userID','artifactID','recreationID',)
