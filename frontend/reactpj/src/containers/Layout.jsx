@@ -78,7 +78,7 @@ class CustomLayout extends React.Component {
                         <p>Arts</p>
                     </NavLink>
                     <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
-                        <p>Status</p>
+                        <p>Statue</p>
                     </NavLink>
                     <NavLink onClick={this.props.onClose} to={{ pathname: `/artifactlist` }}>
                         <p>Ranking</p>
@@ -94,7 +94,7 @@ class CustomLayout extends React.Component {
                         visible={this.props.signupdrawer}
                         bodyStyle={{ paddingBottom: 80 }}
                     >
-                        <RegistrationForm></RegistrationForm>
+                        <RegistrationForm />
                     </Drawer>
                     <Drawer
                         title="LogIn"

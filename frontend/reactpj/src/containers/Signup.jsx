@@ -125,3 +125,11 @@ const mapDispatchToProps = dispatch => {
 
 export default connect(mapStateToProps, mapDispatchToProps)(WrappedRegistrationForm);
 
+
+{/* <Spin tip="Loading...">
+    <Alert
+      message="Alert message title"
+      description="Further details about the context of this alert."
+      type="info"
+    />
+  </Spin>, */}

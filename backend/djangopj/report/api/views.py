@@ -7,5 +7,5 @@ class ReportViewSet(viewsets.ModelViewSet):
     serializer_class = ReportSerializer
     queryset = Report.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('artifactID',)
+    filterset_fields = ('artifactID','recreationID', )
     lookup_field = 'userID'

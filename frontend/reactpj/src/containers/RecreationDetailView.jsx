@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { Redirect, NavLink } from "react-router-dom";
 import { Container, Image } from "react-bootstrap";
 import { Button, Row, Col, Typography, List, Avatar, Divider, Carousel } from "antd";
-import "./ArtifactDetail.css";
+import "./RecreationDetail.css";
 import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
 import Comment from "../components/Comment";
@@ -13,33 +13,30 @@ import Recreation from "../containers/Recreation";
 
 const { Title, Paragraph, Text } = Typography;
 
-class ArtifactDetail extends React.Component {
+class RecreationDetail extends React.Component {
     state = {
         artifact: [],
         comment: [],
         eval: [],
         isReported: false,
-        averageEval: [],
     };
 
     componentDidMount() {
-        console.log(this.props);
-        const artifactID = this.props.match.params.artifactID;
+        const recreationID = this.props.match.params.recreationID;
         axios
-            .get("http://127.0.0.1:8000/artifacts/api/detail/" + artifactID)
+            .get("http://127.0.0.1:8000/recreate/detail/" + recreationID)
             .then((res) => {
                 this.setState({
                     artifact: res.data,
                 });
-                console.log(this.props);
             });
-        this.updateEvaluation(artifactID);
-        this.updateComment(artifactID);
+        this.updateEvaluation(recreationID);
+        this.updateComment(recreationID);
     }
 
     deleteArtifact = async (id) => {
-        await axios.delete('http://127.0.0.1:8000/artifacts/api/' + id);
-        this.props.history.push('/artifactlist');
+        await axios.delete('http://127.0.0.1:8000/recreate/' + id);
+        this.props.history.push('/artifactlist/');
         this.forceUpdate();
         window.location.reload();
     };
@@ -57,9 +54,9 @@ class ArtifactDetail extends React.Component {
         ) : null
     }
 
-    updateComment = (artifactID) => {
+    updateComment = (recreationID) => {
         axios
-            .get("http://127.0.0.1:8000/comments/api/?artifactID=" + artifactID)
+            .get("http://127.0.0.1:8000/comments/api/?recreationID=" + recreationID)
             .then((res) => {
                 this.editDate(res.data);
                 this.setState({
@@ -68,23 +65,15 @@ class ArtifactDetail extends React.Component {
             });
     };
 
-    updateEvaluation = (artifactID) => {
+    updateEvaluation = (recreationID) => {
         axios
-            .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + artifactID)
+            .get("http://127.0.0.1:8000/evaluation/api/?recreationID=" + recreationID)
             .then((res) => {
                 this.setState({
                     eval: res.data,
                 });
             });
     };
-
-    // averageEvaluation = () => {
-    //     const evaluation = this.state.eval;
-    //     var accumulation_eval = [];
-    //     for(var i in evaluation) {
-    //         evaluation[i].
-    //     }
-    // }
 
     preEval = () => {
         for (var i in this.state.eval) {
@@ -134,7 +123,9 @@ class ArtifactDetail extends React.Component {
                         updateEvaluation={this.updateEvaluation}
                         preEval={this.preEval()}
                         artifactID={this.props.match.params.artifactID}
+                        recreationID={this.props.match.params.recreationID}
                         userid={this.props.userid}
+                        category='recreation'
                     />
                 </Row>
                 <Divider
@@ -156,23 +147,20 @@ class ArtifactDetail extends React.Component {
                     <Comment
                         updateComment={this.updateComment}
                         comment={this.state.comment}
+                        recreationID={this.props.match.params.recreationID}
                         artifactID={this.props.match.params.artifactID}
                         userid={this.props.userid}
+                        category='recreation'
                     />
                 </Row>
                 <Row>
                     <Report
-                        artifactID={this.props.match.params.artifactID}
+                        recreationID={this.props.match.params.recreationID}
                         userid={this.props.userid}
                         isReported={this.state.isReported}
+                        category='recreation'
                     />
                     <div className="modifyButton">{this.modifyButton(this.state.artifact.id, this.state.artifact.userID)}</div>
-                </Row>
-                <Divider orientation="left" style={{ color: "#333", fontWeight: "normal" }}>
-                    Recreation
-                </Divider>
-                <Row align='middle' justify='center'>
-                    <Recreation artifactID={this.props.match.params.artifactID} requestType={this.props.requestType} />
                 </Row>
             </div>
         );
@@ -185,4 +173,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps)(ArtifactDetail);
+export default connect(mapStateToProps)(RecreationDetail);
