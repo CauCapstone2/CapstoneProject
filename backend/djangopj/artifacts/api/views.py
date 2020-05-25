@@ -83,18 +83,14 @@ class ArtifactCreateView(APIView):
                               'image': img_name, 'predict': pred, 'tendency': tendency_json}
                 serializer_image = ArtifactImageSerializer(data=image_file)
 
-
                 mean_tendency = self.get_mean_tendency(user_id, tendency)
-                print(mean_tendency)
-                # serializer_profile = ProfileSerializer(data=mean_tendency)
-                
+
                 user = User.objects.get(pk=user_id)
                 user.profile.tendency = json.dumps(mean_tendency.tolist())
 
                 if serializer_image.is_valid():
                     serializer_image.save()
                     user.save()
-                    # transaction.savepoint_commit(sid)
                 else:
                     transaction.savepoint_rollback(sid)
                     return Response(serializer_image.errors, status=400)

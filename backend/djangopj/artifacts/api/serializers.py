@@ -40,8 +40,3 @@ class ArtifactDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artifact
         fields = ('id', 'userID', 'username', 'title', 'image', 'description')
-
-# class ProfileSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Profile
-#         fields = '__all__'
