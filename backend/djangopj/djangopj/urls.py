@@ -19,6 +19,6 @@ urlpatterns = [
     path('report/api/', include('report.api.urls')),
     path('search/', include('search.api.urls')),
     path('predictor/', include('predictor.urls')),
-    path('similar-artist/', include('similar_artist.urls'))
+    path('similar-artist/', include('similar_artist.urls')),
     path('recreate/', include('recreation.urls')),
-] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -91,21 +91,21 @@ class ArtifactDetail extends React.Component {
       data[i].date = data[i].date.replace("Z", " ");
     }
   };
-    // averageEvaluation = () => {
-    //     const evaluation = this.state.eval;
-    //     var accumulation_eval = [];
-    //     for(var i in evaluation) {
-    //         evaluation[i].
-    //     }
-    // }
+  // averageEvaluation = () => {
+  //     const evaluation = this.state.eval;
+  //     var accumulation_eval = [];
+  //     for(var i in evaluation) {
+  //         evaluation[i].
+  //     }
+  // }
 
-    preEval = () => {
-        for (var i in this.state.eval) {
-            if (this.state.eval[i].userID == this.props.userid) {
-                return this.state.eval[i];
-            }
-        }
-    };
+  preEval = () => {
+    for (var i in this.state.eval) {
+      if (this.state.eval[i].userID == this.props.userid) {
+        return this.state.eval[i];
+      }
+    }
+  };
 
   showModal = (image, predict, e) => {
     e.preventDefault();
@@ -238,6 +238,18 @@ class ArtifactDetail extends React.Component {
               this.state.artifact.userID
             )}
           </div>
+        </Row>
+        <Divider
+          orientation="left"
+          style={{ color: "#333", fontWeight: "normal" }}
+        >
+          Recreation
+        </Divider>
+        <Row align="middle" justify="center">
+          <Recreation
+            artifactID={this.props.match.params.artifactID}
+            requestType={this.props.requestType}
+          />
         </Row>
       </div>
     );

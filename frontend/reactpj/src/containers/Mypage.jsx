@@ -1,19 +1,24 @@
-import React from 'react';
-import axios from 'axios';
-import { connect } from 'react-redux';
-import { NavLink } from 'react-router-dom';
-import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress, Divider, Tooltip, Spin, Alert } from 'antd';
-import { Container, Image } from 'react-bootstrap';
-import './ArtifactDetail.css';
-import CustomForm from '../components/RegArtifact';
-import Artifact from '../components/Artifact';
-import { ConsoleSqlOutlined } from '@ant-design/icons';
-import MypageInfo from '../components/MypageInfo';
-
-const { TextArea } = Input;
-const { Title, Paragraph, Text } = Typography;
-const FormItem = Form.Item;
-const DemoBox = props => <p className={`height-${props.value}`}>{props.children}</p>;
+import React from "react";
+import axios from "axios";
+import { connect } from "react-redux";
+import { NavLink } from "react-router-dom";
+import {
+  Card,
+  Statistic,
+  List,
+  Row,
+  Col,
+  Avatar,
+  Comment,
+  Typography,
+  Progress,
+  Divider,
+  Tooltip,
+  Spin,
+  Alert,
+} from "antd";
+import "./ArtifactDetail.css";
+import Artifact from "../components/Artifact";
 
 const { Title, Paragraph } = Typography;
 
@@ -22,80 +27,52 @@ class Mypage extends React.Component {
     userInfo: [],
     artifact: [],
     comment: [],
+    _new_comments: [],
     evaluation: [],
     _eval_length: 0,
   };
 
-    state = {
-        userInfo: [],
-        artifact: [],
-        comment: [],
-        _new_comments: [],
-        evaluation: [],
-        _eval_length: 0,
+  componentWillReceiveProps = (nextprops) => {
+    if (this.props.userid != nextprops) {
+      this.userInformationCall(nextprops.userid);
+      this.userArtifactCall(nextprops.userid);
+      this.userCommentCall(nextprops.userid);
     }
+  };
 
-    componentWillReceiveProps = (nextprops) => {
-        if (this.props.userid != nextprops) {
-            this.userInformationCall(nextprops.userid);
-            this.userArtifactCall(nextprops.userid);
-            this.userCommentCall(nextprops.userid);
-        }
-    }
+  componentWillMount() {
+    this.userInformationCall(this.props.userid);
+    this.userArtifactCall(this.props.userid);
+    this.userCommentCall(this.props.userid);
+  }
 
-    componentWillMount() {
-        this.userInformationCall(this.props.userid);
-        this.userArtifactCall(this.props.userid);
-        this.userCommentCall(this.props.userid);
-    }
+  userInformationCall = (userID) => {
+    axios.get("http://127.0.0.1:8000/mypage/user/?id=" + userID).then((res) => {
+      this.setState({
+        userInfo: res.data,
+      });
+    });
+  };
 
-    // componentDidMount() {
-    //     this.userInformationCall(this.props.userid);
-    //     this.userArtifactCall(this.props.userid);
-    //     this.userCommentCall(this.props.userid);
-    // }
-
-    userInformationCall = (userID) => {
-        axios.get('http://127.0.0.1:8000/mypage/user/?id=' + userID)
-            .then(res => {
-                this.setState({
-                    userInfo: res.data
-                });
-            })
-    }
-
-    userArtifactCall = (userID) => {
-        axios.get('http://127.0.0.1:8000/artifacts/api/?userID=' + userID)
-            .then(res => {
-                this.setState({
-                    artifact: res.data.results
-                });
-                this.userEvaluationCall(res.data.results);
-            })
-    }
-
-    userCommentCall = (userID) => {
-        axios.get('http://127.0.0.1:8000/mypage/comments/?userID=' + userID)
-            .then(res => {
-                console.log(res.data);
-                this.setState({
-                    comment: res.data,
-                });
-                console.log("setstate done");
-                this.recreationErase();
-                console.log("recreationErase done");
-            })
-        //this.recreationErase();
-    }
+  userArtifactCall = (userID) => {
+    axios
+      .get("http://127.0.0.1:8000/artifacts/api/?userID=" + userID)
+      .then((res) => {
+        this.setState({
+          artifact: res.data.results,
+        });
+        this.userEvaluationCall(res.data.results);
+      });
+  };
 
   userCommentCall = (userID) => {
     axios
-      .get("http://127.0.0.1:8000/mypage/comments?userID=" + userID)
+      .get("http://127.0.0.1:8000/mypage/comments/?userID=" + userID)
       .then((res) => {
-        this.editDate(res.data);
         this.setState({
           comment: res.data,
         });
+        this.recreationErase();
       });
   };
 
@@ -125,6 +102,21 @@ class Mypage extends React.Component {
     });
   };
 
+  recreationErase = () => {
+    var _comments = this.state.comment;
+    var _new_comments = [];
+    for (var i in _comments) {
+      if (_comments[i].artifactID === null) {
+        continue;
+      }
+      _new_comments.push(_comments[i]);
+    }
+    this.editDate(_new_comments);
+    this.setState({
+      _new_comments: _new_comments,
+    });
+  };
+
   editDate = (data) => {
     for (var i in data) {
       data[i].date = data[i].date.split(".")[0];
@@ -132,20 +124,285 @@ class Mypage extends React.Component {
       data[i].date = data[i].date.replace("Z", " ");
     }
   };
+  render() {
+    const {
+      userInfo,
+      artifact,
+      _new_comments,
+      evaluation,
+      _eval_length,
+    } = this.state;
+    return (
+      <div>
+        {!this.props.isAuthenticated ? (
+          <Spin tip="Loading...">
+            <Alert
+              message="Mypage Loading Error"
+              description="You need to login first"
+              type="error"
+            />
+          </Spin>
+        ) : (
+          <div>
+            <Row>
+              <Col
+                align="middle"
+                span={8}
+                style={{ marginTop: "10px", marginBottom: "10px" }}
+              >
+                <Row style={{ marginTop: "10%" }}>
+                  <Col align="middle" span={8}>
+                    <Card bordered={false} style={{ marginLeft: "5px" }}>
+                      <Statistic
+                        title="Written Artifacts"
+                        value={artifact.length}
+                        precision={0}
+                        valueStyle={{ color: "#0be881" }}
+                        prefix={<Avatar>Art</Avatar>}
+                      />
+                    </Card>
+                  </Col>
+                  <Col align="middle" span={8}>
+                    <Card bordered={false}>
+                      <Statistic
+                        title="Left Comments"
+                        value={_new_comments.length}
+                        precision={0}
+                        valueStyle={{ color: "#ff3f34" }}
+                        prefix={<Avatar>Com</Avatar>}
+                      />
+                    </Card>
+                  </Col>
+                  <Col align="middle" span={8}>
+                    <Card bordered={false} style={{ marginRight: "5px" }}>
+                      <Statistic
+                        title="Done Evaluations"
+                        value={_eval_length}
+                        precision={0}
+                        valueStyle={{ color: "#0fbcf9" }}
+                        prefix={<Avatar>Eval</Avatar>}
+                      />
+                    </Card>
+                  </Col>
+                </Row>
+
+                <Divider style={{ color: "#333", fontWeight: "normal" }}>
+                  Your Activities
+                </Divider>
+              </Col>
+              <Col span={8} justify="center" align="middle">
+                {userInfo.map((userInfo, index) => (
+                  <div>
+                    <Avatar
+                      size={100}
+                      style={{ marginTop: "15px", marginBottom: "10px" }}
+                      src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    />
+                    <Typography>
+                      <Title>{userInfo.username}</Title>
+                      <Paragraph type="secondary">{userInfo.email}</Paragraph>
+                      <Paragraph>
+                        Web developer, not only for performance but design
+                        factors also.
+                      </Paragraph>
+                    </Typography>
+                  </div>
+                ))}
+              </Col>
+
+              <Col
+                align="middle"
+                span={8}
+                style={{ marginTop: "10px", marginBottom: "10px" }}
+              >
+                <Row style={{ marginTop: "20%" }}>
+                  <Col
+                    span={4}
+                    style={{ marginRight: "3px", marginLeft: "3px" }}
+                  >
+                    <Tooltip title="Creative">
+                      <Progress
+                        strokeColor="#D2691E"
+                        type="circle"
+                        percent={evaluation[0]}
+                        format={(percent) => `${percent / 10}`}
+                        width={60}
+                      />
+                    </Tooltip>
+                  </Col>
+                  <Col
+                    span={4}
+                    style={{ marginRight: "3px", marginLeft: "3px" }}
+                  >
+                    <Tooltip title="Expressive">
+                      <Progress
+                        strokeColor="#FFD700"
+                        type="circle"
+                        percent={evaluation[1]}
+                        format={(percent) => `${percent / 10}`}
+                        width={60}
+                      />
+                    </Tooltip>
+                  </Col>
+                  <Col
+                    span={4}
+                    style={{ marginRight: "3px", marginLeft: "3px" }}
+                  >
+                    <Tooltip title="Quality">
+                      <Progress
+                        strokeColor="#1E90FF"
+                        type="circle"
+                        percent={evaluation[2]}
+                        format={(percent) => `${percent / 10}`}
+                        width={60}
+                      />
+                    </Tooltip>
+                  </Col>
+                  <Col
+                    span={4}
+                    style={{ marginRight: "3px", marginLeft: "3px" }}
+                  >
+                    <Tooltip title="Popularity">
+                      <Progress
+                        strokeColor="#0000CD"
+                        type="circle"
+                        percent={evaluation[3]}
+                        format={(percent) => `${percent / 10}`}
+                        width={60}
+                      />
+                    </Tooltip>
+                  </Col>
+                  <Col
+                    span={4}
+                    style={{ marginRight: "3px", marginLeft: "3px" }}
+                  >
+                    <Tooltip title="Workability">
+                      <Progress
+                        strokeColor="#98FB98"
+                        type="circle"
+                        percent={evaluation[4]}
+                        format={(percent) => `${percent / 10}`}
+                        width={60}
+                      />
+                    </Tooltip>
+                  </Col>
+                </Row>
+                <Divider style={{ color: "#333", fontWeight: "normal" }}>
+                  Your Abilities
+                </Divider>
+              </Col>
+            </Row>
+            <Divider
+              orientation="left"
+              style={{ color: "#333", fontWeight: "normal" }}
+            >
+              Uploaded Artifacts
+            </Divider>
+            <Row
+              align="middle"
+              style={{
+                marginLeft: "10px",
+                marginRight: "10px",
+                marginBottom: "10px",
+              }}
+            >
+              <Row
+                align="middle"
+                justify="center"
+                gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}
+              >
+                {artifact.map((artifact, index) => (
+                  <Col key={index}>
+                    <NavLink
+                      to={{ pathname: `/artifacts/${artifact.id}` }}
+                      style={{ color: "black" }}
+                    >
+                      <Artifact key={artifact.id} data={artifact} />
+                    </NavLink>
+                  </Col>
+                ))}
+              </Row>
+            </Row>
+            <Divider
+              orientation="left"
+              style={{ color: "#333", fontWeight: "normal" }}
+            >
+              Written Comments
+            </Divider>
+            <Row
+              justify="center"
+              style={{ marginLeft: "10px", marginRight: "10px" }}
+            >
+              <List
+                itemLayout="vertical"
+                size="large"
+                dataSource={_new_comments}
+                footer={
+                  <div>
+                    <b>Iudicium In Foro</b>comment footer part
+                  </div>
+                }
+                pagination={{
+                  onChange: (page) => {},
+                  pageSize: 5,
+                }}
+                renderItem={(item) => (
+                  <List.Item
+                    key={item.artifactID.id}
+                    extra={
+                      <img
+                        width={250}
+                        height={180}
+                        alt="logo"
+                        src={item.artifactID.image}
+                      />
+                    }
+                    style={{ marginBottom: "10px" }}
+                  >
+                    <List.Item.Meta
+                      avatar={
+                        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+                      }
+                      title={
+                        <a
+                          href={
+                            "http://localhost:3000/artifacts/" +
+                            item.artifactID.id
+                          }
+                        >
+                          {item.artifactID.title}
+                        </a>
+                      }
+                      description={item.artifactID.username}
+                      style={{ minWidth: "50vh", maxWidth: "50vh" }}
+                    />
+                    {item.artifactID.description}
+                    <br />
+                    <Comment
+                      author={<a>{item.username}</a>}
+                      content={item.content}
+                      datetime={item.date}
+                    />
+                  </List.Item>
+                )}
+              />
+            </Row>
+          </div>
+        )}
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-    console.log("redux" + state.userid);
-    return {
-        userid: state.userid,
-        isAuthenticated: state.token,
-    }
-}
+  return {
+    userid: state.userid,
+    isAuthenticated: state.token,
+  };
+};
 
-const mapDispatchToProps = dispatch => {
-    return {
-        
-    }
-}
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
 
 export default connect(mapStateToProps)(Mypage);

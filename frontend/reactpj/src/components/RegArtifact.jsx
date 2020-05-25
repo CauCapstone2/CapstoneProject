@@ -64,26 +64,14 @@ class RegArtifact extends React.Component {
       form_data.append("images", el.originFileObj, el.originFileObj.name)
     );
 
-    switch (this.props.location.state.requestType) {
-      case "post":
-        await axios.post("http://127.0.0.1:8000/artifacts/api/create/", form_data, {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        });
-        break;
+    await axios.post("http://127.0.0.1:8000/artifacts/api/create/", form_data, {
+      headers: {
+        "content-type": "multipart/form-data",
+      },
+    });
 
-      case "put":
-        // await axios.delete("http://127.0.0.1:8000/artifacts/update/?artifactId=" + artifactID);
-        // await this.state.fileList.forEach((el) =>
-        //   axios.post("http://127.0.0.1:8000/artifacts/update/?artifactId=" + artifactID, {
-        //       artifactId : artifactID,
-        //       image : el.originFileObj,
-        //   })
-        // );
-        this.props.history.push("/artifacts/" + artifactID);
-    }
-  }
+    this.props.history.push("/artifactlist");
+  };
 
   render() {
     console.log(this.props);
@@ -152,7 +140,7 @@ class RegArtifact extends React.Component {
                   placeholder="Enter description"
                   style={{ marginRight: "10px" }}
                   rows={5}
-                // autoSize={{ minRows: 5, maxRows: 30 }}
+                  // autoSize={{ minRows: 5, maxRows: 30 }}
                 />
               </Form.Item>
               <Form.Item>

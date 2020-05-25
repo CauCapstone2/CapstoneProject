@@ -39,7 +39,11 @@ class PredictPicture extends React.Component {
       case 9:
         return this.resultContent(image, "postmodern", "abcd");
       case 10:
-        return this.resultContent(image, "Pop", "오 팝아트~당신은 앤디워홀의 후계자인가요?!");
+        return this.resultContent(
+          image,
+          "Pop",
+          "오 팝아트~당신은 앤디워홀의 후계자인가요?!"
+        );
       case 11:
         return this.resultContent(image, "Kinetic", "abcdefg");
       case 12:

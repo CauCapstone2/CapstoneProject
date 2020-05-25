@@ -3,8 +3,9 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 import Artifact from "../components/Artifact";
 import { Button, Row, Col, Pagination, Typography } from "antd";
+import { connect } from "react-redux";
 
-const {Title} = Typography;
+const { Title } = Typography;
 
 class ArtifactList extends React.Component {
   constructor(props) {
@@ -32,7 +33,9 @@ class ArtifactList extends React.Component {
   };
 
   getArtifactsPage = async (page) => {
-    const res = await axios.get("http://127.0.0.1:8000/artifacts/api?page=" + page);
+    const res = await axios.get(
+      "http://127.0.0.1:8000/artifacts/api?page=" + page
+    );
     this.setState({
       artifacts: res.data.results.reverse(),
       pagination: {
@@ -56,17 +59,23 @@ class ArtifactList extends React.Component {
     console.log(this.props);
     return isLoading ? (
       <div ref={this.wrapper}>
-        <div className = "title-text" title = "loading_message">
+        <div className="title-text" title="loading_message">
           <Typography>
-            <Title style = {{color : "white"}}>
-              Arts are now loading
-            </Title>
+            <Title style={{ color: "white" }}>Arts are now loading</Title>
           </Typography>
         </div>
       </div>
     ) : (
-      <div style = {{marginTop : 10, marginLeft : 10, marginRight : 10, marginBottom : 10}} ref={this.wrapper}>
-        <Row align = 'middle' gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
+      <div
+        style={{
+          marginTop: 10,
+          marginLeft: 10,
+          marginRight: 10,
+          marginBottom: 10,
+        }}
+        ref={this.wrapper}
+      >
+        <Row align="middle" gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
           {artifacts.map((artifact, index) => (
             <Col key={index} span={6}>
               <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
@@ -77,16 +86,18 @@ class ArtifactList extends React.Component {
         </Row>
         <Row type="flex" align="middle">
           <Col span={6} align="middle">
-           <NavLink to = {{ 
-             pathname: '/artifacts/s/register', 
-             state: { requestType :"post", btnText : "Create"} 
-             }}>
-               <Button >Write</Button>
-          </NavLink>
+            <NavLink
+              to={{
+                pathname: "/artifacts/s/register",
+                state: { requestType: "post", btnText: "Create" },
+              }}
+            >
+              <Button>Write</Button>
+            </NavLink>
           </Col>
           <Col span={12} align="middle">
             <Pagination
-              size = "small"
+              size="small"
               total={pagination.count}
               pageSize={12}
               showQuickJumper
@@ -103,4 +114,8 @@ class ArtifactList extends React.Component {
   }
 }
 
-export default ArtifactList;
+const mapDispatchToProps = (dispatch) => {
+  return {};
+};
+
+export default connect(null, mapDispatchToProps)(ArtifactList);
