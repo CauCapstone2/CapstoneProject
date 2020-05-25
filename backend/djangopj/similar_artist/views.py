@@ -46,5 +46,5 @@ class SimilarArtistView(APIView):
             if target == predict[i]:
                 similar_artist.append(user)
 
-        res = {"result": predict, "idx": idx}
+        res = {"result": similar_artist}
         return JsonResponse(res)
