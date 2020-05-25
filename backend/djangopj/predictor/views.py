@@ -21,8 +21,6 @@ class call_picture_age_model(APIView):
             image_normalized = image_resized / 255.0
             pred_probs = model.predict(image_normalized[np.newaxis, ...])
             result = model.predict_classes(image_normalized[np.newaxis, ...])
-            print(pred_probs)
-            print(result)
 
             response = {'pred_probs': pred_probs.tolist(),
                         'result': result.tolist()}

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'report',
     'search',
     'predictor',
+    'similar_artist',
 ]
 
 SITE_ID = 1

@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from artifacts.models import Artifact
 from artifacts.models import ArtifactImage
+from home.models import Profile
 
 
 class ArtifactImageSerializer(serializers.ModelSerializer):
@@ -39,3 +40,8 @@ class ArtifactDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Artifact
         fields = ('id', 'userID', 'username', 'title', 'image', 'description')
+
+# class ProfileSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Profile
+#         fields = '__all__'

@@ -3,6 +3,7 @@ from artifacts.models import ArtifactImage
 from .serializers import ArtifactSerializer
 from .serializers import ArtifactImageSerializer
 from .serializers import ArtifactDetailSerializer
+from django.contrib.auth.models import User
 from .artifacts_pagination import ArtifactsPagination
 from rest_framework import viewsets
 from rest_framework.generics import UpdateAPIView
@@ -35,10 +36,21 @@ class ArtifactImageViewSet(viewsets.ModelViewSet):
 
 
 class ArtifactCreateView(APIView):
+    def get_mean_tendency(self, user_id, new_tendency):
+        image_in_user = ArtifactImage.objects.filter(
+            artifactId__userID=user_id)
+        tendencies = [np.array(json.loads(el.tendency))
+                      for el in image_in_user]
+        tendencies.append(new_tendency)
+        tendencies = np.array(tendencies)
+        result = tendencies.mean(axis=0)
+        return result
+
     def post(self, request, format=None):
         req = request.data
+        user_id = req['userID']
         images = dict(req.lists())['images']
-        artifact = {'userID': req['userID'],
+        artifact = {'userID': user_id,
                     'title': req['title'], 'description': req['description']}
         serializer_artifact = ArtifactSerializer(data=artifact)
         channels = 3
@@ -71,8 +83,17 @@ class ArtifactCreateView(APIView):
                               'image': img_name, 'predict': pred, 'tendency': tendency_json}
                 serializer_image = ArtifactImageSerializer(data=image_file)
 
+
+                mean_tendency = self.get_mean_tendency(user_id, tendency)
+                print(mean_tendency)
+                # serializer_profile = ProfileSerializer(data=mean_tendency)
+                
+                user = User.objects.get(pk=user_id)
+                user.profile.tendency = json.dumps(mean_tendency.tolist())
+
                 if serializer_image.is_valid():
                     serializer_image.save()
+                    user.save()
                     # transaction.savepoint_commit(sid)
                 else:
                     transaction.savepoint_rollback(sid)
