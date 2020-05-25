@@ -5,7 +5,6 @@ import { NavLink } from 'react-router-dom';
 import { Card, Statistic, Form, Input, List, Row, Col, Avatar, Comment, Typography, Progress, Divider, Tooltip, Spin, Alert } from 'antd';
 import { Container, Image } from 'react-bootstrap';
 import './ArtifactDetail.css';
-// import Comment from '../components/Comment';
 import CustomForm from '../components/RegArtifact';
 import Artifact from '../components/Artifact';
 import { ConsoleSqlOutlined } from '@ant-design/icons';
