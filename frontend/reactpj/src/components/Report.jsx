@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { Button } from 'antd';
+import React, { Component } from "react";
+import axios from "axios";
+import { Button } from "antd";
 
 class Report extends Component {
+  // constructor(props){
+  //     super(props);
+  //     this.updateReport();
+  // }
 
-    // constructor(props){
-    //     super(props);
-    //     this.updateReport();
-    // }
+  state = {
+    isReported: false,
+  };
 
     state = {
         isReported: false

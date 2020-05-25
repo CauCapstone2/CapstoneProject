@@ -18,6 +18,7 @@ class EvaluationForm extends Component {
             });
             return;
         }
+
         if (this.props.category == 'recreation') {
             await axios.post('http://127.0.0.1:8000/evaluation/api/', {
                 userID: this.props.userid,
@@ -44,11 +45,9 @@ class EvaluationForm extends Component {
             }).then(res => console.log(res)).catch(error => console.error(error));
             this.props.updateEvaluation(this.props.artifactID);
         }
-
     }
 
     handleUpdateEval = async () => {
-        console.log(this.props.preEval.id);
         await axios.patch('http://127.0.0.1:8000/evaluation/api/' + this.props.preEval.id + '/', {
             Creative: this.state.creative,
             Expressive: this.state.expressive,
@@ -65,19 +64,19 @@ class EvaluationForm extends Component {
     }
 
     onChangeCreative = (value) => {
-        this.state.creative = value;
+        this.setState({creative: value})
     }
     onChangeExpressive = (value) => {
-        this.state.expressive = value;
+        this.setState({expressive: value})
     }
     onChangeQuality = (value) => {
-        this.state.quality = value;
+        this.setState({quality: value})
     }
     onChangePopularity = (value) => {
-        this.state.popularity = value;
+        this.setState({popularity: value})
     }
     onChangeWorkability = (value) => {
-        this.state.workability = value;
+        this.setState({workability: value})
     }
 
     render() {

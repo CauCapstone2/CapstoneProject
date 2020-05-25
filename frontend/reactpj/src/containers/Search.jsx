@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import axios from "axios";
 import { Input, Row, Col, Pagination } from "antd";
 import "../css/MainPage.css";
-import { connect } from "react-redux";
 import Artifact from "../components/Artifact";
 import { NavLink } from "react-router-dom";
 

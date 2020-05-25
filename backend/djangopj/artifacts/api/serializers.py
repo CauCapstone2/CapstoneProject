@@ -1,12 +1,13 @@
 from rest_framework import serializers
 from artifacts.models import Artifact
 from artifacts.models import ArtifactImage
+from home.models import Profile
 
 
 class ArtifactImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtifactImage
-        fields = ('id', 'artifactId', 'image')
+        fields = ('id', 'artifactId', 'image', 'predict', 'tendency')
 
 
 class ArtifactSerializer(serializers.ModelSerializer):

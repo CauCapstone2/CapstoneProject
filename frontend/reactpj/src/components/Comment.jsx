@@ -1,25 +1,27 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { Modal, Button, Form, Input, List, Divider } from 'antd';
+import React, { Component } from "react";
+import axios from "axios";
+import { Modal, Button, Form, Input, List } from "antd";
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
 
 class Comment extends Component {
+  error = (userid) => {
+    if (userid === null)
+      Modal.error({
+        title: "Please Log in",
+      });
+  };
 
-    error = (userid) => {
-        if (userid == null) Modal.error({
-            title: 'Please Log in',
-        });
-    }
-
-    deleteCommentButton = (id, userID) => {
-        return this.props.userid == userID ? (
-            <div>
-                <Button type="link" onClick={() => this.deleteComment(id)}>delete</Button>
-            </div>
-        ) : null
-    }
+  deleteCommentButton = (id, userID) => {
+    return parseInt(this.props.userid) === userID ? (
+      <div>
+        <Button type="link" onClick={() => this.deleteComment(id)}>
+          delete
+        </Button>
+      </div>
+    ) : null;
+  };
 
     deleteComment = async (id) => {
         await axios.delete('http://127.0.0.1:8000/comments/api/' + id)
