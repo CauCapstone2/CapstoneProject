@@ -36,6 +36,12 @@ class Mypage extends React.Component {
         }
     }
 
+    componentWillMount() {
+        this.userInformationCall(this.props.userid);
+        this.userArtifactCall(this.props.userid);
+        this.userCommentCall(this.props.userid);
+    }
+
     // componentDidMount() {
     //     this.userInformationCall(this.props.userid);
     //     this.userArtifactCall(this.props.userid);
