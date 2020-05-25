@@ -32,7 +32,6 @@ class CustomLayout extends React.Component {
               </Menu.Item>
             </Menu>
           </Header>
-
           <Content style={{ minHeight: "87vh" }}>
             <div
               className="site-layout-content"

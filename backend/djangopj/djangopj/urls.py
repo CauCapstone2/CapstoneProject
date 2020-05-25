@@ -20,4 +20,5 @@ urlpatterns = [
     path('search/', include('search.api.urls')),
     path('predictor/', include('predictor.urls')),
     path('similar-artist/', include('similar_artist.urls'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('recreate/', include('recreation.urls')),
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

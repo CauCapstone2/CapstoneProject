@@ -7,4 +7,4 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentDetailSerializer
     queryset = Comment.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('artifactID',)
+    filterset_fields = ('artifactID','recreationID')

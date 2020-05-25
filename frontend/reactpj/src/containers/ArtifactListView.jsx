@@ -53,6 +53,7 @@ class ArtifactList extends React.Component {
 
   render() {
     const { isLoading, artifacts, pagination } = this.state;
+    console.log(this.props);
     return isLoading ? (
       <div ref={this.wrapper}>
         <div className = "title-text" title = "loading_message">

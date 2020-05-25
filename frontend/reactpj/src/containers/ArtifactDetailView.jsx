@@ -9,6 +9,7 @@ import Evaluation from "../components/Evaluation";
 import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
+import Recreation from "../containers/Recreation";
 
 const { Title, Paragraph } = Typography;
 
@@ -21,6 +22,7 @@ class ArtifactDetail extends React.Component {
     modalVisible: false,
     previewImage: "",
     predict: -1,
+    averageEval: [],
   };
 
   componentDidMount() {
@@ -89,6 +91,21 @@ class ArtifactDetail extends React.Component {
       data[i].date = data[i].date.replace("Z", " ");
     }
   };
+    // averageEvaluation = () => {
+    //     const evaluation = this.state.eval;
+    //     var accumulation_eval = [];
+    //     for(var i in evaluation) {
+    //         evaluation[i].
+    //     }
+    // }
+
+    preEval = () => {
+        for (var i in this.state.eval) {
+            if (this.state.eval[i].userID == this.props.userid) {
+                return this.state.eval[i];
+            }
+        }
+    };
 
   showModal = (image, predict, e) => {
     e.preventDefault();
