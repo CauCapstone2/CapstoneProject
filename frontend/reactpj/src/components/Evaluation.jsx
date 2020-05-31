@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { List, Col, Row, Tooltip, Progress, Avatar, Typography } from "antd";
+import {
+  List,
+  Col,
+  Row,
+  Tooltip,
+  Progress,
+  Avatar,
+  Typography,
+  Divider,
+} from "antd";
 import "react-circular-progressbar/dist/styles.css";
 
 const { Text } = Typography;
@@ -10,14 +19,20 @@ class Evaluation extends Component {
       <div>
         {this.props.chart ? (
           <div>
-            <Col span={12}>
-              <Row style={{ marginTop: "10px" }}>
+            <Divider
+              orientation="center"
+              style={{ color: "#333", fontWeight: "normal" }}
+            >
+              Average Evaluation
+            </Divider>
+            <Col>
+              <Row style={{ marginTop: "5px" }}>
                 <Col span={4} style={{ marginRight: "5px", marginLeft: "5px" }}>
                   <Tooltip title="Creative">
                     <Progress
                       strokeColor="#D2691E"
                       type="circle"
-                      percent={this.props.eval.Creative * 10}
+                      percent={this.props.eval[0] * 10}
                       format={(percent) => `${percent / 10}`}
                       width={60}
                     />
@@ -28,7 +43,7 @@ class Evaluation extends Component {
                     <Progress
                       strokeColor="#FFD700"
                       type="circle"
-                      percent={this.props.eval.Expressive * 10}
+                      percent={this.props.eval[1] * 10}
                       format={(percent) => `${percent / 10}`}
                       width={60}
                     />
@@ -39,7 +54,7 @@ class Evaluation extends Component {
                     <Progress
                       strokeColor="#1E90FF"
                       type="circle"
-                      percent={this.props.eval.Quality * 10}
+                      percent={this.props.eval[2] * 10}
                       format={(percent) => `${percent / 10}`}
                       width={60}
                     />
@@ -50,7 +65,7 @@ class Evaluation extends Component {
                     <Progress
                       strokeColor="#0000CD"
                       type="circle"
-                      percent={this.props.eval.Popularity * 10}
+                      percent={this.props.eval[3] * 10}
                       format={(percent) => `${percent / 10}`}
                       width={60}
                     />
@@ -61,7 +76,7 @@ class Evaluation extends Component {
                     <Progress
                       strokeColor="#98FB98"
                       type="circle"
-                      percent={this.props.eval.Workability * 10}
+                      percent={this.props.eval[4] * 10}
                       format={(percent) => `${percent / 10}`}
                       width={60}
                     />

@@ -13,7 +13,6 @@ import {
   Divider,
   Tooltip,
 } from "antd";
-import Artifact from "../components/Artifact";
 
 const { Title, Paragraph } = Typography;
 

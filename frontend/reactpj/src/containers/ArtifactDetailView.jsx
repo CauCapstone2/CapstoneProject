@@ -10,6 +10,9 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
+import UserInfo from "../components/UserInfo";
+import SimilarArtifacts from "../components/SimilarArtifacts";
+import SimilarCreater from "../components/SimilarArtifacts";
 
 const { Title, Paragraph } = Typography;
 
@@ -95,15 +98,19 @@ class ArtifactDetail extends React.Component {
 
   averageEvaluation = () => {
     const evaluation = this.state.eval;
-    var accumulation_eval = [];
+    var accumulation_eval = [0, 0, 0, 0, 0];
+    var average_length = 0;
     for (var i in evaluation) {
+      average_length++;
       accumulation_eval[0] += evaluation[i].Creative;
       accumulation_eval[1] += evaluation[i].Expressive;
       accumulation_eval[2] += evaluation[i].Quality;
       accumulation_eval[3] += evaluation[i].Popularity;
       accumulation_eval[4] += evaluation[i].Workability;
     }
-    console.log(accumulation_eval);
+    for (var i in accumulation_eval) {
+      accumulation_eval[i] = accumulation_eval[i] / average_length;
+    }
     this.setState({
       averageEval: accumulation_eval,
     });
@@ -131,7 +138,7 @@ class ArtifactDetail extends React.Component {
   };
 
   render() {
-    const {averageEval} = this.state;
+    const { averageEval } = this.state;
     return (
       <div>
         <Row align="middle" justify="center">
@@ -207,9 +214,19 @@ class ArtifactDetail extends React.Component {
               justify="center"
               style={{ backgroundColor: "" }}
             >
-              <Evaluation eval={this.state.averageEval} chart = {true} />
+              <Evaluation eval={this.state.averageEval} chart={true} />
             </Row>
           </Col>
+        </Row>
+        <Divider
+          orientation="left"
+          style={{ color: "#333", fontWeight: "normal" }}
+        >
+          Creater Infomation
+        </Divider>
+        <Row align="middle" justify="center">
+          <UserInfo userID={this.state.artifact.userID} />
+          <SimilarCreater userID={this.state.artifact.userID} />
         </Row>
         <Row align="middle" justify="center">
           <EvaluationForm
