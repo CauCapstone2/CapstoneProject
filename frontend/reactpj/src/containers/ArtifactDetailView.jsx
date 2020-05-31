@@ -10,7 +10,7 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
-import SimilarArt from "../components/SimilarArt";
+import SimilarImage from "../components/SimilarImage";
 
 const { Title, Paragraph } = Typography;
 
@@ -21,7 +21,8 @@ class ArtifactDetail extends React.Component {
     eval: [],
     isReported: false,
     modalVisible: false,
-    similarArtVisible: false,
+    similarImageVisible: false,
+    similarImageList: [],
     previewImage: "",
     predict: -1,
     averageEval: [],
@@ -93,13 +94,6 @@ class ArtifactDetail extends React.Component {
       data[i].date = data[i].date.replace("Z", " ");
     }
   };
-  // averageEvaluation = () => {
-  //     const evaluation = this.state.eval;
-  //     var accumulation_eval = [];
-  //     for(var i in evaluation) {
-  //         evaluation[i].
-  //     }
-  // }
 
   preEval = () => {
     for (var i in this.state.eval) {
@@ -120,11 +114,19 @@ class ArtifactDetail extends React.Component {
   };
 
   closeModal = () => {
-    this.setState({ modalVisible: false, similarArtVisible: false });
+    this.setState({ modalVisible: false, similarImageVisible: false });
   };
 
-  showSimilarArt() {
-    this.setState({ similarArtVisible: !this.state.similarArtVisible });
+  showSimilarImage(imageId, e) {
+    e.preventDefault();
+    axios
+      .get("http://127.0.0.1:8000/similar-image/?imageId=" + imageId)
+      .then((res) => {
+        this.setState({
+          similarImageList: res.data,
+          similarImageVisible: !this.state.similarImageVisible,
+        });
+      });
   }
 
   render() {
@@ -160,6 +162,7 @@ class ArtifactDetail extends React.Component {
                     ></Image>
                     <Modal
                       visible={this.state.modalVisible}
+                      mask={false}
                       onCancel={this.closeModal}
                       footer={[
                         <Button
@@ -174,14 +177,16 @@ class ArtifactDetail extends React.Component {
                       <PredictPicture
                         previewImage={this.state.previewImage}
                         predict={this.state.predict}
-                      ></PredictPicture>
-                      <h3 onClick={this.showSimilarArt.bind(this)}>
+                      />
+                      <h3
+                        onClick={(e) =>
+                          this.showSimilarImage(this.state.previewImageId, e)
+                        }
+                      >
                         Similar art
                       </h3>
-                      {this.state.similarArtVisible === true ? (
-                        <SimilarArt
-                          imageId={this.state.previewImageId}
-                        ></SimilarArt>
+                      {this.state.similarImageVisible ? (
+                        <SimilarImage imageList={this.state.similarImageList} />
                       ) : null}
                     </Modal>
                   </div>

@@ -99,26 +99,26 @@ class EvaluationForm extends Component {
         }}
         className="eval-input"
       >
-        <p style={{ marginLeft: "10px" }}>
+        <span style={{ marginLeft: "10px" }}>
           Creative :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeCreative} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Expressive :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeExpressive} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Quality :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeQuality} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Popularity :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangePopularity} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Workability :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeWorkability} />
-        </p>
+        </span>
         <Button
           type="primary"
           onClick={this.handleUpdateEval}
@@ -136,26 +136,26 @@ class EvaluationForm extends Component {
         }}
         className="eval-input"
       >
-        <p style={{ marginLeft: "10px" }}>
+        <span style={{ marginLeft: "10px" }}>
           Creative :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeCreative} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Expressive :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeExpressive} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Quality :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeQuality} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Popularity :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangePopularity} />
-        </p>
-        <p style={{ marginLeft: "10px" }}>
+        </span>
+        <span style={{ marginLeft: "10px" }}>
           Workability :{" "}
           <InputNumber min={0} max={10} onChange={this.onChangeWorkability} />
-        </p>
+        </span>
         <Button
           type="primary"
           onClick={this.handleSubmitEval}
