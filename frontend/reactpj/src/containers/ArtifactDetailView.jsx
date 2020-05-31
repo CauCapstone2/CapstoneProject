@@ -73,6 +73,7 @@ class ArtifactDetail extends React.Component {
         this.setState({
           eval: res.data,
         });
+        this.averageEvaluation();
       });
   };
 
@@ -91,13 +92,22 @@ class ArtifactDetail extends React.Component {
       data[i].date = data[i].date.replace("Z", " ");
     }
   };
-  // averageEvaluation = () => {
-  //     const evaluation = this.state.eval;
-  //     var accumulation_eval = [];
-  //     for(var i in evaluation) {
-  //         evaluation[i].
-  //     }
-  // }
+
+  averageEvaluation = () => {
+    const evaluation = this.state.eval;
+    var accumulation_eval = [];
+    for (var i in evaluation) {
+      accumulation_eval[0] += evaluation[i].Creative;
+      accumulation_eval[1] += evaluation[i].Expressive;
+      accumulation_eval[2] += evaluation[i].Quality;
+      accumulation_eval[3] += evaluation[i].Popularity;
+      accumulation_eval[4] += evaluation[i].Workability;
+    }
+    console.log(accumulation_eval);
+    this.setState({
+      averageEval: accumulation_eval,
+    });
+  };
 
   preEval = () => {
     for (var i in this.state.eval) {
@@ -121,6 +131,7 @@ class ArtifactDetail extends React.Component {
   };
 
   render() {
+    const {averageEval} = this.state;
     return (
       <div>
         <Row align="middle" justify="center">
@@ -177,10 +188,8 @@ class ArtifactDetail extends React.Component {
             justify="center"
             style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
-              maxWidth: "50vh",
-              backgroundColor: "",
             }}
           >
             <Row
@@ -192,6 +201,13 @@ class ArtifactDetail extends React.Component {
                 <Title>{this.state.artifact.title}</Title>
                 <Paragraph>{this.state.artifact.description}</Paragraph>
               </Typography>
+            </Row>
+            <Row
+              align="middle"
+              justify="center"
+              style={{ backgroundColor: "" }}
+            >
+              <Evaluation eval={this.state.averageEval} chart = {true} />
             </Row>
           </Col>
         </Row>
