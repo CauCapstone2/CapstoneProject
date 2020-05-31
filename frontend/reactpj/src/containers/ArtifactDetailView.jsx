@@ -10,6 +10,7 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
+import SimilarArt from "../components/SimilarArt";
 
 const { Title, Paragraph } = Typography;
 
@@ -20,6 +21,7 @@ class ArtifactDetail extends React.Component {
     eval: [],
     isReported: false,
     modalVisible: false,
+    similarArtVisible: false,
     previewImage: "",
     predict: -1,
     averageEval: [],
@@ -107,18 +109,23 @@ class ArtifactDetail extends React.Component {
     }
   };
 
-  showModal = (image, predict, e) => {
+  showModal = (imageId, image, predict, e) => {
     e.preventDefault();
     this.setState({
       modalVisible: true,
       previewImage: image,
       predict: predict,
+      previewImageId: imageId,
     });
   };
 
   closeModal = () => {
-    this.setState({ modalVisible: false });
+    this.setState({ modalVisible: false, similarArtVisible: false });
   };
+
+  showSimilarArt() {
+    this.setState({ similarArtVisible: !this.state.similarArtVisible });
+  }
 
   render() {
     return (
@@ -147,7 +154,9 @@ class ArtifactDetail extends React.Component {
                       className="art"
                       style={{ width: "100%", height: "100%" }}
                       src={el.image}
-                      onClick={(e) => this.showModal(el.image, el.predict, e)}
+                      onClick={(e) =>
+                        this.showModal(el.id, el.image, el.predict, e)
+                      }
                     ></Image>
                     <Modal
                       visible={this.state.modalVisible}
@@ -166,6 +175,14 @@ class ArtifactDetail extends React.Component {
                         previewImage={this.state.previewImage}
                         predict={this.state.predict}
                       ></PredictPicture>
+                      <h3 onClick={this.showSimilarArt.bind(this)}>
+                        Similar art
+                      </h3>
+                      {this.state.similarArtVisible === true ? (
+                        <SimilarArt
+                          imageId={this.state.previewImageId}
+                        ></SimilarArt>
+                      ) : null}
                     </Modal>
                   </div>
                 ))}
