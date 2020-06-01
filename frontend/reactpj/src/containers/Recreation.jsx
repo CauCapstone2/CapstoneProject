@@ -21,19 +21,27 @@ class Recreation extends React.Component {
     showCreate: false,
   };
 
+  // componentWillUpdate = (nextProps, nextState) => {
+  //   if(this.state.recreationItems.length != nextState.recreationItems.length) {
+  //     // this.recreationImageCall(this.props.artifactID);
+  //     console.log("componentwillupdate");
+  //   }
+  // };
+
   componentDidMount() {
-    console.log(this.props.artifactID);
     this.recreationImageCall(this.props.artifactID);
-    console.log(this.state);
   }
+
+  // componentDidUpdate() {
+  //   this.recreationImageCall(this.props.artifactID);
+  // }
 
   recreationImageCall = async (artifactID) => {
     await axios
-      .get("http://127.0.0.1:8000/recreate?artifactID=" + artifactID)
+      .get("http://127.0.0.1:8000/recreate/?artifactID=" + artifactID)
       .then((res) => {
-        console.log(res);
         this.setState({
-          recreationItems: res.data, // unknown
+          recreationItems: res.data,
         });
       });
   };
@@ -63,13 +71,13 @@ class Recreation extends React.Component {
       case "put":
         this.props.history.push("/recreate/" + artifactID);
     }
+    this.recreationImageCall(artifactID);
   };
 
   createButtonClicked = () => {
     this.setState({
       showCreate: true,
     });
-    console.log(this.state.showCreate);
   };
 
   regModalhandleOk = () => {
@@ -104,7 +112,6 @@ class Recreation extends React.Component {
           }
           pagination={{
             onChange: (page) => {
-              console.log(page);
             },
             pageSize: 7,
           }}
@@ -127,6 +134,7 @@ class Recreation extends React.Component {
           onOk={this.regModalhandleOk}
           onCancel={this.regModalhandleCancel}
           requestType={this.props.requestType}
+          itemReload={this.recreationImageCall}
         />
       </div>
     );

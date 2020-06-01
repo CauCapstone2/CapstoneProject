@@ -1,26 +1,15 @@
 import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Redirect, NavLink } from "react-router-dom";
-import { Container, Image } from "react-bootstrap";
-import {
-  Button,
-  Row,
-  Col,
-  Typography,
-  List,
-  Avatar,
-  Divider,
-  Carousel,
-} from "antd";
+import { Image } from "react-bootstrap";
+import { Button, Row, Col, Typography, Divider, Carousel } from "antd";
 import "./RecreationDetail.css";
 import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
 import Comment from "../components/Comment";
 import Report from "../components/Report";
-import Recreation from "../containers/Recreation";
 
-const { Title, Paragraph, Text } = Typography;
+const { Title, Paragraph } = Typography;
 
 class RecreationDetail extends React.Component {
   state = {
