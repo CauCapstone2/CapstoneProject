@@ -10,7 +10,10 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
+import StoreImage from "../components/storeImage";
 import SimilarImage from "../components/SimilarImage";
+import UserInfo from "../components/UserInfo";
+import SimilarCreater from "../components/SimilarArtifacts";
 
 const { Title, Paragraph } = Typography;
 
@@ -76,6 +79,7 @@ class ArtifactDetail extends React.Component {
         this.setState({
           eval: res.data,
         });
+        this.averageEvaluation();
       });
   };
 
@@ -93,6 +97,26 @@ class ArtifactDetail extends React.Component {
       data[i].date = data[i].date.replace("T", " ");
       data[i].date = data[i].date.replace("Z", " ");
     }
+  };
+
+  averageEvaluation = () => {
+    const evaluation = this.state.eval;
+    var accumulation_eval = [0, 0, 0, 0, 0];
+    var average_length = 0;
+    for (var i in evaluation) {
+      average_length++;
+      accumulation_eval[0] += evaluation[i].Creative;
+      accumulation_eval[1] += evaluation[i].Expressive;
+      accumulation_eval[2] += evaluation[i].Quality;
+      accumulation_eval[3] += evaluation[i].Popularity;
+      accumulation_eval[4] += evaluation[i].Workability;
+    }
+    for (var i in accumulation_eval) {
+      accumulation_eval[i] = accumulation_eval[i] / average_length;
+    }
+    this.setState({
+      averageEval: accumulation_eval,
+    });
   };
 
   preEval = () => {
@@ -140,7 +164,7 @@ class ArtifactDetail extends React.Component {
 
   render() {
     return (
-      <div>
+      <div onContextMenu={(e)=> e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
             span={12}
@@ -174,6 +198,7 @@ class ArtifactDetail extends React.Component {
                       mask={false}
                       onCancel={this.closeModal}
                       footer={[
+                        <StoreImage image={this.state.previewImage} userid={this.props.userid} artifactID={this.props.match.params.artifactID}/>,
                         <Button
                           key="ok"
                           onClick={this.closeModal}
@@ -211,10 +236,8 @@ class ArtifactDetail extends React.Component {
             justify="center"
             style={{
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
-              justifyContent: "center",
-              maxWidth: "50vh",
-              backgroundColor: "",
             }}
           >
             <Row
@@ -227,7 +250,24 @@ class ArtifactDetail extends React.Component {
                 <Paragraph>{this.state.artifact.description}</Paragraph>
               </Typography>
             </Row>
+            <Row
+              align="middle"
+              justify="center"
+              style={{ backgroundColor: "" }}
+            >
+              <Evaluation eval={this.state.averageEval} chart={true} />
+            </Row>
           </Col>
+        </Row>
+        <Divider
+          orientation="left"
+          style={{ color: "#333", fontWeight: "normal" }}
+        >
+          Creator Infomation
+        </Divider>
+        <Row align="middle" justify="center">
+          <UserInfo userID={this.state.artifact.userID} />
+          <SimilarCreater userID={this.state.artifact.userID} />
         </Row>
         <Row align="middle" justify="center">
           <EvaluationForm
