@@ -133,7 +133,7 @@ class Mypage extends React.Component {
       _eval_length,
     } = this.state;
     return (
-      <div>
+      <div onContextMenu={(e)=> e.preventDefault()}>
         {!this.props.isAuthenticated ? (
           <Spin tip="Loading...">
             <Alert

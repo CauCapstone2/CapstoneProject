@@ -99,7 +99,7 @@ class RecreationDetail extends React.Component {
 
   render() {
     return (
-      <div>
+      <div onContextMenu={(e)=> e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
             span={12}
