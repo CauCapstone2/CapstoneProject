@@ -26,6 +26,7 @@ class ArtifactDetail extends React.Component {
     previewImage: "",
     predict: -1,
     averageEval: [],
+    referrer: null,
   };
 
   componentDidMount() {
@@ -44,7 +45,6 @@ class ArtifactDetail extends React.Component {
   deleteArtifact = async (id) => {
     await axios.delete("http://127.0.0.1:8000/artifacts/api/" + id);
     this.props.history.push("/artifactlist");
-    this.forceUpdate();
     window.location.reload();
   };
 
@@ -129,6 +129,15 @@ class ArtifactDetail extends React.Component {
       });
   }
 
+  moveSimilarImage(artifactId) {
+    console.log("art");
+    console.log(artifactId);
+    this.setState({ modalVisible: false, referrer: artifactId });
+    this.props.history.push(`/artifacts/${artifactId}`);
+    // this.forceUpdate();
+    window.location.reload();
+  }
+
   render() {
     return (
       <div>
@@ -186,7 +195,10 @@ class ArtifactDetail extends React.Component {
                         Similar art
                       </h3>
                       {this.state.similarImageVisible ? (
-                        <SimilarImage imageList={this.state.similarImageList} />
+                        <SimilarImage
+                          imageList={this.state.similarImageList}
+                          onChange={(e) => this.moveSimilarImage(e)}
+                        />
                       ) : null}
                     </Modal>
                   </div>

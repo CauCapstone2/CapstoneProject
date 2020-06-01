@@ -6,4 +6,4 @@ from artifacts.api.serializers import ArtifactImageSerializer
 class SimilarImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ArtifactImage
-        fields = ('image',)
+        fields = ('artifactId', 'image',)
