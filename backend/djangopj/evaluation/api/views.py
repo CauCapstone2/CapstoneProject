@@ -8,3 +8,7 @@ class EvaluationViewSet(viewsets.ModelViewSet):
     queryset = Evaluation.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('artifactID', 'userID','recreationID',)
+
+# class EvaluationArtifactAverageViewSet(APIView) :
+#     def get(self, request) :
+#         model = Evaluation

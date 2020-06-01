@@ -52,7 +52,8 @@ class RegCreation extends React.Component {
     await this.handleFormSubmit(event, requestType, artifactID);
     this.props.history.push("/artifacts/" + artifactID);
     this.props.onCancel();
-    window.location.reload();
+    this.props.itemReload(this.props.artifactID);
+    // window.location.reload();
   };
 
   handleFormSubmit = async (event) => {
