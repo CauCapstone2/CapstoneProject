@@ -3,24 +3,18 @@ import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import {
-  Card,
-  Statistic,
   List,
   Row,
   Col,
   Avatar,
   Comment,
-  Typography,
-  Progress,
   Divider,
-  Tooltip,
   Spin,
   Alert,
 } from "antd";
 import "./ArtifactDetail.css";
 import Artifact from "../components/Artifact";
-
-const { Title, Paragraph } = Typography;
+import Profile from "../components/profile";
 
 class Mypage extends React.Component {
   state = {
@@ -144,154 +138,13 @@ class Mypage extends React.Component {
           </Spin>
         ) : (
           <div>
-            <Row>
-              <Col
-                align="middle"
-                span={8}
-                style={{ marginTop: "10px", marginBottom: "10px" }}
-              >
-                <Row style={{ marginTop: "10%" }}>
-                  <Col align="middle" span={8}>
-                    <Card bordered={false} style={{ marginLeft: "5px" }}>
-                      <Statistic
-                        title="Written Artifacts"
-                        value={artifact.length}
-                        precision={0}
-                        valueStyle={{ color: "#0be881" }}
-                        prefix={<Avatar>Art</Avatar>}
-                      />
-                    </Card>
-                  </Col>
-                  <Col align="middle" span={8}>
-                    <Card bordered={false}>
-                      <Statistic
-                        title="Left Comments"
-                        value={_new_comments.length}
-                        precision={0}
-                        valueStyle={{ color: "#ff3f34" }}
-                        prefix={<Avatar>Com</Avatar>}
-                      />
-                    </Card>
-                  </Col>
-                  <Col align="middle" span={8}>
-                    <Card bordered={false} style={{ marginRight: "5px" }}>
-                      <Statistic
-                        title="Done Evaluations"
-                        value={_eval_length}
-                        precision={0}
-                        valueStyle={{ color: "#0fbcf9" }}
-                        prefix={<Avatar>Eval</Avatar>}
-                      />
-                    </Card>
-                  </Col>
-                </Row>
-
-                <Divider style={{ color: "#333", fontWeight: "normal" }}>
-                  Your Activities
-                </Divider>
-              </Col>
-              <Col span={8} justify="center" align="middle">
-                {userInfo.map((userInfo, index) => (
-                  <div>
-                    <Avatar
-                      size={100}
-                      style={{ marginTop: "15px", marginBottom: "10px" }}
-                      src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-                    />
-                    <Typography>
-                      <Title>{userInfo.username}</Title>
-                      <Paragraph type="secondary">{userInfo.email}</Paragraph>
-                      <Paragraph>
-                        Web developer, not only for performance but design
-                        factors also.
-                      </Paragraph>
-                    </Typography>
-                  </div>
-                ))}
-              </Col>
-
-              <Col
-                align="middle"
-                span={8}
-                style={{ marginTop: "10px", marginBottom: "10px" }}
-              >
-                <Row style={{ marginTop: "20%" }}>
-                  <Col
-                    span={4}
-                    style={{ marginRight: "3px", marginLeft: "3px" }}
-                  >
-                    <Tooltip title="Creative">
-                      <Progress
-                        strokeColor="#D2691E"
-                        type="circle"
-                        percent={evaluation[0]}
-                        format={(percent) => `${percent / 10}`}
-                        width={60}
-                      />
-                    </Tooltip>
-                  </Col>
-                  <Col
-                    span={4}
-                    style={{ marginRight: "3px", marginLeft: "3px" }}
-                  >
-                    <Tooltip title="Expressive">
-                      <Progress
-                        strokeColor="#FFD700"
-                        type="circle"
-                        percent={evaluation[1]}
-                        format={(percent) => `${percent / 10}`}
-                        width={60}
-                      />
-                    </Tooltip>
-                  </Col>
-                  <Col
-                    span={4}
-                    style={{ marginRight: "3px", marginLeft: "3px" }}
-                  >
-                    <Tooltip title="Quality">
-                      <Progress
-                        strokeColor="#1E90FF"
-                        type="circle"
-                        percent={evaluation[2]}
-                        format={(percent) => `${percent / 10}`}
-                        width={60}
-                      />
-                    </Tooltip>
-                  </Col>
-                  <Col
-                    span={4}
-                    style={{ marginRight: "3px", marginLeft: "3px" }}
-                  >
-                    <Tooltip title="Popularity">
-                      <Progress
-                        strokeColor="#0000CD"
-                        type="circle"
-                        percent={evaluation[3]}
-                        format={(percent) => `${percent / 10}`}
-                        width={60}
-                      />
-                    </Tooltip>
-                  </Col>
-                  <Col
-                    span={4}
-                    style={{ marginRight: "3px", marginLeft: "3px" }}
-                  >
-                    <Tooltip title="Workability">
-                      <Progress
-                        strokeColor="#98FB98"
-                        type="circle"
-                        percent={evaluation[4]}
-                        format={(percent) => `${percent / 10}`}
-                        width={60}
-                      />
-                    </Tooltip>
-                  </Col>
-                </Row>
-                <Divider style={{ color: "#333", fontWeight: "normal" }}>
-                  Your Abilities
-                </Divider>
-              </Col>
-            </Row>
+            <Profile
+              artifact={artifact}
+              _new_comments={_new_comments}
+              _eval_length={_eval_length}
+              userInfo={userInfo}
+              evaluation={evaluation}
+            />
             <Divider
               orientation="left"
               style={{ color: "#333", fontWeight: "normal" }}
@@ -402,7 +255,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+  };
 };
 
 export default connect(mapStateToProps)(Mypage);

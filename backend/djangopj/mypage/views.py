@@ -13,6 +13,12 @@ class MypageCommentViewSet(viewsets.ModelViewSet) :
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['userID']
 
+# class MypageCommentCountViewSet(viewsets.ModelViewSet) :
+#     serializer_class = MypageCommentSerializer
+#     queryset = Comment.objects.count()
+#     filter_backends = [DjangoFilterBackend]
+#     filterset_fields = ['userID']
+
 class MypageArtifactViewSet(viewsets.ModelViewSet) :
     serializer_class = MypageArtifactSerializer
     queryset = Artifact.objects.all()

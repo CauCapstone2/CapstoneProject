@@ -52,14 +52,12 @@ class RegCreation extends React.Component {
     await this.handleFormSubmit(event, requestType, artifactID);
     this.props.history.push("/artifacts/" + artifactID);
     this.props.onCancel();
-    window.location.reload();
+    this.props.itemReload(this.props.artifactID);
+    // window.location.reload();
   };
 
   handleFormSubmit = async (event) => {
-    console.log(event);
-    console.log(this.state.fileList);
     const artifactID = this.props.artifactID;
-    console.log(artifactID);
     let form_data = new FormData();
     let image_list = [];
     this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
@@ -70,7 +68,6 @@ class RegCreation extends React.Component {
     this.state.fileList.forEach((el) =>
       form_data.append("images", el.originFileObj, el.originFileObj.name)
     );
-    console.log(this.props.location);
 
     await axios.post("http://127.0.0.1:8000/recreate/create/", form_data, {
       headers: {
@@ -80,7 +77,6 @@ class RegCreation extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>
