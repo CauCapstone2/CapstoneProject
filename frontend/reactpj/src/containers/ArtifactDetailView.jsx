@@ -97,7 +97,7 @@ class ArtifactDetail extends React.Component {
 
   preEval = () => {
     for (var i in this.state.eval) {
-      if (this.state.eval[i].userID == this.props.userid) {
+      if (this.state.eval[i].userID === parseInt(this.props.userid)) {
         return this.state.eval[i];
       }
     }

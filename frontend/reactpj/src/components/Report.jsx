@@ -29,13 +29,9 @@ class Report extends Component {
             }
           }
           if (res.data.length > 100) {
-            axios
-              .delete("http://127.0.0.1:8000/api" + this.props.recreationID)
-              .the((res) => console.log(res))
-              .catch((error) => console.error(error));
+            axios.delete("http://127.0.0.1:8000/api" + this.props.recreationID);
           }
-        })
-        .catch((error) => console.error(error));
+        });
     } else {
       axios
         .get(
@@ -49,38 +45,28 @@ class Report extends Component {
             }
           }
           if (res.data.length > 100) {
-            axios
-              .delete("http://127.0.0.1:8000/api" + this.props.artifactID)
-              .the((res) => console.log(res))
-              .catch((error) => console.error(error));
+            axios.delete("http://127.0.0.1:8000/api" + this.props.artifactID);
           }
-        })
-        .catch((error) => console.error(error));
+        });
     }
   };
 
   submitReport = () => {
     if (this.props.category == "recreation") {
-      axios
-        .post("http://127.0.0.1:8000/report/api/", {
-          userID: this.props.userid,
-          recreationID: this.props.recreationID,
-          artifactID: null,
-        })
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
+      axios.post("http://127.0.0.1:8000/report/api/", {
+        userID: this.props.userid,
+        recreationID: this.props.recreationID,
+        artifactID: null,
+      });
       this.setState({
         isReported: true,
       });
     } else {
-      axios
-        .post("http://127.0.0.1:8000/report/api/", {
-          userID: this.props.userid,
-          artifactID: this.props.artifactID,
-          recreationID: null,
-        })
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
+      axios.post("http://127.0.0.1:8000/report/api/", {
+        userID: this.props.userid,
+        artifactID: this.props.artifactID,
+        recreationID: null,
+      });
       this.setState({
         isReported: true,
       });
@@ -89,25 +75,19 @@ class Report extends Component {
 
   cancelReport = () => {
     if (this.props.category == "recreation") {
-      axios
-        .delete(
-          "http://127.0.0.1:8000/report/api/" +
-            this.props.userid +
-            "/?recreationID=" +
-            this.props.recreationID
-        )
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
+      axios.delete(
+        "http://127.0.0.1:8000/report/api/" +
+          this.props.userid +
+          "/?recreationID=" +
+          this.props.recreationID
+      );
     } else {
-      axios
-        .delete(
-          "http://127.0.0.1:8000/report/api/" +
-            this.props.userid +
-            "/?artifactID=" +
-            this.props.artifactID
-        )
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
+      axios.delete(
+        "http://127.0.0.1:8000/report/api/" +
+          this.props.userid +
+          "/?artifactID=" +
+          this.props.artifactID
+      );
     }
     this.setState({
       isReported: false,
@@ -116,7 +96,6 @@ class Report extends Component {
 
   render() {
     this.updateReport();
-    console.log(this.props.recreationID);
     return this.state.isReported ? (
       <div>
         <Button danger onClick={this.cancelReport}>

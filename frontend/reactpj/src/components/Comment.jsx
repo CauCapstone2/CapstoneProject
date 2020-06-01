@@ -24,10 +24,7 @@ class Comment extends Component {
   };
 
   deleteComment = async (id) => {
-    await axios
-      .delete("http://127.0.0.1:8000/comments/api/" + id)
-      .then((res) => console.log(res))
-      .catch((error) => console.error(error));
+    await axios.delete("http://127.0.0.1:8000/comments/api/" + id);
 
     if (this.props.category == "recreation") {
       this.props.updateComment(this.props.recreationID);
@@ -40,24 +37,18 @@ class Comment extends Component {
     if (this.props.userid == null) return;
     var input = event.target.elements[0].value;
     if (this.props.category == "recreation") {
-      await axios
-        .post("http://127.0.0.1:8000/comments/api/", {
-          userID: this.props.userid,
-          content: input,
-          recreationID: this.props.recreationID,
-        })
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
+      await axios.post("http://127.0.0.1:8000/comments/api/", {
+        userID: this.props.userid,
+        content: input,
+        recreationID: this.props.recreationID,
+      });
       this.props.updateComment(this.props.recreationID);
     } else {
-      await axios
-        .post("http://127.0.0.1:8000/comments/api/", {
-          userID: this.props.userid,
-          content: input,
-          artifactID: this.props.artifactID,
-        })
-        .then((res) => console.log(res))
-        .catch((error) => console.error(error));
+      await axios.post("http://127.0.0.1:8000/comments/api/", {
+        userID: this.props.userid,
+        content: input,
+        artifactID: this.props.artifactID,
+      });
       this.props.updateComment(this.props.artifactID);
     }
   };
@@ -69,9 +60,7 @@ class Comment extends Component {
           itemLayout="vertical"
           size="large"
           pagination={{
-            onChange: (page) => {
-              console.log(page);
-            },
+            onChange: (page) => {},
             pageSize: 5,
           }}
           dataSource={this.props.comment}
@@ -96,18 +85,13 @@ class Comment extends Component {
             </List.Item>
           )}
         />
-
-        <Form
-          onSubmitCapture={(event) => this.handleComment(event)}
-          resetFields
-        >
+        <Form onSubmitCapture={(event) => this.handleComment(event)}>
           <FormItem>
             <TextArea
               style={{ minWidth: "70vh" }}
               id="comment-input"
               rows={4}
               allowClear="true"
-              initialValue=""
             />
           </FormItem>
           <FormItem className="button-box">
