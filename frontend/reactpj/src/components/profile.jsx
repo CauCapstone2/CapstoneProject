@@ -26,7 +26,14 @@ class Profile extends React.Component {
           span={8}
           style={{ marginTop: "10px", marginBottom: "10px" }}
         >
-          <Row style={{ marginTop: "10%" }}>
+          <Row
+            style={{
+              marginTop: "10%",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Col align="middle" span={8}>
               <Card bordered={false} style={{ marginLeft: "5px" }}>
                 <Statistic
@@ -158,8 +165,6 @@ class Profile extends React.Component {
 }
 
 export default Profile;
-
-
 
 // import { Modal, Button } from 'antd';
 
