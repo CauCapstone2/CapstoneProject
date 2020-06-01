@@ -156,6 +156,14 @@ class ArtifactDetail extends React.Component {
       });
   }
 
+  moveSimilarImage(artifactId) {
+    console.log("art");
+    console.log(artifactId);
+    this.setState({ modalVisible: false, referrer: artifactId });
+    this.props.history.push(`/artifacts/${artifactId}`);
+    window.location.reload();
+  }
+
   render() {
     return (
       <div onContextMenu={(e) => e.preventDefault()}>
@@ -219,6 +227,7 @@ class ArtifactDetail extends React.Component {
                       </h3>
                       {this.state.similarImageVisible ? (
                         <SimilarImage
+                          onChange={(e) => this.moveSimilarImage(e)}
                           isLoading={this.state.similarImageLoading}
                           imageList={this.state.similarImageList}
                         />

@@ -2,6 +2,10 @@ import React from "react";
 import { Card, Row } from "antd";
 
 class SimilarImage extends React.Component {
+  handleChange(artifactId, e) {
+    this.props.onChange(artifactId);
+  }
+
   similarImageResult = (imageList) => {
     if (this.props.isLoading) return <div>Loading...</div>;
     return (
@@ -10,6 +14,7 @@ class SimilarImage extends React.Component {
           imageList.map((el, index) => (
             <Card
               key={index}
+              onClick={(e) => this.handleChange(el.artifactId, e)}
               hoverable
               size="small"
               bordered={false}
