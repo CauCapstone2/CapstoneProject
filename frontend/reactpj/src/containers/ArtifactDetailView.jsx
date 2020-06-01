@@ -25,7 +25,6 @@ class ArtifactDetail extends React.Component {
     isReported: false,
     modalVisible: false,
     similarImageVisible: false,
-    similarImageList: [],
     previewImage: "",
     predict: -1,
     averageEval: [],
@@ -141,30 +140,21 @@ class ArtifactDetail extends React.Component {
     this.setState({ modalVisible: false, similarImageVisible: false });
   };
 
-  showSimilarImage(imageId, e) {
-    e.preventDefault();
-    axios
-      .get("http://127.0.0.1:8000/similar-image/?imageId=" + imageId)
-      .then((res) => {
-        this.setState({
-          similarImageList: res.data,
-          similarImageVisible: !this.state.similarImageVisible,
-        });
-      });
-  }
+  similarImageHandle = () => {
+    this.setState({ similarImageVisible: !this.state.similarImageVisible });
+  };
 
   moveSimilarImage(artifactId) {
     console.log("art");
     console.log(artifactId);
     this.setState({ modalVisible: false, referrer: artifactId });
     this.props.history.push(`/artifacts/${artifactId}`);
-    // this.forceUpdate();
     window.location.reload();
   }
 
   render() {
     return (
-      <div onContextMenu={(e)=> e.preventDefault()}>
+      <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
             span={12}
@@ -198,7 +188,11 @@ class ArtifactDetail extends React.Component {
                       mask={false}
                       onCancel={this.closeModal}
                       footer={[
-                        <StoreImage image={this.state.previewImage} userid={this.props.userid} artifactID={this.props.match.params.artifactID}/>,
+                        <StoreImage
+                          image={this.state.previewImage}
+                          userid={this.props.userid}
+                          artifactID={this.props.match.params.artifactID}
+                        />,
                         <Button
                           key="ok"
                           onClick={this.closeModal}
@@ -212,15 +206,10 @@ class ArtifactDetail extends React.Component {
                         previewImage={this.state.previewImage}
                         predict={this.state.predict}
                       />
-                      <h3
-                        onClick={(e) =>
-                          this.showSimilarImage(this.state.previewImageId, e)
-                        }
-                      >
-                        Similar art
-                      </h3>
+                      <h3 onClick={this.similarImageHandle}>Similar art</h3>
                       {this.state.similarImageVisible ? (
                         <SimilarImage
+                          imageId={this.state.previewImageId}
                           imageList={this.state.similarImageList}
                           onChange={(e) => this.moveSimilarImage(e)}
                         />
