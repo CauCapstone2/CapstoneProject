@@ -11,7 +11,6 @@ import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
 import UserInfo from "../components/UserInfo";
-import SimilarArtifacts from "../components/SimilarArtifacts";
 import SimilarCreater from "../components/SimilarArtifacts";
 
 const { Title, Paragraph } = Typography;
@@ -138,7 +137,6 @@ class ArtifactDetail extends React.Component {
   };
 
   render() {
-    const { averageEval } = this.state;
     return (
       <div>
         <Row align="middle" justify="center">

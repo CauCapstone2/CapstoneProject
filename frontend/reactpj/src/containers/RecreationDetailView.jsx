@@ -18,7 +18,6 @@ import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
 import Comment from "../components/Comment";
 import Report from "../components/Report";
-import Recreation from "../containers/Recreation";
 
 const { Title, Paragraph, Text } = Typography;
 
