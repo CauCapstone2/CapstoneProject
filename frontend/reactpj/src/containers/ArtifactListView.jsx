@@ -23,7 +23,7 @@ class ArtifactList extends React.Component {
     const res = await axios.get("http://127.0.0.1:8000/artifacts/api/");
     this.setState({
       isLoading: false,
-      artifacts: res.data.results.reverse(),
+      artifacts: res.data.results,
       pagination: {
         count: res.data.count,
         prev: res.data.previous,
@@ -74,7 +74,7 @@ class ArtifactList extends React.Component {
           marginBottom: 10,
         }}
         ref={this.wrapper}
-        onContextMenu={(e)=> e.preventDefault()}
+        onContextMenu={(e) => e.preventDefault()}
       >
         <Row align="middle" gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
           {artifacts.map((artifact, index) => (
