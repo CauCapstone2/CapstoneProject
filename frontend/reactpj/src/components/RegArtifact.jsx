@@ -47,9 +47,7 @@ class RegArtifact extends React.Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   handleSubmit = async (event, requestType, artifactID) => {
-    console.log(event);
     await this.handleFormSubmit(event, requestType, artifactID);
-    //this.props.history.push("/artifactlist");
   };
 
   handleFormSubmit = async (event) => {
@@ -74,7 +72,6 @@ class RegArtifact extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>

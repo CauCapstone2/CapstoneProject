@@ -4,22 +4,21 @@ const { Paragraph } = Typography;
 const { Meta } = Card;
 
 const Artifact = (props) => {
+  let additional = "edited by " + props.data.username;
   return (
     <Card
       hoverable
       style={{ width: 300, marginLeft: "10px", marginRight: "10px" }}
-      cover={<img alt="example" src={props.data.image}/>}
+      cover={<img alt="example" src={props.data.image} />}
     >
       <Meta
-        avatar={
-          <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-        }
         title={props.data.title}
-        description={
-          <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+        description={[
+          <Paragraph ellipsis={{ rows: 2, expandable: false }}>
             {props.data.description}
-          </Paragraph>
-        }
+          </Paragraph>,
+          additional,
+        ]}
       />
     </Card>
   );
