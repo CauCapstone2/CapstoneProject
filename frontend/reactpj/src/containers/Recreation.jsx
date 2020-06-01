@@ -112,7 +112,6 @@ class Recreation extends React.Component {
           }
           pagination={{
             onChange: (page) => {
-              console.log(page);
             },
             pageSize: 7,
           }}

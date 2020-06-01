@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'search',
     'predictor',
     'similar_artist',
+    'similar_image',
     'recreation',
 ]
 
