@@ -10,6 +10,7 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
+import StoreImage from "../components/storeImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
 import SimilarCreater from "../components/SimilarArtifacts";
@@ -154,7 +155,7 @@ class ArtifactDetail extends React.Component {
 
   render() {
     return (
-      <div>
+      <div onContextMenu={(e)=> e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
             span={12}
@@ -188,6 +189,7 @@ class ArtifactDetail extends React.Component {
                       mask={false}
                       onCancel={this.closeModal}
                       footer={[
+                        <StoreImage image={this.state.previewImage} userid={this.props.userid} artifactID={this.props.match.params.artifactID}/>,
                         <Button
                           key="ok"
                           onClick={this.closeModal}
