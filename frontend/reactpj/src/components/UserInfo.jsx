@@ -28,9 +28,14 @@ class UserInfo extends React.Component {
   render() {
     const { userInfo } = this.state;
     return (
-      <Row span={8} justify="center" align="middle" style={{paddingRight:"5vh"}}>
+      <Row
+        span={8}
+        justify="center"
+        align="middle"
+        style={{ paddingRight: "5vh" }}
+      >
         {userInfo.map((userInfo, index) => (
-          <Col justify="center" align="middle">
+          <Col justify="center" align="middle" key={index}>
             <Avatar
               size={70}
               style={{
@@ -42,8 +47,8 @@ class UserInfo extends React.Component {
               src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
             />
             <Typography>
-              <Paragraph strong='true'>{userInfo.username}</Paragraph>
-              <Paragraph type='secondary'>{userInfo.email}</Paragraph>
+              <Paragraph strong="true">{userInfo.username}</Paragraph>
+              <Paragraph type="secondary">{userInfo.email}</Paragraph>
             </Typography>
           </Col>
         ))}

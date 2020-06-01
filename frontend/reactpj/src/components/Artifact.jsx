@@ -14,7 +14,10 @@ const Artifact = (props) => {
       <Meta
         title={props.data.title}
         description={[
-          <Paragraph ellipsis={{ rows: 2, expandable: false }}>
+          <Paragraph
+            key={props.data.id}
+            ellipsis={{ rows: 2, expandable: false }}
+          >
             {props.data.description}
           </Paragraph>,
           additional,

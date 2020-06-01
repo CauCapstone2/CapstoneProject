@@ -10,7 +10,7 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
-import StoreImage from "../components/storeImage";
+import StoreImage from "../components/StoreImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
 import SimilarCreater from "../components/SimilarArtifacts";
@@ -25,10 +25,11 @@ class ArtifactDetail extends React.Component {
     isReported: false,
     modalVisible: false,
     similarImageVisible: false,
+    similarImageList: [],
+    similarImageLoading: true,
     previewImage: "",
     predict: -1,
     averageEval: [],
-    referrer: null,
   };
 
   componentDidMount() {
@@ -47,6 +48,7 @@ class ArtifactDetail extends React.Component {
   deleteArtifact = async (id) => {
     await axios.delete("http://127.0.0.1:8000/artifacts/api/" + id);
     this.props.history.push("/artifactlist");
+    this.forceUpdate();
     window.location.reload();
   };
 
@@ -140,16 +142,18 @@ class ArtifactDetail extends React.Component {
     this.setState({ modalVisible: false, similarImageVisible: false });
   };
 
-  similarImageHandle = () => {
+  showSimilarImage(imageId, e) {
+    e.preventDefault();
     this.setState({ similarImageVisible: !this.state.similarImageVisible });
-  };
 
-  moveSimilarImage(artifactId) {
-    console.log("art");
-    console.log(artifactId);
-    this.setState({ modalVisible: false, referrer: artifactId });
-    this.props.history.push(`/artifacts/${artifactId}`);
-    window.location.reload();
+    axios
+      .get("http://127.0.0.1:8000/similar-image/?imageId=" + imageId)
+      .then((res) => {
+        this.setState({
+          similarImageList: res.data,
+          similarImageLoading: false,
+        });
+      });
   }
 
   render() {
@@ -206,12 +210,17 @@ class ArtifactDetail extends React.Component {
                         previewImage={this.state.previewImage}
                         predict={this.state.predict}
                       />
-                      <h3 onClick={this.similarImageHandle}>Similar art</h3>
+                      <h3
+                        onClick={(e) => {
+                          this.showSimilarImage(this.state.previewImageId, e);
+                        }}
+                      >
+                        Similar art
+                      </h3>
                       {this.state.similarImageVisible ? (
                         <SimilarImage
-                          imageId={this.state.previewImageId}
+                          isLoading={this.state.similarImageLoading}
                           imageList={this.state.similarImageList}
-                          onChange={(e) => this.moveSimilarImage(e)}
                         />
                       ) : null}
                     </Modal>
