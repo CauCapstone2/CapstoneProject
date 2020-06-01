@@ -116,7 +116,6 @@ class Report extends Component {
 
   render() {
     this.updateReport();
-    console.log(this.props.recreationID);
     return this.state.isReported ? (
       <div>
         <Button danger onClick={this.cancelReport}>

@@ -22,18 +22,15 @@ class Recreation extends React.Component {
   };
 
   componentDidMount() {
-    console.log(this.props.artifactID);
     this.recreationImageCall(this.props.artifactID);
-    console.log(this.state);
   }
 
   recreationImageCall = async (artifactID) => {
     await axios
       .get("http://127.0.0.1:8000/recreate?artifactID=" + artifactID)
       .then((res) => {
-        console.log(res);
         this.setState({
-          recreationItems: res.data, // unknown
+          recreationItems: res.data,
         });
       });
   };
@@ -69,7 +66,6 @@ class Recreation extends React.Component {
     this.setState({
       showCreate: true,
     });
-    console.log(this.state.showCreate);
   };
 
   regModalhandleOk = () => {

@@ -12,6 +12,13 @@ class SimilarCreater extends React.Component {
     similarCreater: [],
     createrInfo: [],
     visible: false,
+
+    userInfo: [],
+    artifact: [],
+    comment: [],
+    _new_comments: [],
+    evaluation: [],
+    _eval_length: 0,
   };
 
   componentWillReceiveProps = (nextprops) => {
@@ -37,7 +44,6 @@ class SimilarCreater extends React.Component {
       await axios
         .get("http://127.0.0.1:8000/mypage/user/?id=" + data[i])
         .then((res) => {
-          console.log(res);
           _createrInfo[i] = res.data[0];
         });
     }
@@ -125,10 +131,10 @@ class SimilarCreater extends React.Component {
     }
   };
 
-  showModal = (id) => {
-    this.userInformationCall(id);
-    this.userArtifactCall(id);
-    this.userCommentCall(id);
+  showModal = (data) => {
+    this.userInformationCall(data.id);
+    this.userArtifactCall(data.id);
+    this.userCommentCall(data.id);
     this.setState({
       visible: true,
     });
@@ -147,8 +153,14 @@ class SimilarCreater extends React.Component {
   };
 
   render() {
-    const { createrInfo } = this.state;
-    console.log(createrInfo);
+    const {
+      createrInfo,
+      userInfo,
+      artifact,
+      _new_comments,
+      evaluation,
+      _eval_length,
+    } = this.state;
     return (
       <div>
         <Row justify="center" align="middle">
@@ -163,7 +175,7 @@ class SimilarCreater extends React.Component {
               key={index}
               justify="center"
               align="middle"
-              onClick={(createrInfo) => this.showModal(createrInfo.id)}
+              onClick={(e) => this.showModal(createrInfo)}
             >
               <Avatar
                 size={50}
@@ -182,11 +194,20 @@ class SimilarCreater extends React.Component {
           ))}
         </Row>
         <Modal
+          centered={true}
           visible={this.state.visible}
           onOk={this.handleOK}
           onCancel={this.handleCancel}
+          footer={null}
+          width="95vh"
         >
-          <Profile />
+          <Profile
+            artifact={artifact}
+            _new_comments={_new_comments}
+            _eval_length={_eval_length}
+            userInfo={userInfo}
+            evaluation={evaluation}
+          />
         </Modal>
       </div>
     );

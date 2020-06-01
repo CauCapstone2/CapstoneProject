@@ -222,7 +222,7 @@ class ArtifactDetail extends React.Component {
           orientation="left"
           style={{ color: "#333", fontWeight: "normal" }}
         >
-          Creater Infomation
+          Creator Infomation
         </Divider>
         <Row align="middle" justify="center">
           <UserInfo userID={this.state.artifact.userID} />

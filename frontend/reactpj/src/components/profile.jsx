@@ -19,7 +19,6 @@ const { Title, Paragraph } = Typography;
 // props : artifact, _new_comments, _eval_length, userInfo, evaluation
 class Profile extends React.Component {
   render() {
-    console.log(this.props.evaluation);
     return (
       <Row>
         <Col
@@ -209,3 +208,14 @@ export default Profile;
 // }
 
 // ReactDOM.render(<App />, mountNode);
+
+// similarCreater: [],
+//     createrInfo: [],
+//     visible: false,
+
+//     userInfo: [],
+//     artifacts: [],
+//     comment: [],
+//     _new_comments: [],
+//     evaluation: [],
+//     _eval_length: 0,
