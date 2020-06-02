@@ -162,9 +162,11 @@ class ArtifactDetail extends React.Component {
     window.location.reload();
   }
 
-  // handleReportBtn(){
-    
-  // }
+  handleReportBtn(val) {
+    console.log(`detail handle start: ${this.state.isReported}`);
+    this.setState({ isReported: val });
+    console.log(`detail handle end: ${this.state.isReported}`);
+  }
 
   render() {
     return (
@@ -314,6 +316,7 @@ class ArtifactDetail extends React.Component {
             artifactID={this.props.match.params.artifactID}
             userid={this.props.userid}
             isReported={this.state.isReported}
+            onChange={(e) => this.handleReportBtn(e)}
           />
           <div className="modifyButton">
             {this.modifyButton(

@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button } from "antd";
+import { Button, Modal } from "antd";
 
 class Report extends Component {
-  state = {
-    isReported: false,
-  };
-  
+  handleChange(val) {
+    console.log("report handle start");
+    this.props.onChange(val);
+    console.log(`report handle end:`);
+  }
+
   componentDidMount() {
     this.updateReport();
+    console.log("didmount");
   }
 
   updateReport = () => {
@@ -26,7 +29,7 @@ class Report extends Component {
             console.log(typeof res.data[i].userID);
 
             if (this.props.userid == res.data[i].userID) {
-              this.state.isReported = true;
+              this.handleChange(true);
             }
           }
           if (res.data.length > 100) {
@@ -42,7 +45,7 @@ class Report extends Component {
         .then((res) => {
           for (var i in res.data) {
             if (this.props.userid == res.data[i].userID) {
-              this.state.isReported = true;
+              this.handleChange(true);
             }
           }
           if (res.data.length > 100) {
@@ -53,28 +56,32 @@ class Report extends Component {
   };
 
   submitReport = () => {
+    if (this.props.userid === null) {
+      Modal.error({
+        title: "Please Log in",
+      });
+      return;
+    }
+
     if (this.props.category === "recreation") {
       axios.post("http://127.0.0.1:8000/report/api/", {
         userID: this.props.userid,
         recreationID: this.props.recreationID,
         artifactID: null,
       });
-      this.setState({
-        isReported: true,
-      });
+      this.handleChange(true);
     } else {
       axios.post("http://127.0.0.1:8000/report/api/", {
         userID: this.props.userid,
         artifactID: this.props.artifactID,
         recreationID: null,
       });
-      this.setState({
-        isReported: true,
-      });
+      this.handleChange(true);
     }
   };
 
   cancelReport = () => {
+    console.log("cancel");
     if (this.props.category == "recreation") {
       axios.delete(
         "http://127.0.0.1:8000/report/api/" +
@@ -90,14 +97,13 @@ class Report extends Component {
           this.props.artifactID
       );
     }
-    this.setState({
-      isReported: false,
-    });
+    this.handleChange(false);
   };
 
   render() {
-    this.updateReport();
-    return this.state.isReported ? (
+    console.log("update");
+    console.log(this.props.isReported);
+    return this.props.isReported ? (
       <div>
         <Button danger onClick={this.cancelReport}>
           Cancel
