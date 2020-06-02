@@ -4,10 +4,16 @@ import { Image } from "react-bootstrap";
 class PredictPicture extends React.Component {
   resultContent = (image, artAge, content) => {
     return (
-      <div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <Image
           className="art"
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "60%", height: "60%" }}
           src={image}
         ></Image>
         <h1>{artAge}</h1>
