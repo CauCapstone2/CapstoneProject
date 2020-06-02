@@ -17,6 +17,12 @@ class Mypage extends React.Component {
     _eval_length: 0,
   };
 
+  componentDidMount() {
+    this.userInformationCall(this.props.userid);
+    this.userArtifactCall(this.props.userid);
+    this.userCommentCall(this.props.userid);
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.userid !== prevProps.userid) {
       this.userInformationCall(this.props.userid);
@@ -56,9 +62,9 @@ class Mypage extends React.Component {
   };
 
   userEvaluationCall = async (data) => {
-    var _evaluation = [0, 0, 0, 0, 0];
-    var _eval_num = 0;
-    for (var i in data) {
+    let _evaluation = [0, 0, 0, 0, 0];
+    let _eval_num = 0;
+    for (let i in data) {
       await axios
         .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + data[i].id)
         .then((res) => {
@@ -72,7 +78,7 @@ class Mypage extends React.Component {
           }
         });
     }
-    for (var i in _evaluation) {
+    for (let i in _evaluation) {
       _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
     }
     this.setState({
@@ -82,9 +88,9 @@ class Mypage extends React.Component {
   };
 
   recreationErase = () => {
-    var _comments = this.state.comment;
-    var _new_comments = [];
-    for (var i in _comments) {
+    let _comments = this.state.comment;
+    let _new_comments = [];
+    for (let i in _comments) {
       if (_comments[i].artifactID === null) {
         continue;
       }
