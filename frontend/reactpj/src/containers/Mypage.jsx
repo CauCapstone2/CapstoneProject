@@ -2,16 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import {
-  List,
-  Row,
-  Col,
-  Avatar,
-  Comment,
-  Divider,
-  Spin,
-  Alert,
-} from "antd";
+import { List, Row, Col, Avatar, Comment, Divider, Spin, Alert } from "antd";
 import "./ArtifactDetail.css";
 import Artifact from "../components/Artifact";
 import Profile from "../components/profile";
@@ -26,18 +17,12 @@ class Mypage extends React.Component {
     _eval_length: 0,
   };
 
-  componentWillReceiveProps = (nextprops) => {
-    if (this.props.userid != nextprops) {
-      this.userInformationCall(nextprops.userid);
-      this.userArtifactCall(nextprops.userid);
-      this.userCommentCall(nextprops.userid);
+  componentDidUpdate(prevProps) {
+    if (this.props.userid !== prevProps.userid) {
+      this.userInformationCall(this.props.userid);
+      this.userArtifactCall(this.props.userid);
+      this.userCommentCall(this.props.userid);
     }
-  };
-
-  componentWillMount() {
-    this.userInformationCall(this.props.userid);
-    this.userArtifactCall(this.props.userid);
-    this.userCommentCall(this.props.userid);
   }
 
   userInformationCall = (userID) => {
@@ -127,7 +112,7 @@ class Mypage extends React.Component {
       _eval_length,
     } = this.state;
     return (
-      <div onContextMenu={(e)=> e.preventDefault()}>
+      <div onContextMenu={(e) => e.preventDefault()}>
         {!this.props.isAuthenticated ? (
           <Spin tip="Loading...">
             <Alert
@@ -255,8 +240,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-  };
+  return {};
 };
 
 export default connect(mapStateToProps)(Mypage);
