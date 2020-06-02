@@ -9,9 +9,9 @@ class UserInfo extends React.Component {
     userInfo: [],
   };
 
-  componentWillReceiveProps = (nextprops) => {
-    if (this.props.userid != nextprops) {
-      this.userInformationCall(nextprops.userID);
+  componentDidUpdate = (prevProps) => {
+    if (this.props.userID !== prevProps.userID) {
+      this.userInformationCall(this.props.userID);
     }
   };
 

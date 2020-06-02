@@ -14,8 +14,6 @@ class Recreation extends React.Component {
   };
 
   componentDidMount() {
-    console.log("fff");
-    console.log(this.props.artifactID);
     this.recreationImageCall(this.props.artifactID);
   }
 

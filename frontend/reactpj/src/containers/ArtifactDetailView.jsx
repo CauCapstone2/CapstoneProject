@@ -40,7 +40,6 @@ class ArtifactDetail extends React.Component {
         this.setState({
           artifact: res.data,
         });
-        console.log("art");
       });
     this.updateEvaluation(artifactID);
     this.updateComment(artifactID);
