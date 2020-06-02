@@ -65,6 +65,7 @@ class SimilarCreater extends React.Component {
         this.setState({
           artifact: res.data.results,
         });
+        console.log(res.data.result);
         this.userEvaluationCall(res.data.results);
       });
   };

@@ -223,6 +223,7 @@ class ArtifactDetail extends React.Component {
                     ></Image>
                     <Modal
                       width="70vh"
+                      mask={false}
                       centered={true}
                       visible={this.state.modalVisible}
                       // mask={false}
