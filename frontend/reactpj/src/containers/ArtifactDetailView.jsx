@@ -203,6 +203,7 @@ class ArtifactDetail extends React.Component {
                       onCancel={this.closeModal}
                       footer={[
                         <StoreImage
+                          key={index}
                           image={this.state.previewImage}
                           userid={this.props.userid}
                           artifactID={this.props.match.params.artifactID}

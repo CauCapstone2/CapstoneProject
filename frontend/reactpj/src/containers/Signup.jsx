@@ -55,7 +55,6 @@ class RegistrationForm extends React.Component {
           <Form
             name="register"
             onSubmitCapture={this.handleSubmit}
-            scrollToFirstError
             layout="vertical"
           >
             <Row gutter={16}>
