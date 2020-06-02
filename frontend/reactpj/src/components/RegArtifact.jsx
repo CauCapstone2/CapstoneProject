@@ -47,13 +47,10 @@ class RegArtifact extends React.Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   handleSubmit = async (event, requestType, artifactID) => {
-    console.log(event);
     await this.handleFormSubmit(event, requestType, artifactID);
-    //this.props.history.push("/artifactlist");
   };
 
   handleFormSubmit = async (event) => {
-    const artifactID = this.props.location.state.id;
     let form_data = new FormData();
     let image_list = [];
     this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
@@ -74,7 +71,6 @@ class RegArtifact extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { previewVisible, previewImage, fileList, previewTitle } = this.state;
     const uploadButton = (
       <div>

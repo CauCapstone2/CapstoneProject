@@ -12,27 +12,25 @@ import os
 
 
 class SimilarImage(APIView):
-    def get_similarity(self, src_path, dst_path):
+    def get_similarity(self, src_path, dst_path, method):
         img1 = cv2.imread(src_path, 0)
         img2 = cv2.imread(dst_path, 0)
-        # sift = cv2.xfeatures2d.SIFT_create()
-        orb = cv2.ORB_create()
 
-        # kp1, des1 = sift.detectAndCompute(img1, None)
-        # kp2, des2 = sift.detectAndCompute(img2, None)
-        kp1, des1 = orb.detectAndCompute(img1, None)
-        kp2, des2 = orb.detectAndCompute(img2, None)
-
-        # FLANN_INDEX_KDTREE = 0
-        # index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
-        # search_params = dict(checks=50)
-
-        # flann = cv2.FlannBasedMatcher(index_params, search_params)
-        # matches = flann.knnMatch(des1, des2, k=2)
-
-        bf = cv2.BFMatcher()
-        matches = bf.knnMatch(des1, des2, k=2)
-        # matches = bf.match(des1, des2)
+        if method == "sift":
+            detect = cv2.xfeatures2d.SIFT_create()
+            kp1, des1 = detect.detectAndCompute(img1, None)
+            kp2, des2 = detect.detectAndCompute(img2, None)
+            FLANN_INDEX_KDTREE = 0
+            index_params = dict(algorithm=FLANN_INDEX_KDTREE, trees=5)
+            search_params = dict(checks=50)
+            flann = cv2.FlannBasedMatcher(index_params, search_params)
+            matches = flann.knnMatch(des1, des2, k=2)
+        else:
+            detect = cv2.ORB_create()
+            kp1, des1 = detect.detectAndCompute(img1, None)
+            kp2, des2 = detect.detectAndCompute(img2, None)
+            bf = cv2.BFMatcher()
+            matches = bf.knnMatch(des1, des2, k=2)
 
         good_points = []
         ratio = 0.7
@@ -61,26 +59,21 @@ class SimilarImage(APIView):
         similar_list = []
 
         for image in image_query_set:
-            # src_url = os.path.join(settings.BASE_DIR, src_image.url)
-            # dst_url = os.path.join(settings.BASE_DIR, image.image.url)
+            method = "orb"
             if image.image == src_image:
                 continue
             src_url = self.get_absolute_url(base_url, src_image.url)
             dst_url = self.get_absolute_url(base_url, image.image.url)
 
-            sim = self.get_similarity(src_url, dst_url)
+            sim = self.get_similarity(src_url, dst_url, method)
             similar_list.append([image, sim])
 
         serializer = SimilarImageSerializer(
             [el[0] for el in similar_list], many=True, read_only=True, context={"request": request})
 
-        res = [{"image": serializer.data[i]["image"], "sim": el[1]}
+        res = [{"artifactId": serializer.data[i]["artifactId"], "image": serializer.data[i]["image"], "sim": el[1]}
                for i, el in enumerate(similar_list)]
 
         res = sorted(res, reverse=True, key=lambda k: k["sim"])
 
         return JsonResponse(res, safe=False)
-
-        # serializer = SimilarImageSerializer(
-        #     image_query_set, many=True, read_only=True, context={"request": request})
-        # return Response(serializer.data[:5])

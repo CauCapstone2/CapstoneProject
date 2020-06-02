@@ -2,16 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import {
-  List,
-  Row,
-  Col,
-  Avatar,
-  Comment,
-  Divider,
-  Spin,
-  Alert,
-} from "antd";
+import { List, Row, Col, Avatar, Comment, Divider, Spin, Alert } from "antd";
 import "./ArtifactDetail.css";
 import Artifact from "../components/Artifact";
 import Profile from "../components/profile";
@@ -26,18 +17,18 @@ class Mypage extends React.Component {
     _eval_length: 0,
   };
 
-  componentWillReceiveProps = (nextprops) => {
-    if (this.props.userid != nextprops) {
-      this.userInformationCall(nextprops.userid);
-      this.userArtifactCall(nextprops.userid);
-      this.userCommentCall(nextprops.userid);
-    }
-  };
-
-  componentWillMount() {
+  componentDidMount() {
     this.userInformationCall(this.props.userid);
     this.userArtifactCall(this.props.userid);
     this.userCommentCall(this.props.userid);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.userid !== prevProps.userid) {
+      this.userInformationCall(this.props.userid);
+      this.userArtifactCall(this.props.userid);
+      this.userCommentCall(this.props.userid);
+    }
   }
 
   userInformationCall = (userID) => {
@@ -71,9 +62,10 @@ class Mypage extends React.Component {
   };
 
   userEvaluationCall = async (data) => {
-    var _evaluation = [0, 0, 0, 0, 0];
-    var _eval_num = 0;
-    for (var i in data) {
+    let _evaluation = [0, 0, 0, 0, 0];
+    let _eval_num = 0;
+
+    for (let i in data) {
       await axios
         .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + data[i].id)
         .then((res) => {
@@ -87,7 +79,8 @@ class Mypage extends React.Component {
           }
         });
     }
-    for (var i in _evaluation) {
+
+    for (let i in _evaluation) {
       _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
     }
     this.setState({
@@ -97,9 +90,9 @@ class Mypage extends React.Component {
   };
 
   recreationErase = () => {
-    var _comments = this.state.comment;
-    var _new_comments = [];
-    for (var i in _comments) {
+    let _comments = this.state.comment;
+    let _new_comments = [];
+    for (let i in _comments) {
       if (_comments[i].artifactID === null) {
         continue;
       }
@@ -127,7 +120,7 @@ class Mypage extends React.Component {
       _eval_length,
     } = this.state;
     return (
-      <div onContextMenu={(e)=> e.preventDefault()}>
+      <div onContextMenu={(e) => e.preventDefault()}>
         {!this.props.isAuthenticated ? (
           <Spin tip="Loading...">
             <Alert
@@ -232,7 +225,7 @@ class Mypage extends React.Component {
                     {item.artifactID.description}
                     <br />
                     <Comment
-                      author={<a>{item.username}</a>}
+                      author={<div>{item.username}</div>}
                       content={item.content}
                       datetime={item.date}
                     />
@@ -251,11 +244,6 @@ const mapStateToProps = (state) => {
   return {
     userid: state.userid,
     isAuthenticated: state.token,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
   };
 };
 

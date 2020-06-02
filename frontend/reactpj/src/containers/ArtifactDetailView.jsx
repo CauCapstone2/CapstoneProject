@@ -10,10 +10,10 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
-import StoreImage from "../components/storeImage";
+import StoreImage from "../components/StoreImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
-import SimilarCreater from "../components/SimilarArtifacts";
+import SimilarArtist from "../components/SimilarArtist";
 
 const { Title, Paragraph } = Typography;
 
@@ -26,6 +26,7 @@ class ArtifactDetail extends React.Component {
     modalVisible: false,
     similarImageVisible: false,
     similarImageList: [],
+    similarImageLoading: true,
     previewImage: "",
     predict: -1,
     averageEval: [],
@@ -101,9 +102,9 @@ class ArtifactDetail extends React.Component {
 
   averageEvaluation = () => {
     const evaluation = this.state.eval;
-    var accumulation_eval = [0, 0, 0, 0, 0];
-    var average_length = 0;
-    for (var i in evaluation) {
+    let accumulation_eval = [0, 0, 0, 0, 0];
+    let average_length = 0;
+    for (let i in evaluation) {
       average_length++;
       accumulation_eval[0] += evaluation[i].Creative;
       accumulation_eval[1] += evaluation[i].Expressive;
@@ -111,7 +112,7 @@ class ArtifactDetail extends React.Component {
       accumulation_eval[3] += evaluation[i].Popularity;
       accumulation_eval[4] += evaluation[i].Workability;
     }
-    for (var i in accumulation_eval) {
+    for (let i in accumulation_eval) {
       accumulation_eval[i] = accumulation_eval[i] / average_length;
     }
     this.setState({
@@ -120,7 +121,7 @@ class ArtifactDetail extends React.Component {
   };
 
   preEval = () => {
-    for (var i in this.state.eval) {
+    for (let i in this.state.eval) {
       if (this.state.eval[i].userID === parseInt(this.props.userid)) {
         return this.state.eval[i];
       }
@@ -143,19 +144,31 @@ class ArtifactDetail extends React.Component {
 
   showSimilarImage(imageId, e) {
     e.preventDefault();
+    this.setState({ similarImageVisible: !this.state.similarImageVisible });
+
     axios
       .get("http://127.0.0.1:8000/similar-image/?imageId=" + imageId)
       .then((res) => {
         this.setState({
           similarImageList: res.data,
-          similarImageVisible: !this.state.similarImageVisible,
+          similarImageLoading: false,
         });
       });
   }
 
+  moveSimilarImage(artifactId) {
+    this.setState({ modalVisible: false, referrer: artifactId });
+    this.props.history.push(`/artifacts/${artifactId}`);
+    window.location.reload();
+  }
+
+  handleReportBtn(val) {
+    this.setState({ isReported: val });
+  }
+
   render() {
     return (
-      <div onContextMenu={(e)=> e.preventDefault()}>
+      <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
             span={12}
@@ -189,7 +202,11 @@ class ArtifactDetail extends React.Component {
                       mask={false}
                       onCancel={this.closeModal}
                       footer={[
-                        <StoreImage image={this.state.previewImage} userid={this.props.userid} artifactID={this.props.match.params.artifactID}/>,
+                        <StoreImage
+                          image={this.state.previewImage}
+                          userid={this.props.userid}
+                          artifactID={this.props.match.params.artifactID}
+                        />,
                         <Button
                           key="ok"
                           onClick={this.closeModal}
@@ -204,14 +221,18 @@ class ArtifactDetail extends React.Component {
                         predict={this.state.predict}
                       />
                       <h3
-                        onClick={(e) =>
-                          this.showSimilarImage(this.state.previewImageId, e)
-                        }
+                        onClick={(e) => {
+                          this.showSimilarImage(this.state.previewImageId, e);
+                        }}
                       >
                         Similar art
                       </h3>
                       {this.state.similarImageVisible ? (
-                        <SimilarImage imageList={this.state.similarImageList} />
+                        <SimilarImage
+                          onChange={(e) => this.moveSimilarImage(e)}
+                          isLoading={this.state.similarImageLoading}
+                          imageList={this.state.similarImageList}
+                        />
                       ) : null}
                     </Modal>
                   </div>
@@ -251,11 +272,11 @@ class ArtifactDetail extends React.Component {
           orientation="left"
           style={{ color: "#333", fontWeight: "normal" }}
         >
-          Creator Infomation
+          Artist Infomation
         </Divider>
         <Row align="middle" justify="center">
           <UserInfo userID={this.state.artifact.userID} />
-          <SimilarCreater userID={this.state.artifact.userID} />
+          <SimilarArtist userID={this.state.artifact.userID} />
         </Row>
         <Row align="middle" justify="center">
           <EvaluationForm
@@ -293,6 +314,7 @@ class ArtifactDetail extends React.Component {
             artifactID={this.props.match.params.artifactID}
             userid={this.props.userid}
             isReported={this.state.isReported}
+            onChange={(e) => this.handleReportBtn(e)}
           />
           <div className="modifyButton">
             {this.modifyButton(

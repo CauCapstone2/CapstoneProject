@@ -40,7 +40,7 @@ class RecreationDetail extends React.Component {
   };
 
   modifyButton = (id, userID) => {
-    return this.props.userid == userID ? (
+    return parseInt(this.props.userid) === userID ? (
       <div>
         <Button type="link" onClick={() => this.deleteArtifact(id)}>
           delete
@@ -72,7 +72,7 @@ class RecreationDetail extends React.Component {
 
   preEval = () => {
     for (var i in this.state.eval) {
-      if (this.state.eval[i].userID == this.props.userid) {
+      if (this.state.eval[i].userID === parseInt(this.props.userid)) {
         return this.state.eval[i];
       }
     }
@@ -88,7 +88,7 @@ class RecreationDetail extends React.Component {
 
   render() {
     return (
-      <div onContextMenu={(e)=> e.preventDefault()}>
+      <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
             span={12}
@@ -108,7 +108,7 @@ class RecreationDetail extends React.Component {
             >
               {this.state.artifact.image &&
                 this.state.artifact.image.map((el, index) => (
-                  <div className="art-box">
+                  <div className="art-box" key={index}>
                     <Image
                       className="art"
                       style={{ width: "100%", height: "100%" }}

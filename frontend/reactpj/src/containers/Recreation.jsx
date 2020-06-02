@@ -2,18 +2,10 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Button, Typography, List } from "antd";
+import { Button, List } from "antd";
 import "./ArtifactDetail.css";
 import RegCreation from "../containers/RegreCreation";
 
-function getBase64(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-}
 //props로 artifactID넘겨주기
 class Recreation extends React.Component {
   state = {
@@ -21,20 +13,9 @@ class Recreation extends React.Component {
     showCreate: false,
   };
 
-  // componentWillUpdate = (nextProps, nextState) => {
-  //   if(this.state.recreationItems.length != nextState.recreationItems.length) {
-  //     // this.recreationImageCall(this.props.artifactID);
-  //     console.log("componentwillupdate");
-  //   }
-  // };
-
   componentDidMount() {
     this.recreationImageCall(this.props.artifactID);
   }
-
-  // componentDidUpdate() {
-  //   this.recreationImageCall(this.props.artifactID);
-  // }
 
   recreationImageCall = async (artifactID) => {
     await axios
@@ -70,6 +51,10 @@ class Recreation extends React.Component {
 
       case "put":
         this.props.history.push("/recreate/" + artifactID);
+        break;
+
+      default:
+        return null;
     }
     this.recreationImageCall(artifactID);
   };
@@ -111,8 +96,7 @@ class Recreation extends React.Component {
             </div>
           }
           pagination={{
-            onChange: (page) => {
-            },
+            onChange: (page) => {},
             pageSize: 7,
           }}
           grid={{ gutter: 5 }}
@@ -121,7 +105,12 @@ class Recreation extends React.Component {
               key={item.id}
               extra={
                 <NavLink to={{ pathname: "/recreate/" + item.id }}>
-                  <img width={100} height={100} src={item.image} />
+                  <img
+                    alt={item.id}
+                    width={100}
+                    height={100}
+                    src={item.image}
+                  />
                 </NavLink>
               }
               style={{ marginLeft: "5px", marginRight: "5px" }}

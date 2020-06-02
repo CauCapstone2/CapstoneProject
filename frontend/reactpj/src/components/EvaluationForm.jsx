@@ -12,14 +12,14 @@ class EvaluationForm extends Component {
   };
 
   handleSubmitEval = async () => {
-    if (this.props.userid == null) {
+    if (this.props.userid === null) {
       Modal.error({
         title: "Please Log in",
       });
       return;
     }
 
-    if (this.props.category == "recreation") {
+    if (this.props.category === "recreation") {
       await axios.post("http://127.0.0.1:8000/evaluation/api/", {
         userID: this.props.userid,
         Creative: this.state.creative,
@@ -57,7 +57,7 @@ class EvaluationForm extends Component {
         Workability: this.state.workability,
       }
     );
-    if (this.props.category == "recreation") {
+    if (this.props.category === "recreation") {
       this.props.updateEvaluation(this.props.recreationID);
     } else {
       this.props.updateEvaluation(this.props.artifactID);
