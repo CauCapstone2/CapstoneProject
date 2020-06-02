@@ -72,7 +72,7 @@ class Comment extends Component {
                 name={item.username}
                 date={item.date}
               />
-              <div classname="comment-info">
+              <div className="comment-info">
                 <p className="comment-username">{item.username}</p>
                 <p className="comment-date">{item.date}</p>
               </div>
