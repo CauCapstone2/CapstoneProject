@@ -15,12 +15,12 @@ class RecreationSerializer(serializers.ModelSerializer) :
 
     class Meta : 
         model = Recreation
-        fields = ('id', 'userID', 'username', 'artifactID', 'title', 'image', 'description')
+        fields = ('id', 'userID', 'username', 'artifactID', 'title', 'image', 'description', 'time')
 
 class RecreationImageSerializer(serializers.ModelSerializer) :
     class Meta :
         model = RecreationImage
-        fields = ('id', 'recreationID', 'image')
+        fields = ('id', 'recreationID', 'image', 'predict', 'tendency')
 
 class RecreationDetailSerializer(serializers.ModelSerializer) :
     username = serializers.CharField(source='userID.username', read_only=True)

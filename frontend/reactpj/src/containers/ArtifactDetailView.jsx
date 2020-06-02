@@ -80,25 +80,26 @@ class ArtifactDetail extends React.Component {
       url_link = "http://127.0.0.1:8000/comments/api/?recreationID=";
     else url_link = "http://127.0.0.1:8000/comments/api/?artifactID=";
 
-    axios
-      .get(url_link + artifactID)
-      .then((res) => {
-        this.editDate(res.data);
-        this.setState({
-          comment: res.data.reverse(),
-        });
+    axios.get(url_link + artifactID).then((res) => {
+      this.editDate(res.data);
+      this.setState({
+        comment: res.data.reverse(),
       });
+    });
   };
 
   updateEvaluation = (artifactID) => {
-    axios
-      .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + artifactID)
-      .then((res) => {
-        this.setState({
-          eval: res.data,
-        });
-        this.averageEvaluation();
+    var url_link = "";
+    if (this.props.category == "recreation")
+      url_link = "http://127.0.0.1:8000/evaluation/api/?recreationID=";
+    else url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
+
+    axios.get(url_link + artifactID).then((res) => {
+      this.setState({
+        eval: res.data,
       });
+      this.averageEvaluation();
+    });
   };
 
   preEval = () => {
@@ -147,6 +148,10 @@ class ArtifactDetail extends React.Component {
 
   showModal = (imageId, image, predict, e) => {
     e.preventDefault();
+    console.log(imageId);
+    console.log(image);
+    console.log(predict);
+    console.log(e);
     this.setState({
       modalVisible: true,
       previewImage: image,
@@ -176,6 +181,7 @@ class ArtifactDetail extends React.Component {
 
   moveSimilarImage(artifactId) {
     this.setState({ modalVisible: false, referrer: artifactId });
+    //need to be modified about recreationID & artifactID
     this.props.history.push(`/artifacts/${artifactId}`);
     window.location.reload();
   }
@@ -225,7 +231,11 @@ class ArtifactDetail extends React.Component {
                         <StoreImage
                           image={this.state.previewImage}
                           userid={this.props.userid}
-                          artifactID={this.props.match.params.artifactID}
+                          artifactID={
+                            this.props.match.params.artifactID
+                              ? this.props.match.params.artifactID
+                              : this.props.match.params.recreationID
+                          }
                         />,
                         <Button
                           key="ok"
