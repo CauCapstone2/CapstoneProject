@@ -1,7 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
 import Profile from "../components/profile";
 import { Row, Col, Avatar, Typography, Divider, Modal } from "antd";
 
@@ -21,14 +19,14 @@ class SimilarCreater extends React.Component {
     _eval_length: 0,
   };
 
-  componentWillReceiveProps = (nextprops) => {
-    if (this.props.userid != nextprops) {
-      this.similarCreaterCall(nextprops.userID);
+  componentDidUpdate(prevProps) {
+    if (this.props.userID !== prevProps.userID) {
+      this.similarCreaterCall(this.props.userID);
     }
-  };
+  }
 
-  similarCreaterCall = (userID) => {
-    axios
+  similarCreaterCall = async (userID) => {
+    await axios
       .get("http://127.0.0.1:8000/similar-artist/?userID=" + userID)
       .then((res) => {
         this.setState({
@@ -39,8 +37,8 @@ class SimilarCreater extends React.Component {
   };
 
   similarCreaterInformationCall = async (data) => {
-    var _createrInfo = [];
-    for (var i in data) {
+    let _createrInfo = [];
+    for (let i in data) {
       await axios
         .get("http://127.0.0.1:8000/mypage/user/?id=" + data[i])
         .then((res) => {
@@ -99,7 +97,7 @@ class SimilarCreater extends React.Component {
           }
         });
     }
-    for (var i in _evaluation) {
+    for (let i in _evaluation) {
       _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
     }
     this.setState({

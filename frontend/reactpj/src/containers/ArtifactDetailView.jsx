@@ -13,7 +13,7 @@ import Recreation from "../containers/Recreation";
 import StoreImage from "../components/StoreImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
-import SimilarCreater from "../components/SimilarArtifacts";
+import SimilarArtist from "../components/SimilarArtist";
 
 const { Title, Paragraph } = Typography;
 
@@ -40,6 +40,7 @@ class ArtifactDetail extends React.Component {
         this.setState({
           artifact: res.data,
         });
+        console.log("art");
       });
     this.updateEvaluation(artifactID);
     this.updateComment(artifactID);
@@ -102,9 +103,9 @@ class ArtifactDetail extends React.Component {
 
   averageEvaluation = () => {
     const evaluation = this.state.eval;
-    var accumulation_eval = [0, 0, 0, 0, 0];
-    var average_length = 0;
-    for (var i in evaluation) {
+    let accumulation_eval = [0, 0, 0, 0, 0];
+    let average_length = 0;
+    for (let i in evaluation) {
       average_length++;
       accumulation_eval[0] += evaluation[i].Creative;
       accumulation_eval[1] += evaluation[i].Expressive;
@@ -112,7 +113,7 @@ class ArtifactDetail extends React.Component {
       accumulation_eval[3] += evaluation[i].Popularity;
       accumulation_eval[4] += evaluation[i].Workability;
     }
-    for (var i in accumulation_eval) {
+    for (let i in accumulation_eval) {
       accumulation_eval[i] = accumulation_eval[i] / average_length;
     }
     this.setState({
@@ -121,7 +122,7 @@ class ArtifactDetail extends React.Component {
   };
 
   preEval = () => {
-    for (var i in this.state.eval) {
+    for (let i in this.state.eval) {
       if (this.state.eval[i].userID === parseInt(this.props.userid)) {
         return this.state.eval[i];
       }
@@ -270,11 +271,11 @@ class ArtifactDetail extends React.Component {
           orientation="left"
           style={{ color: "#333", fontWeight: "normal" }}
         >
-          Creator Infomation
+          Artist Infomation
         </Divider>
         <Row align="middle" justify="center">
           <UserInfo userID={this.state.artifact.userID} />
-          <SimilarCreater userID={this.state.artifact.userID} />
+          <SimilarArtist userID={this.state.artifact.userID} />
         </Row>
         <Row align="middle" justify="center">
           <EvaluationForm

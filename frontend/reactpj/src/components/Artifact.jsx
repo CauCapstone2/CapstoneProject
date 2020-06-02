@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Avatar, Typography } from "antd";
+import { Card, Typography } from "antd";
 const { Paragraph } = Typography;
 const { Meta } = Card;
 
