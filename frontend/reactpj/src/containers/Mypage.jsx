@@ -64,6 +64,7 @@ class Mypage extends React.Component {
   userEvaluationCall = async (data) => {
     let _evaluation = [0, 0, 0, 0, 0];
     let _eval_num = 0;
+
     for (let i in data) {
       await axios
         .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + data[i].id)
@@ -78,6 +79,7 @@ class Mypage extends React.Component {
           }
         });
     }
+
     for (let i in _evaluation) {
       _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
     }
@@ -223,7 +225,7 @@ class Mypage extends React.Component {
                     {item.artifactID.description}
                     <br />
                     <Comment
-                      author={<a>{item.username}</a>}
+                      author={<div>{item.username}</div>}
                       content={item.content}
                       datetime={item.date}
                     />
@@ -243,10 +245,6 @@ const mapStateToProps = (state) => {
     userid: state.userid,
     isAuthenticated: state.token,
   };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {};
 };
 
 export default connect(mapStateToProps)(Mypage);

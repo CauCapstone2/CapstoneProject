@@ -157,12 +157,14 @@ class ArtifactDetail extends React.Component {
   }
 
   moveSimilarImage(artifactId) {
-    console.log("art");
-    console.log(artifactId);
     this.setState({ modalVisible: false, referrer: artifactId });
     this.props.history.push(`/artifacts/${artifactId}`);
     window.location.reload();
   }
+
+  // handleReportBtn(){
+    
+  // }
 
   render() {
     return (

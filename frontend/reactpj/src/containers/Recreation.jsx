@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Button, Typography, List } from "antd";
+import { Button, List } from "antd";
 import "./ArtifactDetail.css";
 import RegCreation from "../containers/RegreCreation";
 
@@ -51,6 +51,10 @@ class Recreation extends React.Component {
 
       case "put":
         this.props.history.push("/recreate/" + artifactID);
+        break;
+
+      default:
+        return null;
     }
     this.recreationImageCall(artifactID);
   };
@@ -101,7 +105,12 @@ class Recreation extends React.Component {
               key={item.id}
               extra={
                 <NavLink to={{ pathname: "/recreate/" + item.id }}>
-                  <img width={100} height={100} src={item.image} />
+                  <img
+                    alt={item.id}
+                    width={100}
+                    height={100}
+                    src={item.image}
+                  />
                 </NavLink>
               }
               style={{ marginLeft: "5px", marginRight: "5px" }}

@@ -81,9 +81,10 @@ class SimilarCreater extends React.Component {
   };
 
   userEvaluationCall = async (data) => {
-    var _evaluation = [0, 0, 0, 0, 0];
-    var _eval_num = 0;
-    for (var i in data) {
+    let _evaluation = [0, 0, 0, 0, 0];
+    let _eval_num = 0;
+
+    for (let i in data) {
       await axios
         .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + data[i].id)
         .then((res) => {
@@ -97,6 +98,7 @@ class SimilarCreater extends React.Component {
           }
         });
     }
+
     for (let i in _evaluation) {
       _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
     }

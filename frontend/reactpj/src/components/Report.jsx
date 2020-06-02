@@ -6,17 +6,13 @@ class Report extends Component {
   state = {
     isReported: false,
   };
-
-  state = {
-    isReported: false,
-  };
-
+  
   componentDidMount() {
     this.updateReport();
   }
 
   updateReport = () => {
-    if (this.props.category == "recreation") {
+    if (this.props.category === "recreation") {
       axios
         .get(
           "http://127.0.0.1:8000/report/api/?recreationID=" +
@@ -24,6 +20,11 @@ class Report extends Component {
         )
         .then((res) => {
           for (var i in res.data) {
+            console.log(this.props.userid);
+            console.log(typeof this.props.userid);
+            console.log(this.props.res.data[i].userID);
+            console.log(typeof res.data[i].userID);
+
             if (this.props.userid == res.data[i].userID) {
               this.state.isReported = true;
             }
@@ -52,7 +53,7 @@ class Report extends Component {
   };
 
   submitReport = () => {
-    if (this.props.category == "recreation") {
+    if (this.props.category === "recreation") {
       axios.post("http://127.0.0.1:8000/report/api/", {
         userID: this.props.userid,
         recreationID: this.props.recreationID,
