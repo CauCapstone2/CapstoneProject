@@ -4,14 +4,11 @@ import { Button, Modal } from "antd";
 
 class Report extends Component {
   handleChange(val) {
-    console.log("report handle start");
     this.props.onChange(val);
-    console.log(`report handle end:`);
   }
 
   componentDidMount() {
     this.updateReport();
-    console.log("didmount");
   }
 
   updateReport = () => {
@@ -23,12 +20,7 @@ class Report extends Component {
         )
         .then((res) => {
           for (var i in res.data) {
-            console.log(this.props.userid);
-            console.log(typeof this.props.userid);
-            console.log(this.props.res.data[i].userID);
-            console.log(typeof res.data[i].userID);
-
-            if (this.props.userid == res.data[i].userID) {
+            if (parseInt(this.props.userid) === res.data[i].userID) {
               this.handleChange(true);
             }
           }
@@ -44,7 +36,7 @@ class Report extends Component {
         )
         .then((res) => {
           for (var i in res.data) {
-            if (this.props.userid == res.data[i].userID) {
+            if (parseInt(this.props.userid) === res.data[i].userID) {
               this.handleChange(true);
             }
           }
@@ -81,8 +73,7 @@ class Report extends Component {
   };
 
   cancelReport = () => {
-    console.log("cancel");
-    if (this.props.category == "recreation") {
+    if (this.props.category === "recreation") {
       axios.delete(
         "http://127.0.0.1:8000/report/api/" +
           this.props.userid +
@@ -101,8 +92,6 @@ class Report extends Component {
   };
 
   render() {
-    console.log("update");
-    console.log(this.props.isReported);
     return this.props.isReported ? (
       <div>
         <Button danger onClick={this.cancelReport}>

@@ -163,9 +163,7 @@ class ArtifactDetail extends React.Component {
   }
 
   handleReportBtn(val) {
-    console.log(`detail handle start: ${this.state.isReported}`);
     this.setState({ isReported: val });
-    console.log(`detail handle end: ${this.state.isReported}`);
   }
 
   render() {

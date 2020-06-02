@@ -72,7 +72,7 @@ class Profile extends React.Component {
         </Col>
         <Col span={8} justify="center" align="middle">
           {this.props.userInfo.map((userInfo, index) => (
-            <div>
+            <div key={index}>
               <Avatar
                 size={100}
                 style={{ marginTop: "15px", marginBottom: "10px" }}
