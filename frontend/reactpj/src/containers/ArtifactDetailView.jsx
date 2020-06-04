@@ -12,7 +12,7 @@ import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
 import StoreImage from "../components/StoreImage";
 import SimilarImage from "../components/SimilarImage";
-import UserInfo from "../components/UserInfo";
+import UserInfo from "../UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
 
 const { Title, Paragraph } = Typography;
@@ -131,7 +131,7 @@ class ArtifactDetail extends React.Component {
       accumulation_eval[4] += evaluation[i].Workability;
     }
     for (let i in accumulation_eval) {
-      accumulation_eval[i] = accumulation_eval[i] / average_length;
+      accumulation_eval[i] = Math.floor(accumulation_eval[i] / average_length);
     }
     this.setState({
       averageEval: accumulation_eval,

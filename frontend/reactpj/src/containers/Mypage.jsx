@@ -7,6 +7,7 @@ import "./ArtifactDetail.css";
 import Artifact from "../components/Artifact";
 import Profile from "../components/profile";
 import * as urls from "../components/urlAddress";
+import CreditCharge from "../components/CreditCharge";
 
 class Mypage extends React.Component {
   state = {
@@ -16,6 +17,8 @@ class Mypage extends React.Component {
     _new_comments: [],
     evaluation: [],
     _eval_length: 0,
+
+    creditModal: false,
   };
 
   componentDidMount() {
@@ -41,25 +44,21 @@ class Mypage extends React.Component {
   };
 
   userArtifactCall = (userID) => {
-    axios
-      .get(urls.artifacts_api_userID + userID)
-      .then((res) => {
-        this.setState({
-          artifact: res.data.results,
-        });
-        this.userEvaluationCall(res.data.results);
+    axios.get(urls.artifacts_api_userID + userID).then((res) => {
+      this.setState({
+        artifact: res.data.results,
       });
+      this.userEvaluationCall(res.data.results);
+    });
   };
 
   userCommentCall = (userID) => {
-    axios
-      .get(urls.mypage_comments_userID + userID)
-      .then((res) => {
-        this.setState({
-          comment: res.data,
-        });
-        this.recreationErase();
+    axios.get(urls.mypage_comments_userID + userID).then((res) => {
+      this.setState({
+        comment: res.data,
       });
+      this.recreationErase();
+    });
   };
 
   userEvaluationCall = async (data) => {
@@ -112,6 +111,22 @@ class Mypage extends React.Component {
       data[i].date = data[i].date.replace("Z", " ");
     }
   };
+
+  CreditClicked = () => {
+    console.log("clicked");
+    this.setState({
+      creditModal: true,
+    });
+  };
+
+  CreditModalOK = () => {};
+
+  CreditModalCancel = () => {
+    this.setState({
+      creditModal: false,
+    });
+  };
+
   render() {
     const {
       userInfo,
@@ -138,6 +153,13 @@ class Mypage extends React.Component {
               _eval_length={_eval_length}
               userInfo={userInfo}
               evaluation={evaluation}
+              mypage={true}
+              CreditClicked={this.CreditClicked}
+            />
+            <CreditCharge
+              creditModal={this.state.creditModal}
+              CreditModalOK={this.CreditModalOK}
+              CreditModalCancel={this.CreditModalCancel}
             />
             <Divider
               orientation="left"
@@ -207,15 +229,10 @@ class Mypage extends React.Component {
                     style={{ marginBottom: "10px" }}
                   >
                     <List.Item.Meta
-                      avatar={
-                        <Avatar src={urls.image_bluehead} />
-                      }
+                      avatar={<Avatar src={urls.image_bluehead} />}
                       title={
                         <a
-                          href={
-                            urls.artifacts_detail_link +
-                            item.artifactID.id
-                          }
+                          href={urls.artifacts_detail_link + item.artifactID.id}
                         >
                           {item.artifactID.title}
                         </a>

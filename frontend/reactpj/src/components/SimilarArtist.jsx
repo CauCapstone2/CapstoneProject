@@ -200,7 +200,7 @@ class SimilarCreater extends React.Component {
           onOk={this.handleOK}
           onCancel={this.handleCancel}
           footer={null}
-          width="95vh"
+          width="110vh"
         >
           <Profile
             artifact={artifact}

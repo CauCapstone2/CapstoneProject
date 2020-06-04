@@ -11,6 +11,8 @@ import {
   Tooltip,
 } from "antd";
 
+import { MoneyCollectOutlined } from "@ant-design/icons";
+
 const { Title, Paragraph } = Typography;
 
 // props : artifact, _new_comments, _eval_length, userInfo, evaluation
@@ -80,6 +82,9 @@ class Profile extends React.Component {
               />
               <Typography>
                 <Title>{userInfo.username}</Title>
+                {this.props.mypage == true ? (
+                  <MoneyCollectOutlined onClick={this.props.CreditClicked} />
+                ) : null}
                 <Paragraph type="secondary">{userInfo.email}</Paragraph>
                 <Paragraph>
                   Web developer, not only for performance but design factors
