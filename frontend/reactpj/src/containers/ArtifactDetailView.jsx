@@ -76,7 +76,7 @@ class ArtifactDetail extends React.Component {
 
   updateComment = (artifactID) => {
     var url_link = "";
-    if (this.props.category == "recreation")
+    if (this.props.category === "recreation")
       url_link = "http://127.0.0.1:8000/comments/api/?recreationID=";
     else url_link = "http://127.0.0.1:8000/comments/api/?artifactID=";
 
@@ -90,7 +90,7 @@ class ArtifactDetail extends React.Component {
 
   updateEvaluation = (artifactID) => {
     var url_link = "";
-    if (this.props.category == "recreation")
+    if (this.props.category === "recreation")
       url_link = "http://127.0.0.1:8000/evaluation/api/?recreationID=";
     else url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
 
@@ -148,10 +148,6 @@ class ArtifactDetail extends React.Component {
 
   showModal = (imageId, image, predict, e) => {
     e.preventDefault();
-    console.log(imageId);
-    console.log(image);
-    console.log(predict);
-    console.log(e);
     this.setState({
       modalVisible: true,
       previewImage: image,
@@ -316,7 +312,9 @@ class ArtifactDetail extends React.Component {
             updateEvaluation={this.updateEvaluation}
             preEval={this.preEval()}
             artifactID={this.props.match.params.artifactID}
+            recreationID={this.props.match.params.recreationID}
             userid={this.props.userid}
+            category = {this.props.category}
           />
         </Row>
         <Divider
@@ -339,7 +337,9 @@ class ArtifactDetail extends React.Component {
             updateComment={this.updateComment}
             comment={this.state.comment}
             artifactID={this.props.match.params.artifactID}
+            recreationID={this.props.match.params.recreationID}
             userid={this.props.userid}
+            category = {this.props.category}
           />
         </Row>
         <Row>
