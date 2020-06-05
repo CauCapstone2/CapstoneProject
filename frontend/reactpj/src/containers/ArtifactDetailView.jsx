@@ -12,7 +12,7 @@ import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
 import StoreImage from "../components/StoreImage";
 import SimilarImage from "../components/SimilarImage";
-import UserInfo from "../UserInfo";
+import UserInfo from "../components/UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
 
 const { Title, Paragraph } = Typography;
@@ -314,7 +314,7 @@ class ArtifactDetail extends React.Component {
             artifactID={this.props.match.params.artifactID}
             recreationID={this.props.match.params.recreationID}
             userid={this.props.userid}
-            category = {this.props.category}
+            category={this.props.category}
           />
         </Row>
         <Divider
@@ -339,7 +339,7 @@ class ArtifactDetail extends React.Component {
             artifactID={this.props.match.params.artifactID}
             recreationID={this.props.match.params.recreationID}
             userid={this.props.userid}
-            category = {this.props.category}
+            category={this.props.category}
           />
         </Row>
         <Row>

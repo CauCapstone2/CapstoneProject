@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { Modal, Button, Divider, Row, Radio, Input } from "antd";
-import UserInfo from "../UserInfo";
+import UserInfo from "./UserInfo";
 import { connect } from "react-redux";
 
 class CreditCharge extends React.Component {
