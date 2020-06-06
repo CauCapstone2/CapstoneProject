@@ -11,7 +11,7 @@ import {
   Tooltip,
 } from "antd";
 
-import { MoneyCollectOutlined } from "@ant-design/icons";
+import { RedEnvelopeFilled } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -83,7 +83,18 @@ class Profile extends React.Component {
               <Typography>
                 <Title>{userInfo.username}</Title>
                 {this.props.mypage == true ? (
-                  <MoneyCollectOutlined onClick={this.props.CreditClicked} />
+                  <div
+                    onClick={this.props.CreditClicked}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <RedEnvelopeFilled style={{ fontSize: "20px" }} />
+                    <h>credit charge</h>
+                  </div>
                 ) : null}
                 <Paragraph type="secondary">{userInfo.email}</Paragraph>
                 <Paragraph>

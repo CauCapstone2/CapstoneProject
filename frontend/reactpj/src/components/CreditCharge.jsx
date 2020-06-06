@@ -3,6 +3,8 @@ import axios from "axios";
 import { Modal, Button, Divider, Row, Radio, Input } from "antd";
 import UserInfo from "./UserInfo";
 import { connect } from "react-redux";
+import Kakao from "kakaojs";
+import * as keys from "./kakaosecurityinfo";
 
 class CreditCharge extends React.Component {
   state = {
@@ -11,8 +13,9 @@ class CreditCharge extends React.Component {
   };
   handleOnChange = (e) => {
     this.setState({
-      creditAmount: e.target.value,
+      creditAmount: e.target.value * 100,
     });
+    console.log("in handler" + this.state.creditAmount);
   };
 
   otherCreditClicked = () => {
@@ -21,12 +24,35 @@ class CreditCharge extends React.Component {
     });
   };
 
-  handleCharge = () => {};
+  handleCharge = () => {
+    console.log("in handleCharge" + this.state.creditAmount);
+    let price_for_credit = this.state.creditAmount;
+    let form_data = new FormData();
+    form_data.append("cid", "TC0ONETIME");
+    form_data.append("partner_order_id", "partner_order_id");
+    form_data.append("partner_user_id", "partner_user_id");
+    form_data.append("item_name", `credit_purchase_${price_for_credit}`);
+    form_data.append("quantity", 1);
+    form_data.append("total_amount", price_for_credit);
+    form_data.append("tax_free_amount", 0);
+    form_data.append("approval_url", "http://localhost:3000/mypage");
+    form_data.append("fail_url", "http://localhost:3000/mypage");
+    form_data.append("cancel_url", "http://localhost:3000/mypage");
+    axios
+      .post("https://kapi.kakao.com/v1/payment/ready", form_data, {
+        headers: {
+          "Authorization": `KaKaoAK ${keys.kakao_admin_key}`,
+        },
+      })
+      .then((res) => {
+          console.log(res);
+      });
+  };
 
   handleCancel = () => {};
 
   render() {
-    console.log(this.props.userid);
+    console.log("in render" + this.state.creditAmount);
     return (
       <Modal
         title="Charge Credit"
@@ -36,7 +62,9 @@ class CreditCharge extends React.Component {
         onCancel={this.props.CreditModalCancel}
         footer={[
           <Button onClick={this.props.CreditModalCancel}>Cancel</Button>,
-          <Button type="primary">Charge</Button>,
+          <Button onClick={this.handleCharge} type="primary">
+            Charge
+          </Button>,
         ]}
         width="60vh"
       >
@@ -59,16 +87,16 @@ class CreditCharge extends React.Component {
             defaultValue="a"
             buttonStyle="solid"
           >
-            <Radio.Button style={{ marginRight: "5px" }} value="a">
+            <Radio.Button style={{ marginRight: "5px" }} value={10}>
               10
             </Radio.Button>
-            <Radio.Button style={{ marginRight: "5px" }} value="b">
+            <Radio.Button style={{ marginRight: "5px" }} value={100}>
               100
             </Radio.Button>
-            <Radio.Button style={{ marginRight: "5px" }} value="c">
+            <Radio.Button style={{ marginRight: "5px" }} value={500}>
               500
             </Radio.Button>
-            <Radio.Button style={{ marginRight: "5px" }} value="d">
+            <Radio.Button style={{ marginRight: "5px" }} value={1000}>
               1000
             </Radio.Button>
           </Radio.Group>
@@ -80,6 +108,7 @@ class CreditCharge extends React.Component {
           </Button>
           {this.state.otherCreditInput ? (
             <Input
+              onChange={(e) => this.handleOnChange(e)}
               style={{ width: "30vh", marginTop: "10px" }}
               placeholder="Type amount of credit"
             />
