@@ -2,7 +2,6 @@ from rest_framework import viewsets
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.db import transaction
-import json
 from django_filters import rest_framework as filters
 from .models import ArtifactRecreation
 from artifacts.models import ArtifactImage, Artifact
@@ -15,6 +14,7 @@ import numpy as np
 import tempfile
 import json
 import copy
+from django.http import JsonResponse
 
 
 class RecreationView(APIView):
@@ -87,12 +87,10 @@ class RecreationView(APIView):
 
     def get(self, request):
         artifactId = int(request.GET.get('artifactID'))
-        print("id:", artifactId)
-        recreationIdList = ArtifactRecreation.objects.select_related(
-            'artifactId').get(artifactId=artifactId)
-        # recreationIdList = get_object_or_404(
-        #     ArtifactRecreation.objects.select_related(), artifactId=artifactId)
+        recreation_id = ArtifactRecreation.objects.select_related(
+            'artifactId').filter(artifactId=artifactId)
+        recreation_id = [el.recreationId for el in recreation_id]
+        serializer = ArtifactSerializer(
+            recreation_id, many=True, context={"request": request})
 
-        print("recreation list:", recreationIdList)
-
-        return Response({"result": 1})
+        return Response(serializer.data)
