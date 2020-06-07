@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Button, List } from "antd";
 import "./ArtifactDetail.css";
-import RegCreation from "../containers/RegreCreation";
+import RegRecreation from "../containers/RegreCreation";
 
 //props로 artifactID넘겨주기
 class Recreation extends React.Component {
@@ -85,7 +85,7 @@ class Recreation extends React.Component {
             ></List.Item>
           )}
         />
-        <RegCreation
+        <RegRecreation
           artifactID={this.props.artifactID}
           visible={this.state.showCreate}
           onOk={this.regModalhandleOk}

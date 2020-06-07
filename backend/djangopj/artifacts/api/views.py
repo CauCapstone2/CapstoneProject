@@ -21,7 +21,7 @@ import copy
 class ArtifactViewSet(viewsets.ModelViewSet):
     serializer_class = ArtifactSerializer
     pagination_class = ArtifactsPagination
-    queryset = Artifact.objects.all().order_by('-time')
+    queryset = Artifact.objects.filter(recreation=False).order_by('-time')
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('userID',)
 

@@ -22,7 +22,7 @@ class RecreationDetail extends React.Component {
   componentDidMount() {
     const recreationID = this.props.match.params.recreationID;
     axios
-      .get("http://127.0.0.1:8000/recreate/detail/" + recreationID)
+      .get("http://127.0.0.1:8000/artifacts/api/detail/" + recreationID)
       .then((res) => {
         this.setState({
           artifact: res.data,
@@ -33,7 +33,7 @@ class RecreationDetail extends React.Component {
   }
 
   deleteArtifact = async (id) => {
-    await axios.delete("http://127.0.0.1:8000/recreate/" + id);
+    await axios.delete("http://127.0.0.1:8000/artifacts/api/" + id);
     this.props.history.push("/artifactlist/");
     this.forceUpdate();
     window.location.reload();
