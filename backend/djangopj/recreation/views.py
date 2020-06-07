@@ -89,8 +89,10 @@ class RecreationView(APIView):
         artifactId = int(request.GET.get('artifactID'))
         recreation_id = ArtifactRecreation.objects.select_related(
             'artifactId').filter(artifactId=artifactId)
-        recreation_id = [el.recreationId for el in recreation_id]
+        recreation_list = [el.recreationId for el in recreation_id]
+        recreation_list = sorted(
+            recreation_list, key=lambda recreation: recreation.time, reverse=True)
         serializer = ArtifactSerializer(
-            recreation_id, many=True, context={"request": request})
+            recreation_list, many=True, context={"request": request})
 
         return Response(serializer.data)
