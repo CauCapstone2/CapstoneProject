@@ -48,7 +48,6 @@ class CreditCharge extends React.Component {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
             "Authorization": `KakaoAK ${keys.kakao_admin_key}`,
-            // "Accept": "application/json;charset=UTF-8"
           },
         }
       )
@@ -60,18 +59,6 @@ class CreditCharge extends React.Component {
         console.log(res);
       });
   };
-
-//   handleCharge_sub = () => {
-//     Kakao.API.request({
-//       url: "/v1/payment/ready",
-//       success: function (res) {
-//         alert(JSON.stringify(res));
-//       },
-//       fail: function (error) {
-//         alert(JSON.stringify(error));
-//       },
-//     });
-//   };
 
   handleCancel = () => {};
 
