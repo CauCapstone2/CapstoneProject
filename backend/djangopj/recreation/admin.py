@@ -1,3 +1,4 @@
 from django.contrib import admin
+from .models import ArtifactRecreatation
 
-# Register your models here.
+admin.register(ArtifactRecreatation)
