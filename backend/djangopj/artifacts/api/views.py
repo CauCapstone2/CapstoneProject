@@ -3,7 +3,7 @@ from artifacts.models import ArtifactImage
 from .serializers import *
 from django.contrib.auth.models import User
 from .artifacts_pagination import ArtifactsPagination
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.generics import UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -20,10 +20,15 @@ import copy
 
 class ArtifactViewSet(viewsets.ModelViewSet):
     serializer_class = ArtifactSerializer
-    pagination_class = ArtifactsPagination
-    queryset = Artifact.objects.filter(recreation=False).order_by('-time')
+    queryset = Artifact.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('userID',)
+
+
+class ArtifactList(generics.ListAPIView):
+    serializer_class = ArtifactSerializer
+    pagination_class = ArtifactsPagination
+    queryset = Artifact.objects.filter(recreation=False).order_by('-time')
 
 
 class ArtifactImageViewSet(viewsets.ModelViewSet):

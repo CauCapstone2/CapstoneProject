@@ -34,7 +34,7 @@ class RecreationDetail extends React.Component {
 
   deleteArtifact = async (id) => {
     await axios.delete("http://127.0.0.1:8000/artifacts/api/" + id);
-    this.props.history.push("/artifactlist/");
+    this.props.history.push("/artifactlist");
     this.forceUpdate();
     window.location.reload();
   };
