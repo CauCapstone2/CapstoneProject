@@ -68,8 +68,9 @@ class RegCreation extends React.Component {
     this.state.fileList.forEach((el) =>
       form_data.append("images", el.originFileObj, el.originFileObj.name)
     );
+    form_data.append("recreation", true);
 
-    await axios.post("http://127.0.0.1:8000/recreate/create/", form_data, {
+    await axios.post("http://127.0.0.1:8000/recreate/", form_data, {
       headers: {
         "content-type": "multipart/form-data",
       },

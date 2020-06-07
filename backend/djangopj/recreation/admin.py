@@ -1,4 +1,4 @@
 from django.contrib import admin
-from .models import ArtifactRecreatation
+from .models import ArtifactRecreation
 
-admin.register(ArtifactRecreatation)
+admin.register(ArtifactRecreation)
