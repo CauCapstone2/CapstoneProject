@@ -28,19 +28,6 @@ class CreditCharge extends React.Component {
     console.log("in handleCharge" + this.state.creditAmount);
     let price_for_credit = this.state.creditAmount;
 
-    // var requestBody = {
-    //   "cid": "TC0ONETIME",
-    //   "partner_order_id": "partner_order_id",
-    //   "partner_user_id": "partner_user_id",
-    //   "item_name": `credit_purchase_${price_for_credit}`,
-    //   "quantity": 1,
-    //   "total_amount": price_for_credit,
-    //   "tax_free_amount": 0,
-    //   "approval_url": "http://localhost:3000/mypage",
-    //   "fail_url": "http://localhost:3000/mypage",
-    //   "cancel_url": "http://localhost:3000/mypage",
-    // };
-
     const params = new URLSearchParams();
     params.append("cid", "TC0ONETIME");
     params.append("partner_order_id", "partner_order_id");
@@ -53,27 +40,6 @@ class CreditCharge extends React.Component {
     params.append("fail_url", "http://localhost:3000/mypage");
     params.append("cancel_url", "http://localhost:3000/mypage");
 
-    // var sending_data = [];
-    // for (var property in requestBody) {
-    //     var encodedKey = encodeURIComponent(property);
-    //     var encodedValue = encodeURIComponent(requestBody[property]);
-    //     sending_data.push(encodedKey + "=" + encodedValue);
-    // }
-    // sending_data = sending_data.join("\\");
-
-    // console.log(sending_data);
-    
-    // var form_data = new FormData();
-    // form_data.append("cid", "TC0ONETIME");
-    // form_data.append("partner_order_id", "partner_order_id");
-    // form_data.append("partner_user_id", "partner_user_id");
-    // form_data.append("item_name", "credit_purchase");
-    // form_data.append("quantity", 1);
-    // form_data.append("total_amount", price_for_credit);
-    // form_data.append("tax_free_amount", 0);
-    // form_data.append("approval_url", "http://localhost:3000/mypage");
-    // form_data.append("fail_url", "http://localhost:3000/mypage");
-    // form_data.append("cancel_url", "http://localhost:3000/mypage");
     axios
       .post(
         "https://cors-anywhere.herokuapp.com/https://kapi.kakao.com/v1/payment/ready",
