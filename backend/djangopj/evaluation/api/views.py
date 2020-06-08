@@ -16,6 +16,7 @@ class EvaluationViewSet(viewsets.ModelViewSet):
 
 class EvaluationView(APIView):
     def get(self, request):
+        # 해당 사용자의 평가받은 점수의 평균값 계산
         userId = int(request.GET.get('userId'))
         evaluations = Evaluation.objects.filter(artifactID__userID=userId)
 
