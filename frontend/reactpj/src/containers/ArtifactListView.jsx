@@ -5,7 +5,7 @@ import Artifact from "../components/Artifact";
 import { Button, Row, Col, Pagination, Typography } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as postActions from "../modules/artifactlist";
+import * as artifactListAction from "../modules/artifactlist";
 
 const { Title } = Typography;
 
@@ -14,25 +14,6 @@ class ArtifactList extends React.Component {
     super(props);
     this.wrapper = React.createRef();
   }
-
-  state = {
-    isLoading: true,
-    artifacts: [],
-    pagination: {},
-  };
-
-  getArtifacts = async () => {
-    const res = await axios.get("http://127.0.0.1:8000/artifacts/api/list/");
-    this.setState({
-      isLoading: false,
-      artifacts: res.data.results,
-      pagination: {
-        count: res.data.count,
-        prev: res.data.previous,
-        next: res.data.next,
-      },
-    });
-  };
 
   getArtifactsPage = async (page) => {
     const res = await axios.get(
@@ -49,7 +30,9 @@ class ArtifactList extends React.Component {
   };
 
   componentDidMount() {
-    this.getArtifacts();
+    // this.getArtifacts();
+    const { ArtifactListAction } = this.props;
+    ArtifactListAction.getArtifactList();
   }
 
   onChange = (page) => {
@@ -57,7 +40,10 @@ class ArtifactList extends React.Component {
   };
 
   render() {
-    const { isLoading, artifacts, pagination } = this.state;
+    const { isLoading, artifactListData } = this.props;
+    const artifacts = artifactListData.artifacts;
+    const pagination = artifactListData.pagination;
+
     return isLoading ? (
       <div ref={this.wrapper}>
         <div className="title-text" title="loading_message">
@@ -116,17 +102,18 @@ class ArtifactList extends React.Component {
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-export default connect(
-  (state) => ({
-    post: state.artifactlist.data,
+const mapStateToProps = (state) => {
+  return {
+    artifactListData: state.artifactlist.data,
     loading: state.pender.pending["GET_POST"],
     error: state.pender.failure["GET_POST"],
-  }),
-  (dispatch) => ({
-    PostActions: bindActionCreators(postActions, dispatch),
-  })
-)(ArtifactList);
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ArtifactListAction: bindActionCreators(artifactListAction, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtifactList);
