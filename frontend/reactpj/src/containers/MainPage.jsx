@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Typography } from "antd";
 import "../css/MainPage.css";
 import { connect } from "react-redux";
-import * as actions from "../store/actions/auth";
+import * as actions from "../modules/auth";
 
 const { Title, Paragraph } = Typography;
 

@@ -5,7 +5,7 @@ import Artifact from "../components/Artifact";
 import { Button, Row, Col, Pagination, Typography } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as postActions from "../store/reducers/artifactlist";
+import * as postActions from "../modules/artifactlist";
 
 const { Title } = Typography;
 
@@ -122,7 +122,7 @@ const mapDispatchToProps = (dispatch) => {
 
 export default connect(
   (state) => ({
-    post: state.post.data,
+    post: state.artifactlist.data,
     loading: state.pender.pending["GET_POST"],
     error: state.pender.failure["GET_POST"],
   }),

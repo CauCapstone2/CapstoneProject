@@ -1,4 +1,5 @@
 import axios from "axios";
+import { handleActions, createAction } from "redux-actions";
 
 // action type
 const AUTH_START = "AUTH_START";
@@ -13,6 +14,7 @@ const SIGNUPDRAWER_OPEN = "SIGNUPDRAWER_OPEN";
 const SIGNUPDRAWER_CLOSE = "SIGNUPDRAWER_CLOSE";
 
 // action creator
+
 export const firstDrawerOpen = () => {
   return {
     type: FIRSTDRAWER_OPEN,
@@ -187,7 +189,6 @@ const initialState = {
   userid: null,
   error: null,
   loading: false,
-
   firstdrawer: false,
   logindrawer: false,
   signupdrawer: false,
@@ -259,7 +260,7 @@ const handleAuthLogout = (state, action) => {
   });
 };
 
-const handleActions = (state = initialState, action) => {
+const reducer = (state = initialState, action) => {
   switch (action.type) {
     case AUTH_START:
       return handleAuthStart(state, action);
@@ -286,4 +287,4 @@ const handleActions = (state = initialState, action) => {
   }
 };
 
-export default handleActions;
+export default reducer;

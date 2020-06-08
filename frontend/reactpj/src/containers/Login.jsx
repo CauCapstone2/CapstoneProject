@@ -4,7 +4,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 import { Form } from "@ant-design/compatible";
 import { connect } from "react-redux";
 // import * as actions from "../store/actions/auth";
-import * as actions from "../reducers/auth"
+import * as actions from "../modules/auth";
 import "@ant-design/compatible/assets/index.css";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -114,10 +114,10 @@ const WrappedLoginForm = Form.create()(LoginForm);
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.loading,
-    error: state.error,
-    isAuthenticated: state.token,
-    type: state.type,
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token,
+    type: state.auth.type,
   };
 };
 
