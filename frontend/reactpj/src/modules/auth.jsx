@@ -140,12 +140,12 @@ export const authSignup = (username, password1, password2) => {
           .then((res) => {
             const userid = res.data.pk;
             localStorage.setItem("userid", userid);
+            const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
+            localStorage.setItem("token", token);
+            localStorage.setItem("expirationDate", expirationDate);
+            dispatch(authSuccess(token, localStorage.getItem("userid")));
+            dispatch(checkAuthTimeout(3600));
           });
-        const expirationDate = new Date(new Date().getTime() + 3600 * 1000);
-        localStorage.setItem("token", token);
-        localStorage.setItem("expirationDate", expirationDate);
-        dispatch(authSuccess(token, localStorage.getItem("userid")));
-        dispatch(checkAuthTimeout(3600));
       })
       .catch((err) => {
         dispatch(authFail(err));

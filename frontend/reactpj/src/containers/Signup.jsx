@@ -141,9 +141,9 @@ const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.loading,
-    error: state.error,
-    isAuthenticated: state.token,
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token,
   };
 };
 
