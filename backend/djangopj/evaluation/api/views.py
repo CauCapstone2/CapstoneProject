@@ -16,10 +16,12 @@ class EvaluationViewSet(viewsets.ModelViewSet):
 
 class EvaluationView(APIView):
     def get(self, request):
-        artifactId = int(request.GET.get('artifactID'))
-        evaluations = Evaluation.objects.filter(artifactID=artifactId)
-        print(evaluations.values_list(flat=True))
-        print(evaluations.values())
+        userId = int(request.GET.get('userId'))
+        evaluations = Evaluation.objects.filter(artifactID__userID=userId)
+        print(evaluations)
+
+        # artifactId = int(request.GET.get('artifactID'))
+        # evaluations = Evaluation.objects.filter(artifactID=artifactId)
 
         average = [0, 0, 0, 0, 0]
         for eval in evaluations:
