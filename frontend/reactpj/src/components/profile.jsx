@@ -35,7 +35,7 @@ class Profile extends React.Component {
               <Card bordered={false} style={{ marginLeft: "5px" }}>
                 <Statistic
                   title="Written Artifacts"
-                  value={this.props.artifact.length}
+                  value={this.props._eval_length}
                   precision={0}
                   valueStyle={{ color: "#0be881" }}
                   prefix={<Avatar>Art</Avatar>}
