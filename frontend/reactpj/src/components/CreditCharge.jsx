@@ -1,10 +1,11 @@
 import React from "react";
 import axios from "axios";
-import { Modal, Button, Divider, Row, Radio, Input } from "antd";
+import { Modal, Button, Divider, Row, Radio, Input, Typography } from "antd";
 import UserInfo from "./UserInfo";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 import * as keys from "./kakaosecurityinfo";
+const { Paragraph } = Typography;
 
 class CreditCharge extends React.Component {
   state = {
@@ -88,7 +89,17 @@ class CreditCharge extends React.Component {
           >
             Current User Info
           </Divider>
-          <UserInfo userID={this.props.userid} />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Paragraph>Check whether this account is yours</Paragraph>
+            <UserInfo userID={this.props.userid} />
+          </div>
           <Divider
             orientation="left"
             style={{ color: "#333", fontWeight: "normal" }}
