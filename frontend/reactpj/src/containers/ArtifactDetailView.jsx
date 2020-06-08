@@ -60,8 +60,8 @@ class ArtifactDetail extends React.Component {
 
     await axios.delete(url_link + id);
     this.props.history.push("/artifactlist");
-    this.forceUpdate();
-    window.location.reload();
+    // this.forceUpdate();
+    // window.location.reload();
   };
 
   modifyButton = (id, userID) => {

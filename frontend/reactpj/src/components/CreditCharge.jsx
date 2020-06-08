@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from "axios";
 import { Modal, Button, Divider, Row, Radio, Input } from "antd";
 import UserInfo from "./UserInfo";
 import { connect } from "react-redux";
-import Kakao from "kakaojs";
+import * as actions from "../store/actions/auth";
 import * as keys from "./kakaosecurityinfo";
 
 class CreditCharge extends React.Component {
@@ -36,7 +36,7 @@ class CreditCharge extends React.Component {
     params.append("quantity", 1);
     params.append("total_amount", price_for_credit);
     params.append("tax_free_amount", 0);
-    params.append("approval_url", "http://localhost:3000/mypage");
+    params.append("approval_url", "http://localhost:3000/purchase/success");
     params.append("fail_url", "http://localhost:3000/mypage");
     params.append("cancel_url", "http://localhost:3000/mypage");
 
@@ -52,8 +52,11 @@ class CreditCharge extends React.Component {
         }
       )
       .then((res) => {
-        console.log("YE");
-        console.log(res);
+        console.log(res.data.tid);
+        this.props.tid_get(res.data.tid);
+        if (this.props.tid !== null) {
+          window.location.assign(res.data.next_redirect_pc_url);
+        }
       })
       .catch((res) => {
         console.log(res);
@@ -63,7 +66,6 @@ class CreditCharge extends React.Component {
   handleCancel = () => {};
 
   render() {
-    console.log("in render" + this.state.creditAmount);
     return (
       <Modal
         title="Charge Credit"
@@ -133,7 +135,31 @@ class CreditCharge extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userid: state.userid,
+    tid: state.tid,
   };
 };
 
-export default connect(mapStateToProps)(CreditCharge);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    tid_get: (tid) => dispatch(actions.tidDataGet(tid)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(CreditCharge);
+
+// import { Result, Button } from 'antd';
+
+// ReactDOM.render(
+//   <Result
+//     status="success"
+//     title="Successfully Purchased Cloud Server ECS!"
+//     subTitle="Order number: 2017182818828182881 Cloud server configuration takes 1-5 minutes, please wait."
+//     extra={[
+//       <Button type="primary" key="console">
+//         Go Console
+//       </Button>,
+//       <Button key="buy">Buy Again</Button>,
+//     ]}
+//   />,
+//   mountNode,
+// );

@@ -195,7 +195,7 @@ class SimilarCreater extends React.Component {
           ))}
         </Row>
         <Modal
-          centered={true}
+          // centered={true}
           visible={this.state.visible}
           onOk={this.handleOK}
           onCancel={this.handleCancel}

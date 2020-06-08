@@ -1,6 +1,19 @@
 import axios from 'axios';
 import * as actionTypes from './actionTypes';
 
+export const tidDataSet = (tid) => {
+    return {
+        type: actionTypes.TID_GET,
+        tid : tid,
+    }
+}
+export const tidDataGet = (tid) => {
+    return dispatch => {
+        localStorage.setItem('tid', tid);
+        dispatch(tidDataSet(localStorage.getItem('tid')));
+    }
+}
+
 export const firstDrawerOpen = () => {
     return {
         type : actionTypes.FIRSTDRAWER_OPEN
