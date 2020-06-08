@@ -37,8 +37,8 @@ class CreditCharge extends React.Component {
     params.append("total_amount", price_for_credit);
     params.append("tax_free_amount", 0);
     params.append("approval_url", "http://localhost:3000/purchase/success");
-    params.append("fail_url", "http://localhost:3000/mypage");
-    params.append("cancel_url", "http://localhost:3000/mypage");
+    params.append("fail_url", "http://localhost:3000/purchase/fail");
+    params.append("cancel_url", "http://localhost:3000/purchase/cancel");
 
     axios
       .post(
