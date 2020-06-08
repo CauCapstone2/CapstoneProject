@@ -4,6 +4,8 @@ import axios from "axios";
 import Artifact from "../components/Artifact";
 import { Button, Row, Col, Pagination, Typography } from "antd";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as postActions from "../store/reducers/artifactlist";
 
 const { Title } = Typography;
 
@@ -118,4 +120,13 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-export default connect(null, mapDispatchToProps)(ArtifactList);
+export default connect(
+  (state) => ({
+    post: state.post.data,
+    loading: state.pender.pending["GET_POST"],
+    error: state.pender.failure["GET_POST"],
+  }),
+  (dispatch) => ({
+    PostActions: bindActionCreators(postActions, dispatch),
+  })
+)(ArtifactList);
