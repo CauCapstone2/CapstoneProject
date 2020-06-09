@@ -10,7 +10,7 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
-import StoreImage from "../components/StoreImage";
+import StoreImage from "../components/storeImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
