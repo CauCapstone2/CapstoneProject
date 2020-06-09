@@ -1,11 +1,9 @@
 from artifacts.models import Artifact
 from artifacts.models import ArtifactImage
-from .serializers import ArtifactSerializer
-from .serializers import ArtifactImageSerializer
-from .serializers import ArtifactDetailSerializer
+from .serializers import *
 from django.contrib.auth.models import User
 from .artifacts_pagination import ArtifactsPagination
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from rest_framework.generics import UpdateAPIView
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -22,10 +20,15 @@ import copy
 
 class ArtifactViewSet(viewsets.ModelViewSet):
     serializer_class = ArtifactSerializer
-    pagination_class = ArtifactsPagination
-    queryset = Artifact.objects.all().order_by('-time')
+    queryset = Artifact.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('userID',)
+
+
+class ArtifactList(generics.ListAPIView):
+    serializer_class = ArtifactSerializer
+    pagination_class = ArtifactsPagination
+    queryset = Artifact.objects.filter(recreation=False).order_by('-time')
 
 
 class ArtifactImageViewSet(viewsets.ModelViewSet):
@@ -49,9 +52,11 @@ class ArtifactCreateView(APIView):
     def post(self, request, format=None):
         req = request.data
         user_id = req['userID']
+
         images = dict(req.lists())['images']
         artifact = {'userID': user_id,
-                    'title': req['title'], 'description': req['description']}
+                    'title': req['title'],
+                    'description': req['description']}
         serializer_artifact = ArtifactSerializer(data=artifact)
         channels = 3
         img_size = 224
@@ -62,6 +67,7 @@ class ArtifactCreateView(APIView):
                 artifact_obj = serializer_artifact.save()
             else:
                 transaction.savepoint_rollback(sid)
+                print("artifact error:", serializer_artifact.errors)
                 return Response(serializer_artifact.errors, status=400)
 
             for img_name in images:
@@ -93,6 +99,7 @@ class ArtifactCreateView(APIView):
                     user.save()
                 else:
                     transaction.savepoint_rollback(sid)
+                    print("image error:", serializer_image.errors)
                     return Response(serializer_image.errors, status=400)
 
         return Response("success", status=201)

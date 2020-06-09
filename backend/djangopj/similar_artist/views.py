@@ -15,7 +15,7 @@ class SimilarArtistView(APIView):
         similar_artist = []
         n_clusters = 2
         n_ensembles = 100
-        n_units = 20
+        n_units = 2
         user_id = int(request.GET.get('userID'))
         user_query_set = User.objects.all()
         idx = -1
@@ -37,7 +37,6 @@ class SimilarArtistView(APIView):
         tendencies = np.array(tendencies)
         kmeans_ensemble = KMeansEnsemble(n_clusters, n_ensembles, n_units)
         predict = kmeans_ensemble.fit_predict(tendencies).tolist()
-        print(predict)
 
         if idx == -1:
             return JsonResponse({"result": 1})  # error

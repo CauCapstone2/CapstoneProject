@@ -23,8 +23,7 @@ class ArtifactSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Artifact
-        fields = ('id', 'userID', 'username', 'title',
-                  'image', 'description', 'time')
+        fields = ('__all__')
 
 
 class ArtifactDetailSerializer(serializers.ModelSerializer):

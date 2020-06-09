@@ -1,9 +1,10 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import axios from "axios";
 import Artifact from "../components/Artifact";
 import { Button, Row, Col, Pagination, Typography } from "antd";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as artifactListAction from "../modules/artifactlist";
 
 const { Title } = Typography;
 
@@ -13,49 +14,21 @@ class ArtifactList extends React.Component {
     this.wrapper = React.createRef();
   }
 
-  state = {
-    isLoading: true,
-    artifacts: [],
-    pagination: {},
-  };
-
-  getArtifacts = async () => {
-    const res = await axios.get("http://127.0.0.1:8000/artifacts/api/");
-    this.setState({
-      isLoading: false,
-      artifacts: res.data.results,
-      pagination: {
-        count: res.data.count,
-        prev: res.data.previous,
-        next: res.data.next,
-      },
-    });
-  };
-
-  getArtifactsPage = async (page) => {
-    const res = await axios.get(
-      "http://127.0.0.1:8000/artifacts/api?page=" + page
-    );
-    this.setState({
-      artifacts: res.data.results.reverse(),
-      pagination: {
-        count: res.data.count,
-        prev: res.data.previous,
-        next: res.data.next,
-      },
-    });
-  };
-
   componentDidMount() {
-    this.getArtifacts();
+    const { ArtifactListAction } = this.props;
+    ArtifactListAction.getArtifactList(1);
   }
 
   onChange = (page) => {
-    this.getArtifactsPage(page);
+    const { ArtifactListAction } = this.props;
+    ArtifactListAction.getArtifactList(page);
   };
 
   render() {
-    const { isLoading, artifacts, pagination } = this.state;
+    const { isLoading, artifactListData } = this.props;
+    const artifacts = artifactListData.artifacts;
+    const pagination = artifactListData.pagination;
+
     return isLoading ? (
       <div ref={this.wrapper}>
         <div className="title-text" title="loading_message">
@@ -65,57 +38,67 @@ class ArtifactList extends React.Component {
         </div>
       </div>
     ) : (
-      <div
-        style={{
-          marginTop: 10,
-          marginLeft: 10,
-          marginRight: 10,
-          marginBottom: 10,
-        }}
-        ref={this.wrapper}
-        onContextMenu={(e) => e.preventDefault()}
-      >
-        <Row align="middle" gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
-          {artifacts.map((artifact, index) => (
-            <Col key={index} span={6}>
-              <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
-                <Artifact key={artifact.id} data={artifact} />
+        <div
+          style={{
+            marginTop: 10,
+            marginLeft: 10,
+            marginRight: 10,
+            marginBottom: 10,
+          }}
+          ref={this.wrapper}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <Row align="middle" gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
+            {artifacts.map((artifact, index) => (
+              <Col key={index} span={6}>
+                <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
+                  <Artifact key={artifact.id} data={artifact} />
+                </NavLink>
+              </Col>
+            ))}
+          </Row>
+          <Row type="flex" align="middle">
+            <Col span={6} align="middle">
+              <NavLink
+                to={{
+                  pathname: "/artifacts/s/register",
+                  state: { requestType: "post", btnText: "Create" },
+                }}
+              >
+                <Button>Write</Button>
               </NavLink>
             </Col>
-          ))}
-        </Row>
-        <Row type="flex" align="middle">
-          <Col span={6} align="middle">
-            <NavLink
-              to={{
-                pathname: "/artifacts/s/register",
-                state: { requestType: "post", btnText: "Create" },
-              }}
-            >
-              <Button>Write</Button>
-            </NavLink>
-          </Col>
-          <Col span={12} align="middle">
-            <Pagination
-              size="small"
-              total={pagination.count}
-              pageSize={12}
-              showQuickJumper
-              showTotal={(total) => `Total ${total} items`}
-              onChange={this.onChange}
-            />
-          </Col>
-          <Col span={6} align="middle">
-            <Button>extra</Button>
-          </Col>
-        </Row>
-      </div>
-    );
+            <Col span={12} align="middle">
+              <Pagination
+                size="small"
+                total={pagination.count}
+                pageSize={12}
+                showQuickJumper
+                showTotal={(total) => `Total ${total} items`}
+                onChange={this.onChange}
+              />
+            </Col>
+            <Col span={6} align="middle">
+              <Button>extra</Button>
+            </Col>
+          </Row>
+        </div>
+      );
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
+const mapStateToProps = (state) => {
+  return {
+    artifactListData: state.artifactlist.data,
+    loading: state.pender.pending["GET_POST"],
+    error: state.pender.failure["GET_POST"],
+  };
 };
 
-export default connect(null, mapDispatchToProps)(ArtifactList);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ArtifactListAction: bindActionCreators(artifactListAction, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtifactList);

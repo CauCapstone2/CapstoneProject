@@ -2,7 +2,7 @@ import React from "react";
 import { Layout, Menu, Drawer, Avatar, Button } from "antd";
 import { MenuOutlined, UserOutlined } from "@ant-design/icons";
 import { NavLink } from "react-router-dom";
-import * as actions from "../store/actions/auth";
+import * as actions from "../modules/auth";
 import { connect } from "react-redux";
 import logo from "../img/Web_logo.png";
 import RegistrationForm from "./Signup";
@@ -146,10 +146,11 @@ const mapDispatchToProps = (dispatch) => {
 
 function mapReduxStateToReactProps(state) {
   return {
-    firstdrawer: state.firstdrawer,
-    logindrawer: state.logindrawer,
-    signupdrawer: state.signupdrawer,
-    error: state.error,
+    firstdrawer: state.auth.firstdrawer,
+    logindrawer: state.auth.logindrawer,
+    signupdrawer: state.auth.signupdrawer,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token,
   };
 }
 export default connect(

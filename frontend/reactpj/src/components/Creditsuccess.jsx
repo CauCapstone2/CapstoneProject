@@ -3,7 +3,7 @@ import axios from "axios";
 import { Result, Button } from "antd";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
-import * as keys from "./kakaosecurityinfo";
+import * as keys from "../kakaosecurityinfo";
 import { NavLink } from "react-router-dom";
 
 class Creditsuccess extends React.Component {
@@ -33,7 +33,7 @@ class Creditsuccess extends React.Component {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            "Authorization": `KakaoAK ${keys.kakao_admin_key}`,
+            Authorization: `KakaoAK ${keys.kakao_admin_key}`,
           },
         }
       )

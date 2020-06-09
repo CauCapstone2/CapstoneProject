@@ -2,7 +2,7 @@ import React from "react";
 import { Input, Button, Row, Col, Spin, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 import { Form } from "@ant-design/compatible";
-import * as actions from "../store/actions/auth";
+import * as actions from "../modules/auth";
 import { connect } from "react-redux";
 
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -141,9 +141,9 @@ const WrappedRegistrationForm = Form.create()(RegistrationForm);
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.loading,
-    error: state.error,
-    isAuthenticated: state.token,
+    loading: state.auth.loading,
+    error: state.auth.error,
+    isAuthenticated: state.auth.token,
   };
 };
 

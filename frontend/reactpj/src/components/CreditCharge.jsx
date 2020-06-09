@@ -4,7 +4,7 @@ import { Modal, Button, Divider, Row, Radio, Input, Typography } from "antd";
 import UserInfo from "./UserInfo";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
-import * as keys from "./kakaosecurityinfo";
+import * as keys from "../kakaosecurityinfo";
 const { Paragraph } = Typography;
 
 class CreditCharge extends React.Component {
@@ -48,7 +48,7 @@ class CreditCharge extends React.Component {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            "Authorization": `KakaoAK ${keys.kakao_admin_key}`,
+            Authorization: `KakaoAK ${keys.kakao_admin_key}`,
           },
         }
       )

@@ -19,6 +19,7 @@ const { Title, Paragraph } = Typography;
 
 class ArtifactDetail extends React.Component {
   state = {
+    artifactId: null,
     artifact: [],
     comment: [],
     eval: [],
@@ -38,14 +39,12 @@ class ArtifactDetail extends React.Component {
       artifactID = this.props.match.params.recreationID;
     else artifactID = this.props.match.params.artifactID;
 
-    var url_link = "";
-    if (this.props.category == "recreation")
-      url_link = "http://127.0.0.1:8000/recreate/detail/";
-    else url_link = "http://127.0.0.1:8000/artifacts/api/detail/";
+    let url_link = "http://127.0.0.1:8000/artifacts/api/detail/";
 
     axios.get(url_link + artifactID).then((res) => {
       this.setState({
         artifact: res.data,
+        artifactID: artifactID,
       });
     });
     this.updateEvaluation(artifactID);
@@ -60,8 +59,6 @@ class ArtifactDetail extends React.Component {
 
     await axios.delete(url_link + id);
     this.props.history.push("/artifactlist");
-    // this.forceUpdate();
-    // window.location.reload();
   };
 
   modifyButton = (id, userID) => {
@@ -89,10 +86,7 @@ class ArtifactDetail extends React.Component {
   };
 
   updateEvaluation = (artifactID) => {
-    var url_link = "";
-    if (this.props.category === "recreation")
-      url_link = "http://127.0.0.1:8000/evaluation/api/?recreationID=";
-    else url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
+    let url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
 
     axios.get(url_link + artifactID).then((res) => {
       this.setState({
@@ -229,11 +223,7 @@ class ArtifactDetail extends React.Component {
                           key={index}
                           image={this.state.previewImage}
                           userid={this.props.userid}
-                          artifactID={
-                            this.props.match.params.artifactID
-                              ? this.props.match.params.artifactID
-                              : this.props.match.params.recreationID
-                          }
+                          artifactID={this.state.artifactID}
                         />,
                         <Button
                           key="ok"
@@ -311,8 +301,7 @@ class ArtifactDetail extends React.Component {
           <EvaluationForm
             updateEvaluation={this.updateEvaluation}
             preEval={this.preEval()}
-            artifactID={this.props.match.params.artifactID}
-            recreationID={this.props.match.params.recreationID}
+            artifactID={this.state.artifactID}
             userid={this.props.userid}
             category={this.props.category}
           />
@@ -336,7 +325,7 @@ class ArtifactDetail extends React.Component {
           <Comment
             updateComment={this.updateComment}
             comment={this.state.comment}
-            artifactID={this.props.match.params.artifactID}
+            artifactID={this.state.artifactID}
             recreationID={this.props.match.params.recreationID}
             userid={this.props.userid}
             category={this.props.category}
@@ -344,7 +333,7 @@ class ArtifactDetail extends React.Component {
         </Row>
         <Row>
           <Report
-            artifactID={this.props.match.params.artifactID}
+            artifactID={this.state.artifactID}
             userid={this.props.userid}
             isReported={this.state.isReported}
             onChange={(e) => this.handleReportBtn(e)}
@@ -366,7 +355,7 @@ class ArtifactDetail extends React.Component {
             </Divider>
             <Row align="middle" justify="center">
               <Recreation
-                artifactID={this.props.match.params.artifactID}
+                artifactID={this.state.artifactID}
                 requestType={this.props.requestType}
               />
             </Row>
@@ -379,7 +368,7 @@ class ArtifactDetail extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
+    userid: state.auth.userid,
   };
 };
 

@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Button, List } from "antd";
 import "./ArtifactDetail.css";
-import RegCreation from "../containers/RegreCreation";
+import RegRecreation from "../containers/RegreCreation";
 
 //props로 artifactID넘겨주기
 class Recreation extends React.Component {
@@ -25,38 +25,6 @@ class Recreation extends React.Component {
           recreationItems: res.data,
         });
       });
-  };
-
-  recreationUpload = async (event) => {
-    const artifactID = this.props.artifactID;
-    let form_data = new FormData();
-    let image_list = [];
-    this.state.fileList.forEach((el) => image_list.push(el.originFileObj));
-    form_data.append("userID", this.props.userid);
-    form_data.append("title", event.target.elements.title.value);
-    form_data.append("description", event.target.elements.description.value);
-    form_data.append("artifactID", this.props.artifactID);
-    this.state.fileList.forEach((el) =>
-      form_data.append("images", el.originFileObj, el.originFileObj.name)
-    );
-
-    switch (this.props.location.state.requestType) {
-      case "post":
-        await axios.post("http://127.0.0.1:8000/recreate/create/", form_data, {
-          headers: {
-            "content-type": "multipart/form-data",
-          },
-        });
-        break;
-
-      case "put":
-        this.props.history.push("/recreate/" + artifactID);
-        break;
-
-      default:
-        return null;
-    }
-    this.recreationImageCall(artifactID);
   };
 
   createButtonClicked = () => {
@@ -117,7 +85,7 @@ class Recreation extends React.Component {
             ></List.Item>
           )}
         />
-        <RegCreation
+        <RegRecreation
           artifactID={this.props.artifactID}
           visible={this.state.showCreate}
           onOk={this.regModalhandleOk}

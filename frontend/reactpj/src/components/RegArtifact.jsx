@@ -136,7 +136,7 @@ class RegArtifact extends React.Component {
                   placeholder="Enter description"
                   style={{ marginRight: "10px" }}
                   rows={5}
-                  // autoSize={{ minRows: 5, maxRows: 30 }}
+                // autoSize={{ minRows: 5, maxRows: 30 }}
                 />
               </Form.Item>
               <Form.Item>
@@ -164,7 +164,7 @@ class RegArtifact extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
+    userid: state.auth.userid,
   };
 };
 
