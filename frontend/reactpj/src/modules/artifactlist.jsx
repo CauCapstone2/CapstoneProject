@@ -2,32 +2,28 @@ import axios from "axios";
 import { handleActions } from "redux-actions";
 
 //action type
-const GET_POST_PENDING = "GET_POST_PENDING";
-const GET_POST_SUCCESS = "GET_POST_SUCCESS";
-const GET_POST_FAILURE = "GET_POST_FAILURE";
+const GET_ARTIFACTLIST_PENDING = "artifactlist/GET_ARTIFACTLIST_PENDING";
+const GET_ARTIFACTLIST_SUCCESS = "artifactlist/GET_ARTIFACTLIST_SUCCESS";
+const GET_ARTIFACTLIST_FAILURE = "artifactlist/GET_ARTIFACTLIST_FAILURE";
 
 // action creator
-function getArtifactListApi() {
-  return axios.get(`http://127.0.0.1:8000/artifacts/api/list/`);
-}
-
-function getArtifactListPageApi(page) {
+function getArtifactListApi(page) {
   return axios.get(`http://127.0.0.1:8000/artifacts/api/list/?page=${page}`);
 }
 
-export const getArtifactList = () => (dispatch) => {
-  dispatch({ type: GET_POST_PENDING });
+export const getArtifactList = (page) => (dispatch) => {
+  dispatch({ type: GET_ARTIFACTLIST_PENDING });
 
-  return getArtifactListApi()
+  return getArtifactListApi(page)
     .then((response) => {
       dispatch({
-        type: GET_POST_SUCCESS,
+        type: GET_ARTIFACTLIST_SUCCESS,
         payload: response,
       });
     })
     .catch((error) => {
       dispatch({
-        type: GET_POST_FAILURE,
+        type: GET_ARTIFACTLIST_FAILURE,
         payload: error,
       });
     });
@@ -49,14 +45,14 @@ const initialState = {
 
 export default handleActions(
   {
-    [GET_POST_PENDING]: (state, action) => {
+    [GET_ARTIFACTLIST_PENDING]: (state, action) => {
       return {
         ...state,
         pending: true,
         error: false,
       };
     },
-    [GET_POST_SUCCESS]: (state, action) => {
+    [GET_ARTIFACTLIST_SUCCESS]: (state, action) => {
       const { count, next, previous, results } = action.payload.data;
 
       return {
@@ -72,7 +68,7 @@ export default handleActions(
         },
       };
     },
-    [GET_POST_FAILURE]: (state, action) => {
+    [GET_ARTIFACTLIST_FAILURE]: (state, action) => {
       return {
         ...state,
         pending: false,

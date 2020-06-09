@@ -15,28 +15,14 @@ class ArtifactList extends React.Component {
     this.wrapper = React.createRef();
   }
 
-  getArtifactsPage = async (page) => {
-    const res = await axios.get(
-      "http://127.0.0.1:8000/artifacts/api/list/?page=" + page
-    );
-    this.setState({
-      artifacts: res.data.results.reverse(),
-      pagination: {
-        count: res.data.count,
-        prev: res.data.previous,
-        next: res.data.next,
-      },
-    });
-  };
-
   componentDidMount() {
-    // this.getArtifacts();
     const { ArtifactListAction } = this.props;
-    ArtifactListAction.getArtifactList();
+    ArtifactListAction.getArtifactList(1);
   }
 
   onChange = (page) => {
-    this.getArtifactsPage(page);
+    const { ArtifactListAction } = this.props;
+    ArtifactListAction.getArtifactList(page);
   };
 
   render() {
@@ -53,52 +39,52 @@ class ArtifactList extends React.Component {
         </div>
       </div>
     ) : (
-      <div
-        style={{
-          marginTop: 10,
-          marginLeft: 10,
-          marginRight: 10,
-          marginBottom: 10,
-        }}
-        ref={this.wrapper}
-        onContextMenu={(e) => e.preventDefault()}
-      >
-        <Row align="middle" gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
-          {artifacts.map((artifact, index) => (
-            <Col key={index} span={6}>
-              <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
-                <Artifact key={artifact.id} data={artifact} />
+        <div
+          style={{
+            marginTop: 10,
+            marginLeft: 10,
+            marginRight: 10,
+            marginBottom: 10,
+          }}
+          ref={this.wrapper}
+          onContextMenu={(e) => e.preventDefault()}
+        >
+          <Row align="middle" gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
+            {artifacts.map((artifact, index) => (
+              <Col key={index} span={6}>
+                <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
+                  <Artifact key={artifact.id} data={artifact} />
+                </NavLink>
+              </Col>
+            ))}
+          </Row>
+          <Row type="flex" align="middle">
+            <Col span={6} align="middle">
+              <NavLink
+                to={{
+                  pathname: "/artifacts/s/register",
+                  state: { requestType: "post", btnText: "Create" },
+                }}
+              >
+                <Button>Write</Button>
               </NavLink>
             </Col>
-          ))}
-        </Row>
-        <Row type="flex" align="middle">
-          <Col span={6} align="middle">
-            <NavLink
-              to={{
-                pathname: "/artifacts/s/register",
-                state: { requestType: "post", btnText: "Create" },
-              }}
-            >
-              <Button>Write</Button>
-            </NavLink>
-          </Col>
-          <Col span={12} align="middle">
-            <Pagination
-              size="small"
-              total={pagination.count}
-              pageSize={12}
-              showQuickJumper
-              showTotal={(total) => `Total ${total} items`}
-              onChange={this.onChange}
-            />
-          </Col>
-          <Col span={6} align="middle">
-            <Button>extra</Button>
-          </Col>
-        </Row>
-      </div>
-    );
+            <Col span={12} align="middle">
+              <Pagination
+                size="small"
+                total={pagination.count}
+                pageSize={12}
+                showQuickJumper
+                showTotal={(total) => `Total ${total} items`}
+                onChange={this.onChange}
+              />
+            </Col>
+            <Col span={6} align="middle">
+              <Button>extra</Button>
+            </Col>
+          </Row>
+        </div>
+      );
   }
 }
 
