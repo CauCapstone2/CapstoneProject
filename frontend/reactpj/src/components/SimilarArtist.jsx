@@ -65,6 +65,7 @@ class SimilarCreater extends React.Component {
         this.setState({
           artifact: res.data.results,
         });
+        console.log(res.data.result);
         this.userEvaluationCall(res.data.results);
       });
   };
@@ -194,12 +195,12 @@ class SimilarCreater extends React.Component {
           ))}
         </Row>
         <Modal
-          centered={true}
+          // centered={true}
           visible={this.state.visible}
           onOk={this.handleOK}
           onCancel={this.handleCancel}
           footer={null}
-          width="95vh"
+          width="110vh"
         >
           <Profile
             artifact={artifact}

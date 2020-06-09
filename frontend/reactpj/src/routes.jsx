@@ -9,7 +9,9 @@ import RegArtifact from "./components/RegArtifact";
 import MainPage from "./containers/MainPage";
 import SearchPage from "./containers/Search";
 import Mypage from "./containers/Mypage";
-import RecreationDetail from "./containers/RecreationDetailView";
+import Creditsuccess from "./components/Creditsuccess";
+import Creditcancel from "./components/Creditcancel";
+import Creditfail from "./components/Creditfail";
 
 const BaseRouter = () => (
   <div>
@@ -21,8 +23,10 @@ const BaseRouter = () => (
     <Route exact path="/signup/" component={Signup} />
     <Route exact path="/search/" component={SearchPage} />
     <Route exact path="/mypage/" component={Mypage} />
-    {/* <Route exact path="/recreate/:recreationID" component={RecreationDetail} category="recreation"/> */}
     <Route exact path="/recreate/:recreationID" render={(props) => <ArtifactDetail {...props} category="recreation"/>}/>
+    <Route exact path="/purchase/success" component={Creditsuccess} />
+    <Route exact path="/purchase/cancel" component={Creditcancel} />
+    <Route exact path="/purchase/fail" component={Creditfail} />
   </div>
 );
 

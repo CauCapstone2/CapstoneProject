@@ -8,6 +8,7 @@ from jsonfield import JSONField
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     tendency = JSONField(null=True)
+    # credit = models.IntegerField()
 
 
 @receiver(post_save, sender=User)

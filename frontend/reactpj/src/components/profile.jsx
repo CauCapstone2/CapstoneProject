@@ -11,6 +11,8 @@ import {
   Tooltip,
 } from "antd";
 
+import { RedEnvelopeFilled } from "@ant-design/icons";
+
 const { Title, Paragraph } = Typography;
 
 // props : artifact, _new_comments, _eval_length, userInfo, evaluation
@@ -80,6 +82,20 @@ class Profile extends React.Component {
               />
               <Typography>
                 <Title>{userInfo.username}</Title>
+                {this.props.mypage == true ? (
+                  <div
+                    onClick={this.props.CreditClicked}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <RedEnvelopeFilled style={{ fontSize: "20px" }} />
+                    <h>credit charge</h>
+                  </div>
+                ) : null}
                 <Paragraph type="secondary">{userInfo.email}</Paragraph>
                 <Paragraph>
                   Web developer, not only for performance but design factors
@@ -162,62 +178,3 @@ class Profile extends React.Component {
 }
 
 export default Profile;
-
-// import { Modal, Button } from 'antd';
-
-// class App extends React.Component {
-//   state = { visible: false };
-
-//   showModal = () => {
-//     this.setState({
-//       visible: true,
-//     });
-//   };
-
-//   handleOk = e => {
-//     console.log(e);
-//     this.setState({
-//       visible: false,
-//     });
-//   };
-
-//   handleCancel = e => {
-//     console.log(e);
-//     this.setState({
-//       visible: false,
-//     });
-//   };
-
-//   render() {
-//     return (
-//       <div>
-//         <Button type="primary" onClick={this.showModal}>
-//           Open Modal
-//         </Button>
-//         <Modal
-//           title="Basic Modal"
-//           visible={this.state.visible}
-//           onOk={this.handleOk}
-//           onCancel={this.handleCancel}
-//         >
-//           <p>Some contents...</p>
-//           <p>Some contents...</p>
-//           <p>Some contents...</p>
-//         </Modal>
-//       </div>
-//     );
-//   }
-// }
-
-// ReactDOM.render(<App />, mountNode);
-
-// similarCreater: [],
-//     createrInfo: [],
-//     visible: false,
-
-//     userInfo: [],
-//     artifacts: [],
-//     comment: [],
-//     _new_comments: [],
-//     evaluation: [],
-//     _eval_length: 0,
