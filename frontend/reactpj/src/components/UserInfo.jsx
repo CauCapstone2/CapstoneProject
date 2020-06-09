@@ -15,6 +15,10 @@ class UserInfo extends React.Component {
     }
   };
 
+  componentDidMount = () => {
+    this.userInformationCall(this.props.userID);
+  };
+
   userInformationCall = (userID) => {
     axios.get("http://127.0.0.1:8000/mypage/user/?id=" + userID).then((res) => {
       this.setState({
@@ -26,12 +30,7 @@ class UserInfo extends React.Component {
   render() {
     const { userInfo } = this.state;
     return (
-      <Row
-        span={8}
-        justify="center"
-        align="middle"
-        style={{ paddingRight: "5vh" }}
-      >
+      <Row span={8} justify="center" align="middle">
         {userInfo.map((userInfo, index) => (
           <Col justify="center" align="middle" key={index}>
             <Avatar
