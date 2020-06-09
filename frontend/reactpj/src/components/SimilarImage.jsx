@@ -9,7 +9,7 @@ class SimilarImage extends React.Component {
   similarImageResult = (imageList) => {
     if (this.props.isLoading) return <div>Loading...</div>;
     return (
-      <Row justify="space-around" align="middle" gutter={16}>
+      <Row justify="center" align="middle">
         {imageList &&
           imageList.map((el, index) => (
             <Card
@@ -18,9 +18,18 @@ class SimilarImage extends React.Component {
               hoverable
               size="small"
               bordered={false}
+              bodyStyle={{
+                padding: "0px",
+              }}
               style={{
-                width: "25%",
-                height: "25%",
+                width: "20%",
+                height: "20%",
+                marginLeft: "10px",
+                marginRight: "10px",
+                marginBottom: "10px",
+                marginTop: "10px",
+                justify: "center",
+                align: "middle",
               }}
               cover={<img alt={index} src={el.image} />}
             ></Card>

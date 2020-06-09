@@ -87,6 +87,7 @@ class RecreationDetail extends React.Component {
   };
 
   render() {
+    console.log(this.props.category);
     return (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
