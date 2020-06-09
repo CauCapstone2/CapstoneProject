@@ -3,7 +3,7 @@ import axios from "axios";
 import { Modal, Button, Divider, Row, Radio, Input, Typography } from "antd";
 import UserInfo from "./UserInfo";
 import { connect } from "react-redux";
-import * as actions from "../store/actions/auth";
+import * as actions from "../modules/auth";
 import * as keys from "../kakaosecurityinfo";
 const { Paragraph } = Typography;
 
@@ -14,9 +14,8 @@ class CreditCharge extends React.Component {
   };
   handleOnChange = (e) => {
     this.setState({
-      creditAmount: e.target.value * 100,
+      creditAmount: e.target.value,
     });
-    console.log("in handler" + this.state.creditAmount);
   };
 
   otherCreditClicked = () => {
@@ -26,8 +25,8 @@ class CreditCharge extends React.Component {
   };
 
   handleCharge = () => {
-    console.log("in handleCharge" + this.state.creditAmount);
-    let price_for_credit = this.state.creditAmount;
+    console.log("current creditAmount : " + this.state.creditAmount);
+    let price_for_credit = this.state.creditAmount * 100;
 
     const params = new URLSearchParams();
     params.append("cid", "TC0ONETIME");
@@ -48,14 +47,15 @@ class CreditCharge extends React.Component {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            Authorization: `KakaoAK ${keys.kakao_admin_key}`,
+            "Authorization": `KakaoAK ${keys.kakao_admin_key}`,
           },
         }
       )
       .then((res) => {
-        console.log(res.data.tid);
-        this.props.tid_get(res.data.tid);
+        this.props.tid_get(res.data.tid, this.state.creditAmount);
         if (this.props.tid !== null) {
+          console.log("tid : " + this.props.tid);
+          console.log("amount : " + this.props.increaseCredit);
           window.location.assign(res.data.next_redirect_pc_url);
         }
       })
@@ -145,14 +145,15 @@ class CreditCharge extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
-    tid: state.tid,
+    userid: state.auth.userid,
+    tid: state.auth.tid,
+    increaseCredit: state.auth.credit,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    tid_get: (tid) => dispatch(actions.tidDataGet(tid)),
+    tid_get: (tid, creditAmount) => dispatch(actions.tidDataGetaction(tid, creditAmount)),
   };
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Typography } from "antd";
 import { connect } from "react-redux";
-import * as urls from "./urlAddress";
+import * as urls from "../urlAddress";
 
 const { Paragraph } = Typography;
 
@@ -17,8 +17,9 @@ class UserCredit extends React.Component {
 
   getMyCredit = (userid) => {
     axios.get(urls.user_credit + userid).then((res) => {
+      console.log(res);
       this.setState({
-        myCredit: res.data, // not sure
+        myCredit: res.data.credit,
       });
     });
   };
@@ -26,8 +27,12 @@ class UserCredit extends React.Component {
   render() {
     return (
       <div>
-        <Paragraph>current Credit : </Paragraph>
-        <Paragraph strong>{this.state.myCredit}</Paragraph>
+        {this.props.mypage === "mypage" ? (
+          <div>
+            <Paragraph>current Credit : </Paragraph>
+            <Paragraph strong>{this.state.myCredit}</Paragraph>
+          </div>
+        ) : null}
       </div>
     );
   }
