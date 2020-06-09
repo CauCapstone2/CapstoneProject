@@ -52,10 +52,7 @@ class ArtifactDetail extends React.Component {
   }
 
   deleteArtifact = async (id) => {
-    var url_link = "";
-    if (this.props.category == "recreation")
-      url_link = "http://127.0.0.1:8000/recreate/";
-    else url_link = "http://127.0.0.1:8000/artifacts/api/";
+    var url_link = "http://127.0.0.1:8000/artifacts/api/";
 
     await axios.delete(url_link + id);
     this.props.history.push("/artifactlist");
@@ -72,10 +69,7 @@ class ArtifactDetail extends React.Component {
   };
 
   updateComment = (artifactID) => {
-    var url_link = "";
-    if (this.props.category === "recreation")
-      url_link = "http://127.0.0.1:8000/comments/api/?recreationID=";
-    else url_link = "http://127.0.0.1:8000/comments/api/?artifactID=";
+    let url_link = "http://127.0.0.1:8000/comments/api/?artifactID=";
 
     axios.get(url_link + artifactID).then((res) => {
       this.editDate(res.data);
