@@ -7,25 +7,22 @@ from .serializers import MypageUserSerializer
 from rest_framework import viewsets
 from django_filters.rest_framework import DjangoFilterBackend
 
-class MypageCommentViewSet(viewsets.ModelViewSet) :
+
+class MypageCommentViewSet(viewsets.ModelViewSet):
     serializer_class = MypageCommentSerializer
     queryset = Comment.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['userID']
 
-# class MypageCommentCountViewSet(viewsets.ModelViewSet) :
-#     serializer_class = MypageCommentSerializer
-#     queryset = Comment.objects.count()
-#     filter_backends = [DjangoFilterBackend]
-#     filterset_fields = ['userID']
 
-class MypageArtifactViewSet(viewsets.ModelViewSet) :
+class MypageArtifactViewSet(viewsets.ModelViewSet):
     serializer_class = MypageArtifactSerializer
     queryset = Artifact.objects.all()
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['userID']
 
-class MypageUserViewSet(viewsets.ModelViewSet) :
+
+class MypageUserViewSet(viewsets.ModelViewSet):
     serializer_class = MypageUserSerializer
     queryset = User.objects.all()
     filter_backends = [DjangoFilterBackend]

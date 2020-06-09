@@ -1,5 +1,4 @@
 import axios from "axios";
-import { handleActions, createAction } from "redux-actions";
 
 // action type
 const AUTH_START = "AUTH_START";
@@ -186,7 +185,7 @@ const updateObject = (oldObject, updateProperties) => {
 // reducer
 const initialState = {
   token: null,
-  userid: null,
+  userid: 0,
   error: null,
   loading: false,
   firstdrawer: false,

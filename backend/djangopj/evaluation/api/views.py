@@ -27,7 +27,11 @@ class EvaluationView(APIView):
             average[2] += eval.Quality
             average[3] += eval.Popularity
             average[4] += eval.Workability
-        average = [round(x / len(evaluations), 2) for x in average]
+
+        try:
+            average = [round(x / len(evaluations), 2) for x in average]
+        except ZeroDivisionError:
+            average = average
 
         result = {'average': average, 'length': len(evaluations)}
         return Response(result)

@@ -343,7 +343,7 @@ class ArtifactDetail extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
+    userid: state.auth.userid,
   };
 };
 

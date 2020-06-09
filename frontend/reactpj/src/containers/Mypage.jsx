@@ -225,8 +225,8 @@ class Mypage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
-    isAuthenticated: state.token,
+    userid: state.auth.userid,
+    isAuthenticated: state.auth.token,
   };
 };
 
