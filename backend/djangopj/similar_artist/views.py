@@ -37,7 +37,6 @@ class SimilarArtistView(APIView):
         tendencies = np.array(tendencies)
         kmeans_ensemble = KMeansEnsemble(n_clusters, n_ensembles, n_units)
         predict = kmeans_ensemble.fit_predict(tendencies).tolist()
-        print(predict)
 
         if idx == -1:
             return JsonResponse({"result": 1})  # error
