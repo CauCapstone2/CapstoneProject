@@ -12,6 +12,7 @@ class UserCredit extends React.Component {
   };
 
   componentWillMount() {
+    console.log("entered");
     this.getMyCredit(this.props.userid);
   }
 
@@ -19,7 +20,7 @@ class UserCredit extends React.Component {
     axios.get(urls.user_credit + userid).then((res) => {
       console.log(res);
       this.setState({
-        myCredit: res.data.credit,
+        myCredit: res.data[0].credit,
       });
     });
   };
@@ -27,8 +28,15 @@ class UserCredit extends React.Component {
   render() {
     return (
       <div>
-        {this.props.mypage === "mypage" ? (
-          <div>
+        {this.props.mypage == true ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
             <Paragraph>current Credit : </Paragraph>
             <Paragraph strong>{this.state.myCredit}</Paragraph>
           </div>
@@ -40,7 +48,7 @@ class UserCredit extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
+    userid: state.auth.userid,
   };
 };
 
