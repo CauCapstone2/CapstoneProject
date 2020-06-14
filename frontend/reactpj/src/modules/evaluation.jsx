@@ -1,5 +1,5 @@
 import axios from "axios";
-import { handleActions, handleAction } from "redux-actions";
+import { handleActions } from "redux-actions";
 
 // action type
 const GET_EVALUATION_PENDING = "artifactdetail/GET_EVALUATION_PENDING";
@@ -35,9 +35,7 @@ export const getEvaluation = (artifactId) => (dispatch) => {
 const initialState = {
   pending: false,
   error: false,
-  data: {
-    evaluation: null,
-  },
+  data: null,
 };
 
 export default handleActions(

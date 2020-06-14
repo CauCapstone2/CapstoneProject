@@ -24,7 +24,6 @@ class ArtifactDetail extends React.Component {
   state = {
     artifactId: null,
     comment: [],
-    eval: [],
     isReported: false,
     modalVisible: false,
     similarImageVisible: false,
@@ -47,6 +46,16 @@ class ArtifactDetail extends React.Component {
 
     // this.updateEvaluation(artifactID);
     this.updateComment(artifactID);
+  }
+
+  componentDidUpdate(prevProps) {
+    const { evaluation } = this.props;
+    if (this.props != prevProps) {
+      if (evaluation) {
+        let avgEval = this.calcAvgEval(this.props.evaluation);
+        this.setState({ averageEval: avgEval });
+      }
+    }
   }
 
   deleteArtifact = async (id) => {
@@ -104,8 +113,7 @@ class ArtifactDetail extends React.Component {
     }
   };
 
-  averageEvaluation = () => {
-    const evaluation = this.state.eval;
+  calcAvgEval = (evaluation) => {
     let accumulation_eval = [0, 0, 0, 0, 0];
     let average_length = 0;
     for (let i in evaluation) {
@@ -119,9 +127,10 @@ class ArtifactDetail extends React.Component {
     for (let i in accumulation_eval) {
       accumulation_eval[i] = Math.floor(accumulation_eval[i] / average_length);
     }
-    this.setState({
-      averageEval: accumulation_eval,
-    });
+    // this.setState({
+    //   averageEval: accumulation_eval,
+    // });
+    return accumulation_eval;
   };
 
   preEval = () => {
@@ -173,7 +182,7 @@ class ArtifactDetail extends React.Component {
   }
 
   render() {
-    const artifact = this.props.artifact;
+    const { artifact, evaluation } = this.props;
     return (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
@@ -306,7 +315,11 @@ class ArtifactDetail extends React.Component {
           Evaluations
         </Divider>
         <Row align="middle" justify="center">
-          <Evaluation eval={this.state.eval} />
+          {evaluation ? (
+            <Evaluation eval={evaluation} />
+          ) : (
+            <div>Loading...</div>
+          )}
         </Row>
         <Divider
           orientation="left"
