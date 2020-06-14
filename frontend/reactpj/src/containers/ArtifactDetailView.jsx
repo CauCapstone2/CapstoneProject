@@ -14,13 +14,14 @@ import StoreImage from "../components/StoreImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
+import { bindActionCreators } from "redux";
+import * as artifactDetailAction from "../modules/artifactdetail";
 
 const { Title, Paragraph } = Typography;
 
 class ArtifactDetail extends React.Component {
   state = {
     artifactId: null,
-    artifact: [],
     comment: [],
     eval: [],
     isReported: false,
@@ -39,14 +40,9 @@ class ArtifactDetail extends React.Component {
       artifactID = this.props.match.params.recreationID;
     else artifactID = this.props.match.params.artifactID;
 
-    let url_link = "http://127.0.0.1:8000/artifacts/api/detail/";
+    const { ArtifactDetailAction } = this.props;
+    ArtifactDetailAction.getArtifactDetail(artifactID);
 
-    axios.get(url_link + artifactID).then((res) => {
-      this.setState({
-        artifact: res.data,
-        artifactID: artifactID,
-      });
-    });
     this.updateEvaluation(artifactID);
     this.updateComment(artifactID);
   }
@@ -175,6 +171,7 @@ class ArtifactDetail extends React.Component {
   }
 
   render() {
+    const artifact = this.props.artifact;
     return (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
@@ -194,8 +191,8 @@ class ArtifactDetail extends React.Component {
                 alignContent: "center",
               }}
             >
-              {this.state.artifact.image &&
-                this.state.artifact.image.map((el, index) => (
+              {artifact.image &&
+                artifact.image.map((el, index) => (
                   <div className="art-box" key={index}>
                     <Image
                       className="art"
@@ -268,8 +265,8 @@ class ArtifactDetail extends React.Component {
               style={{ backgroundColor: "" }}
             >
               <Typography>
-                <Title>{this.state.artifact.title}</Title>
-                <Paragraph>{this.state.artifact.description}</Paragraph>
+                <Title>{artifact.title}</Title>
+                <Paragraph>{artifact.description}</Paragraph>
               </Typography>
             </Row>
             <Row
@@ -288,8 +285,8 @@ class ArtifactDetail extends React.Component {
           Artist Infomation
         </Divider>
         <Row align="middle" justify="center">
-          <UserInfo userID={this.state.artifact.userID} />
-          <SimilarArtist userID={this.state.artifact.userID} />
+          <UserInfo userID={artifact.userID} />
+          <SimilarArtist userID={artifact.userID} />
         </Row>
         <Row align="middle" justify="center">
           <EvaluationForm
@@ -334,8 +331,8 @@ class ArtifactDetail extends React.Component {
           />
           <div className="modifyButton">
             {this.modifyButton(
-              this.state.artifact.id,
-              this.state.artifact.userID
+              artifact.id,
+              artifact.userID
             )}
           </div>
         </Row>
@@ -363,7 +360,16 @@ class ArtifactDetail extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userid: state.auth.userid,
+    loading: state.pender.pending["GET_POST"],
+    error: state.pender.failure["GET_POST"],
+    artifact: state.artifactdetail.data,
   };
 };
 
-export default connect(mapStateToProps)(ArtifactDetail);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    ArtifactDetailAction: bindActionCreators(artifactDetailAction, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArtifactDetail);

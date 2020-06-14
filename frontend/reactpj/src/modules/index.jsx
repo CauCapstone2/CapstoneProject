@@ -4,10 +4,12 @@ import ReduxThunk from "redux-thunk";
 import penderMiddleware, { penderReducer } from "redux-pender";
 import auth from "./auth";
 import artifactlist from "./artifactlist";
+import artifactdetail from "./artifactdetail";
 
 const reducers = combineReducers({
   auth,
   artifactlist,
+  artifactdetail,
   pender: penderReducer,
 });
 
