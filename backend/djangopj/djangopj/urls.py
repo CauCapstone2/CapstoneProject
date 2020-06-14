@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.views.static import serve
 import home.views
 
 urlpatterns = [
@@ -22,4 +22,4 @@ urlpatterns = [
     path('similar-artist/', include('similar_artist.urls')),
     path('similar-image/', include('similar_image.urls')),
     path('recreate/', include('recreation.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]

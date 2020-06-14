@@ -1,5 +1,4 @@
 import os
-from . import securityinfo as si
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -9,12 +8,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = si.secret_key
+SECRET_KEY = 'dnelv1fx5$eauznj=ptq=zz69^p(9!1pu$f7&9wk4&@!jgc$i('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -91,11 +90,14 @@ WSGI_APPLICATION = 'djangopj.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': si.db_name,  # DB명
-        'USER': si.db_user,  # 데이터베이스 계정
-        'PASSWORD': si.db_password,  # 계정 비밀번호
-        'HOST': '127.0.0.1',  # 데이테베이스 주소(IP)
+        'NAME': 'capstoneDB',  # DB명
+        'USER': 'admin',  # 데이터베이스 계정
+        'PASSWORD': 'tmfvmadpwjwdjdltsmsep1102',  # 계정 비밀번호
+        'HOST': 'database-1.ckzjh13e3fam.ap-northeast-2.rds.amazonaws.com',  # 데이테베이스 주소(IP)
         'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
 
@@ -135,10 +137,6 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'artifact', 'static')
-]
-
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
@@ -160,8 +158,8 @@ REST_FRAMEWORK = {
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = ('http://localhost:3000',)
-CORS_ORIGIN_REGEX_WHITELIST = ('http://localhost:3000',)
+CORS_ORIGIN_WHITELIST = ['http://iducium.s3-website.ap-northeast-2.amazonaws.com']
+CORS_ORIGIN_REGEX_WHITELIST = ['http://iducium.s3-website.ap-northeast-2.amazonaws.com']
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
 ACCOUNT_AUTHENTICATION_METHOD = 'username'
