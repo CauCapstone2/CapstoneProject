@@ -88,16 +88,16 @@ class ArtifactDetail extends React.Component {
     });
   };
 
-  updateEvaluation = (artifactID) => {
-    let url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
+  // updateEvaluation = (artifactID) => {
+  //   let url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
 
-    axios.get(url_link + artifactID).then((res) => {
-      this.setState({
-        eval: res.data,
-      });
-      this.averageEvaluation();
-    });
-  };
+  //   axios.get(url_link + artifactID).then((res) => {
+  //     this.setState({
+  //       eval: res.data,
+  //     });
+  //     this.averageEvaluation();
+  //   });
+  // };
 
   preEval = (evaluation) => {
     for (var i in evaluation) {
@@ -173,7 +173,7 @@ class ArtifactDetail extends React.Component {
   }
 
   render() {
-    const { artifact, evaluation } = this.props;
+    const { artifact, evaluation, evaluationLoading } = this.props;
     return (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
@@ -363,10 +363,6 @@ class ArtifactDetail extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userid: state.auth.userid,
-    artifactDetailLoading:
-      state.pender.pending["artifactdetail/GET_ARTIFACTDETAIL"],
-    artifactDetailError:
-      state.pender.failure["artifactdetail/GET_ARTIFACTDETAIL"],
     artifact: state.artifactdetail.data,
     evaluation: state.evaluation.data,
   };

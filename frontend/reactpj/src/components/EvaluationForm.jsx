@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import * as evaluationAction from "../modules/evaluation";
 import { Modal, Button, InputNumber } from "antd";
 import { bindActionCreators } from "redux";
+import Evaluation from "./Evaluation";
 
 class EvaluationForm extends Component {
   state = {
@@ -38,16 +39,24 @@ class EvaluationForm extends Component {
 
   handleUpdateEval = async () => {
     const { EvaluationAction } = this.props;
-    await axios.patch(
-      "http://127.0.0.1:8000/evaluation/api/" + this.props.preEval.id + "/",
-      {
-        Creative: this.state.creative,
-        Expressive: this.state.expressive,
-        Quality: this.state.quality,
-        Popularity: this.state.popularity,
-        Workability: this.state.workability,
-      }
-    );
+    // await axios.patch(
+    //   "http://127.0.0.1:8000/evaluation/api/" + this.props.preEval.id + "/",
+    //   {
+    //     Creative: this.state.creative,
+    //     Expressive: this.state.expressive,
+    //     Quality: this.state.quality,
+    //     Popularity: this.state.popularity,
+    //     Workability: this.state.workability,
+    //   }
+    // );
+    let updateData = {
+      Creative: this.state.creative,
+      Expressive: this.state.expressive,
+      Quality: this.state.quality,
+      Popularity: this.state.popularity,
+      Workability: this.state.workability,
+    };
+    await EvaluationAction.patchEvaluation(this.props.preEval.id, updateData);
 
     EvaluationAction.getEvaluation(this.props.artifactID);
   };
