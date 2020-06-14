@@ -5,8 +5,6 @@ import { handleActions } from "redux-actions";
 const GET_ARTIFACTDETAIL_PENDING = "artifactdetail/GET_ARTIFACTDETAIL_PENDING";
 const GET_ARTIFACTDETAIL_SUCCESS = "artifactdetail/GET_ARTIFACTDETAIL_SUCCESS";
 const GET_ARTIFACTDETAIL_FAILURE = "artifactdetail/GET_ARTIFACTDETAIL_FAILURE";
-const GET_EVALUATION_PENDING = "artifactdetail/GET_EVALUATION_PENDING";
-const GET_EVALUATION_SUCCESS = "artifactdetail/GET_EVALUATION_SUCCESS";
 
 //action creator
 function getArtifactDetailApi(artifactId) {

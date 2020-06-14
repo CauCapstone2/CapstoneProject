@@ -5,11 +5,13 @@ import penderMiddleware, { penderReducer } from "redux-pender";
 import auth from "./auth";
 import artifactlist from "./artifactlist";
 import artifactdetail from "./artifactdetail";
+import evaluation from "./evaluation";
 
 const reducers = combineReducers({
   auth,
   artifactlist,
   artifactdetail,
+  evaluation,
   pender: penderReducer,
 });
 

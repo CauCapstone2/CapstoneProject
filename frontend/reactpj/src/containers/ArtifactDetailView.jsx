@@ -16,6 +16,7 @@ import UserInfo from "../components/UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
 import { bindActionCreators } from "redux";
 import * as artifactDetailAction from "../modules/artifactdetail";
+import * as evaluationAction from "../modules/evaluation";
 
 const { Title, Paragraph } = Typography;
 
@@ -40,10 +41,11 @@ class ArtifactDetail extends React.Component {
       artifactID = this.props.match.params.recreationID;
     else artifactID = this.props.match.params.artifactID;
 
-    const { ArtifactDetailAction } = this.props;
+    const { ArtifactDetailAction, EvaluationAction } = this.props;
     ArtifactDetailAction.getArtifactDetail(artifactID);
+    EvaluationAction.getEvaluation(artifactID);
 
-    this.updateEvaluation(artifactID);
+    // this.updateEvaluation(artifactID);
     this.updateComment(artifactID);
   }
 
@@ -330,10 +332,7 @@ class ArtifactDetail extends React.Component {
             onChange={(e) => this.handleReportBtn(e)}
           />
           <div className="modifyButton">
-            {this.modifyButton(
-              artifact.id,
-              artifact.userID
-            )}
+            {this.modifyButton(artifact.id, artifact.userID)}
           </div>
         </Row>
         {this.props.category == "recreation" ? null : (
@@ -363,12 +362,14 @@ const mapStateToProps = (state) => {
     loading: state.pender.pending["GET_POST"],
     error: state.pender.failure["GET_POST"],
     artifact: state.artifactdetail.data,
+    evaluation: state.evaluation.data,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     ArtifactDetailAction: bindActionCreators(artifactDetailAction, dispatch),
+    EvaluationAction: bindActionCreators(evaluationAction, dispatch),
   };
 };
 
