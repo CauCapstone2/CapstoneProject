@@ -363,8 +363,10 @@ class ArtifactDetail extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userid: state.auth.userid,
-    loading: state.pender.pending["GET_POST"],
-    error: state.pender.failure["GET_POST"],
+    artifactDetailLoading:
+      state.pender.pending["artifactdetail/GET_ARTIFACTDETAIL"],
+    artifactDetailError:
+      state.pender.failure["artifactdetail/GET_ARTIFACTDETAIL"],
     artifact: state.artifactdetail.data,
     evaluation: state.evaluation.data,
   };
