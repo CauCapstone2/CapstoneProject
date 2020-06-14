@@ -2,19 +2,12 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import {
-  List,
-  Row,
-  Col,
-  Avatar,
-  Comment,
-  Divider,
-  Spin,
-  Alert,
-} from "antd";
+import { List, Row, Col, Avatar, Comment, Divider, Spin, Alert } from "antd";
 import "./ArtifactDetail.css";
 import Artifact from "../components/Artifact";
 import Profile from "../components/profile";
+import * as urls from "../components/urlAddress";
+import CreditCharge from "../components/CreditCharge";
 
 class Mypage extends React.Component {
   state = {
@@ -24,24 +17,26 @@ class Mypage extends React.Component {
     _new_comments: [],
     evaluation: [],
     _eval_length: 0,
+
+    creditModal: false,
   };
 
-  componentWillReceiveProps = (nextprops) => {
-    if (this.props.userid != nextprops) {
-      this.userInformationCall(nextprops.userid);
-      this.userArtifactCall(nextprops.userid);
-      this.userCommentCall(nextprops.userid);
-    }
-  };
-
-  componentWillMount() {
+  componentDidMount() {
     this.userInformationCall(this.props.userid);
     this.userArtifactCall(this.props.userid);
     this.userCommentCall(this.props.userid);
   }
 
+  componentDidUpdate(prevProps) {
+    if (this.props.userid !== prevProps.userid) {
+      this.userInformationCall(this.props.userid);
+      this.userArtifactCall(this.props.userid);
+      this.userCommentCall(this.props.userid);
+    }
+  }
+
   userInformationCall = (userID) => {
-    axios.get("http://127.0.0.1:8000/mypage/user/?id=" + userID).then((res) => {
+    axios.get(urls.mypage_user_id + userID).then((res) => {
       this.setState({
         userInfo: res.data,
       });
@@ -53,53 +48,36 @@ class Mypage extends React.Component {
       .get("http://127.0.0.1:8000/artifacts/api/?userID=" + userID)
       .then((res) => {
         this.setState({
-          artifact: res.data.results,
+          artifact: res.data,
         });
-        this.userEvaluationCall(res.data.results);
+        this.userEvaluationCall(userID);
       });
   };
 
   userCommentCall = (userID) => {
-    axios
-      .get("http://127.0.0.1:8000/mypage/comments/?userID=" + userID)
-      .then((res) => {
-        this.setState({
-          comment: res.data,
-        });
-        this.recreationErase();
+    axios.get(urls.mypage_comments_userID + userID).then((res) => {
+      this.setState({
+        comment: res.data,
       });
-  };
-
-  userEvaluationCall = async (data) => {
-    var _evaluation = [0, 0, 0, 0, 0];
-    var _eval_num = 0;
-    for (var i in data) {
-      await axios
-        .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + data[i].id)
-        .then((res) => {
-          if (res.data[0]) {
-            _eval_num++;
-            _evaluation[0] += res.data[0].Creative;
-            _evaluation[1] += res.data[0].Expressive;
-            _evaluation[2] += res.data[0].Quality;
-            _evaluation[3] += res.data[0].Popularity;
-            _evaluation[4] += res.data[0].Workability;
-          }
-        });
-    }
-    for (var i in _evaluation) {
-      _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
-    }
-    this.setState({
-      evaluation: _evaluation,
-      _eval_length: _eval_num,
+      this.recreationErase();
     });
   };
 
+  userEvaluationCall = (userId) => {
+    axios
+      .get("http://127.0.0.1:8000/evaluation/api/average?userId=" + userId)
+      .then((res) => {
+        this.setState({
+          evaluation: res.data.average,
+          _eval_length: res.data.length,
+        });
+      });
+  };
+
   recreationErase = () => {
-    var _comments = this.state.comment;
-    var _new_comments = [];
-    for (var i in _comments) {
+    let _comments = this.state.comment;
+    let _new_comments = [];
+    for (let i in _comments) {
       if (_comments[i].artifactID === null) {
         continue;
       }
@@ -118,6 +96,22 @@ class Mypage extends React.Component {
       data[i].date = data[i].date.replace("Z", " ");
     }
   };
+
+  CreditClicked = () => {
+    console.log("clicked");
+    this.setState({
+      creditModal: true,
+    });
+  };
+
+  CreditModalOK = () => {};
+
+  CreditModalCancel = () => {
+    this.setState({
+      creditModal: false,
+    });
+  };
+
   render() {
     const {
       userInfo,
@@ -127,7 +121,7 @@ class Mypage extends React.Component {
       _eval_length,
     } = this.state;
     return (
-      <div onContextMenu={(e)=> e.preventDefault()}>
+      <div onContextMenu={(e) => e.preventDefault()}>
         {!this.props.isAuthenticated ? (
           <Spin tip="Loading...">
             <Alert
@@ -144,6 +138,13 @@ class Mypage extends React.Component {
               _eval_length={_eval_length}
               userInfo={userInfo}
               evaluation={evaluation}
+              mypage={true}
+              CreditClicked={this.CreditClicked}
+            />
+            <CreditCharge
+              creditModal={this.state.creditModal}
+              CreditModalOK={this.CreditModalOK}
+              CreditModalCancel={this.CreditModalCancel}
             />
             <Divider
               orientation="left"
@@ -213,15 +214,10 @@ class Mypage extends React.Component {
                     style={{ marginBottom: "10px" }}
                   >
                     <List.Item.Meta
-                      avatar={
-                        <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                      }
+                      avatar={<Avatar src={urls.image_bluehead} />}
                       title={
                         <a
-                          href={
-                            "http://localhost:3000/artifacts/" +
-                            item.artifactID.id
-                          }
+                          href={urls.artifacts_detail_link + item.artifactID.id}
                         >
                           {item.artifactID.title}
                         </a>
@@ -232,7 +228,7 @@ class Mypage extends React.Component {
                     {item.artifactID.description}
                     <br />
                     <Comment
-                      author={<a>{item.username}</a>}
+                      author={<div>{item.username}</div>}
                       content={item.content}
                       datetime={item.date}
                     />
@@ -249,13 +245,8 @@ class Mypage extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
-    isAuthenticated: state.token,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
+    userid: state.auth.userid,
+    isAuthenticated: state.auth.token,
   };
 };
 

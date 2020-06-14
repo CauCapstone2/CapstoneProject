@@ -14,7 +14,7 @@ class SimilarArtistView(APIView):
         user_list = []
         similar_artist = []
         n_clusters = 2
-        n_ensembles = 50
+        n_ensembles = 100
         n_units = 2
         user_id = int(request.GET.get('userID'))
         user_query_set = User.objects.all()

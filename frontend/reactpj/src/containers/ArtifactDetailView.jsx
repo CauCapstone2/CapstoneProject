@@ -10,15 +10,16 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
-import StoreImage from "../components/storeImage";
+import StoreImage from "../components/StoreImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
-import SimilarCreater from "../components/SimilarArtifacts";
+import SimilarArtist from "../components/SimilarArtist";
 
 const { Title, Paragraph } = Typography;
 
 class ArtifactDetail extends React.Component {
   state = {
+    artifactId: null,
     artifact: [],
     comment: [],
     eval: [],
@@ -26,29 +27,35 @@ class ArtifactDetail extends React.Component {
     modalVisible: false,
     similarImageVisible: false,
     similarImageList: [],
+    similarImageLoading: true,
     previewImage: "",
     predict: -1,
     averageEval: [],
   };
 
   componentDidMount() {
-    const artifactID = this.props.match.params.artifactID;
-    axios
-      .get("http://127.0.0.1:8000/artifacts/api/detail/" + artifactID)
-      .then((res) => {
-        this.setState({
-          artifact: res.data,
-        });
+    var artifactID = null;
+    if (this.props.category == "recreation")
+      artifactID = this.props.match.params.recreationID;
+    else artifactID = this.props.match.params.artifactID;
+
+    let url_link = "http://127.0.0.1:8000/artifacts/api/detail/";
+
+    axios.get(url_link + artifactID).then((res) => {
+      this.setState({
+        artifact: res.data,
+        artifactID: artifactID,
       });
+    });
     this.updateEvaluation(artifactID);
     this.updateComment(artifactID);
   }
 
   deleteArtifact = async (id) => {
-    await axios.delete("http://127.0.0.1:8000/artifacts/api/" + id);
+    var url_link = "http://127.0.0.1:8000/artifacts/api/";
+
+    await axios.delete(url_link + id);
     this.props.history.push("/artifactlist");
-    this.forceUpdate();
-    window.location.reload();
   };
 
   modifyButton = (id, userID) => {
@@ -62,25 +69,25 @@ class ArtifactDetail extends React.Component {
   };
 
   updateComment = (artifactID) => {
-    axios
-      .get("http://127.0.0.1:8000/comments/api/?artifactID=" + artifactID)
-      .then((res) => {
-        this.editDate(res.data);
-        this.setState({
-          comment: res.data.reverse(),
-        });
+    let url_link = "http://127.0.0.1:8000/comments/api/?artifactID=";
+
+    axios.get(url_link + artifactID).then((res) => {
+      this.editDate(res.data);
+      this.setState({
+        comment: res.data.reverse(),
       });
+    });
   };
 
   updateEvaluation = (artifactID) => {
-    axios
-      .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + artifactID)
-      .then((res) => {
-        this.setState({
-          eval: res.data,
-        });
-        this.averageEvaluation();
+    let url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
+
+    axios.get(url_link + artifactID).then((res) => {
+      this.setState({
+        eval: res.data,
       });
+      this.averageEvaluation();
+    });
   };
 
   preEval = () => {
@@ -101,9 +108,9 @@ class ArtifactDetail extends React.Component {
 
   averageEvaluation = () => {
     const evaluation = this.state.eval;
-    var accumulation_eval = [0, 0, 0, 0, 0];
-    var average_length = 0;
-    for (var i in evaluation) {
+    let accumulation_eval = [0, 0, 0, 0, 0];
+    let average_length = 0;
+    for (let i in evaluation) {
       average_length++;
       accumulation_eval[0] += evaluation[i].Creative;
       accumulation_eval[1] += evaluation[i].Expressive;
@@ -111,8 +118,8 @@ class ArtifactDetail extends React.Component {
       accumulation_eval[3] += evaluation[i].Popularity;
       accumulation_eval[4] += evaluation[i].Workability;
     }
-    for (var i in accumulation_eval) {
-      accumulation_eval[i] = accumulation_eval[i] / average_length;
+    for (let i in accumulation_eval) {
+      accumulation_eval[i] = Math.floor(accumulation_eval[i] / average_length);
     }
     this.setState({
       averageEval: accumulation_eval,
@@ -120,7 +127,7 @@ class ArtifactDetail extends React.Component {
   };
 
   preEval = () => {
-    for (var i in this.state.eval) {
+    for (let i in this.state.eval) {
       if (this.state.eval[i].userID === parseInt(this.props.userid)) {
         return this.state.eval[i];
       }
@@ -143,19 +150,33 @@ class ArtifactDetail extends React.Component {
 
   showSimilarImage(imageId, e) {
     e.preventDefault();
+    this.setState({ similarImageVisible: !this.state.similarImageVisible });
+
     axios
       .get("http://127.0.0.1:8000/similar-image/?imageId=" + imageId)
       .then((res) => {
+        res.data.splice(8);
         this.setState({
           similarImageList: res.data,
-          similarImageVisible: !this.state.similarImageVisible,
+          similarImageLoading: false,
         });
       });
   }
 
+  moveSimilarImage(artifactId) {
+    this.setState({ modalVisible: false, referrer: artifactId });
+    //need to be modified about recreationID & artifactID
+    this.props.history.push(`/artifacts/${artifactId}`);
+    window.location.reload();
+  }
+
+  handleReportBtn(val) {
+    this.setState({ isReported: val });
+  }
+
   render() {
     return (
-      <div onContextMenu={(e)=> e.preventDefault()}>
+      <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
             span={12}
@@ -185,11 +206,19 @@ class ArtifactDetail extends React.Component {
                       }
                     ></Image>
                     <Modal
-                      visible={this.state.modalVisible}
+                      width="70vh"
                       mask={false}
+                      centered={true}
+                      visible={this.state.modalVisible}
+                      // mask={false}
                       onCancel={this.closeModal}
                       footer={[
-                        <StoreImage image={this.state.previewImage} userid={this.props.userid} artifactID={this.props.match.params.artifactID}/>,
+                        <StoreImage
+                          key={index}
+                          image={this.state.previewImage}
+                          userid={this.props.userid}
+                          artifactID={this.state.artifactID}
+                        />,
                         <Button
                           key="ok"
                           onClick={this.closeModal}
@@ -203,15 +232,20 @@ class ArtifactDetail extends React.Component {
                         previewImage={this.state.previewImage}
                         predict={this.state.predict}
                       />
-                      <h3
-                        onClick={(e) =>
-                          this.showSimilarImage(this.state.previewImageId, e)
-                        }
+                      <Button
+                        type="primary"
+                        onClick={(e) => {
+                          this.showSimilarImage(this.state.previewImageId, e);
+                        }}
                       >
-                        Similar art
-                      </h3>
+                        Show Similar Arts
+                      </Button>
                       {this.state.similarImageVisible ? (
-                        <SimilarImage imageList={this.state.similarImageList} />
+                        <SimilarImage
+                          onChange={(e) => this.moveSimilarImage(e)}
+                          isLoading={this.state.similarImageLoading}
+                          imageList={this.state.similarImageList}
+                        />
                       ) : null}
                     </Modal>
                   </div>
@@ -251,18 +285,19 @@ class ArtifactDetail extends React.Component {
           orientation="left"
           style={{ color: "#333", fontWeight: "normal" }}
         >
-          Creator Infomation
+          Artist Infomation
         </Divider>
         <Row align="middle" justify="center">
           <UserInfo userID={this.state.artifact.userID} />
-          <SimilarCreater userID={this.state.artifact.userID} />
+          <SimilarArtist userID={this.state.artifact.userID} />
         </Row>
         <Row align="middle" justify="center">
           <EvaluationForm
             updateEvaluation={this.updateEvaluation}
             preEval={this.preEval()}
-            artifactID={this.props.match.params.artifactID}
+            artifactID={this.state.artifactID}
             userid={this.props.userid}
+            category={this.props.category}
           />
         </Row>
         <Divider
@@ -284,15 +319,18 @@ class ArtifactDetail extends React.Component {
           <Comment
             updateComment={this.updateComment}
             comment={this.state.comment}
-            artifactID={this.props.match.params.artifactID}
+            artifactID={this.state.artifactID}
+            recreationID={this.props.match.params.recreationID}
             userid={this.props.userid}
+            category={this.props.category}
           />
         </Row>
         <Row>
           <Report
-            artifactID={this.props.match.params.artifactID}
+            artifactID={this.state.artifactID}
             userid={this.props.userid}
             isReported={this.state.isReported}
+            onChange={(e) => this.handleReportBtn(e)}
           />
           <div className="modifyButton">
             {this.modifyButton(
@@ -301,18 +339,22 @@ class ArtifactDetail extends React.Component {
             )}
           </div>
         </Row>
-        <Divider
-          orientation="left"
-          style={{ color: "#333", fontWeight: "normal" }}
-        >
-          Recreation
-        </Divider>
-        <Row align="middle" justify="center">
-          <Recreation
-            artifactID={this.props.match.params.artifactID}
-            requestType={this.props.requestType}
-          />
-        </Row>
+        {this.props.category == "recreation" ? null : (
+          <div>
+            <Divider
+              orientation="left"
+              style={{ color: "#333", fontWeight: "normal" }}
+            >
+              Recreation
+            </Divider>
+            <Row align="middle" justify="center">
+              <Recreation
+                artifactID={this.state.artifactID}
+                requestType={this.props.requestType}
+              />
+            </Row>
+          </div>
+        )}
       </div>
     );
   }
@@ -320,7 +362,7 @@ class ArtifactDetail extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
+    userid: state.auth.userid,
   };
 };
 

@@ -1,7 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
 import Profile from "../components/profile";
 import { Row, Col, Avatar, Typography, Divider, Modal } from "antd";
 
@@ -21,14 +19,14 @@ class SimilarCreater extends React.Component {
     _eval_length: 0,
   };
 
-  componentWillReceiveProps = (nextprops) => {
-    if (this.props.userid != nextprops) {
-      this.similarCreaterCall(nextprops.userID);
+  componentDidUpdate(prevProps) {
+    if (this.props.userID !== prevProps.userID) {
+      this.similarCreaterCall(this.props.userID);
     }
-  };
+  }
 
-  similarCreaterCall = (userID) => {
-    axios
+  similarCreaterCall = async (userID) => {
+    await axios
       .get("http://127.0.0.1:8000/similar-artist/?userID=" + userID)
       .then((res) => {
         this.setState({
@@ -39,8 +37,8 @@ class SimilarCreater extends React.Component {
   };
 
   similarCreaterInformationCall = async (data) => {
-    var _createrInfo = [];
-    for (var i in data) {
+    let _createrInfo = [];
+    for (let i in data) {
       await axios
         .get("http://127.0.0.1:8000/mypage/user/?id=" + data[i])
         .then((res) => {
@@ -67,7 +65,7 @@ class SimilarCreater extends React.Component {
         this.setState({
           artifact: res.data.results,
         });
-        this.userEvaluationCall(res.data.results);
+        this.userEvaluationCall(userID);
       });
   };
 
@@ -82,30 +80,15 @@ class SimilarCreater extends React.Component {
       });
   };
 
-  userEvaluationCall = async (data) => {
-    var _evaluation = [0, 0, 0, 0, 0];
-    var _eval_num = 0;
-    for (var i in data) {
-      await axios
-        .get("http://127.0.0.1:8000/evaluation/api/?artifactID=" + data[i].id)
-        .then((res) => {
-          if (res.data[0]) {
-            _eval_num++;
-            _evaluation[0] += res.data[0].Creative;
-            _evaluation[1] += res.data[0].Expressive;
-            _evaluation[2] += res.data[0].Quality;
-            _evaluation[3] += res.data[0].Popularity;
-            _evaluation[4] += res.data[0].Workability;
-          }
+  userEvaluationCall = (userId) => {
+    axios
+      .get("http://127.0.0.1:8000/evaluation/api/average?userId=" + userId)
+      .then((res) => {
+        this.setState({
+          evaluation: res.data.average,
+          _eval_length: res.data.length,
         });
-    }
-    for (var i in _evaluation) {
-      _evaluation[i] = Math.floor((_evaluation[i] * 10) / _eval_num);
-    }
-    this.setState({
-      evaluation: _evaluation,
-      _eval_length: _eval_num,
-    });
+      });
   };
 
   recreationErase = () => {
@@ -194,12 +177,12 @@ class SimilarCreater extends React.Component {
           ))}
         </Row>
         <Modal
-          centered={true}
+          // centered={true}
           visible={this.state.visible}
           onOk={this.handleOK}
           onCancel={this.handleCancel}
           footer={null}
-          width="95vh"
+          width="110vh"
         >
           <Profile
             artifact={artifact}

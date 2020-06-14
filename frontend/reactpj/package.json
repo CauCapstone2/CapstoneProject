@@ -13,6 +13,7 @@
     "bootstrap": "^4.4.1",
     "image-downloader": "^4.0.1",
     "js-file-download": "^0.4.12",
+    "kakaojs": "^1.2.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.1",
     "react-circular-progressbar": "^2.0.3",
@@ -22,6 +23,9 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "redux": "^4.0.5",
+    "redux-actions": "^2.6.5",
+    "redux-logger": "^3.0.6",
+    "redux-pender": "^2.0.12",
     "redux-thunk": "^2.3.0",
     "serialize-javascript": "^3.0.0"
   },

@@ -1,7 +1,4 @@
 import React from "react";
-import axios from "axios";
-import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
 import {
   Card,
   Statistic,
@@ -13,6 +10,8 @@ import {
   Divider,
   Tooltip,
 } from "antd";
+
+import { RedEnvelopeFilled } from "@ant-design/icons";
 
 const { Title, Paragraph } = Typography;
 
@@ -38,7 +37,7 @@ class Profile extends React.Component {
               <Card bordered={false} style={{ marginLeft: "5px" }}>
                 <Statistic
                   title="Written Artifacts"
-                  value={this.props.artifact.length}
+                  value={this.props._eval_length}
                   precision={0}
                   valueStyle={{ color: "#0be881" }}
                   prefix={<Avatar>Art</Avatar>}
@@ -75,7 +74,7 @@ class Profile extends React.Component {
         </Col>
         <Col span={8} justify="center" align="middle">
           {this.props.userInfo.map((userInfo, index) => (
-            <div>
+            <div key={index}>
               <Avatar
                 size={100}
                 style={{ marginTop: "15px", marginBottom: "10px" }}
@@ -83,6 +82,20 @@ class Profile extends React.Component {
               />
               <Typography>
                 <Title>{userInfo.username}</Title>
+                {this.props.mypage == true ? (
+                  <div
+                    onClick={this.props.CreditClicked}
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <RedEnvelopeFilled style={{ fontSize: "20px" }} />
+                    <h>credit charge</h>
+                  </div>
+                ) : null}
                 <Paragraph type="secondary">{userInfo.email}</Paragraph>
                 <Paragraph>
                   Web developer, not only for performance but design factors
@@ -165,62 +178,3 @@ class Profile extends React.Component {
 }
 
 export default Profile;
-
-// import { Modal, Button } from 'antd';
-
-// class App extends React.Component {
-//   state = { visible: false };
-
-//   showModal = () => {
-//     this.setState({
-//       visible: true,
-//     });
-//   };
-
-//   handleOk = e => {
-//     console.log(e);
-//     this.setState({
-//       visible: false,
-//     });
-//   };
-
-//   handleCancel = e => {
-//     console.log(e);
-//     this.setState({
-//       visible: false,
-//     });
-//   };
-
-//   render() {
-//     return (
-//       <div>
-//         <Button type="primary" onClick={this.showModal}>
-//           Open Modal
-//         </Button>
-//         <Modal
-//           title="Basic Modal"
-//           visible={this.state.visible}
-//           onOk={this.handleOk}
-//           onCancel={this.handleCancel}
-//         >
-//           <p>Some contents...</p>
-//           <p>Some contents...</p>
-//           <p>Some contents...</p>
-//         </Modal>
-//       </div>
-//     );
-//   }
-// }
-
-// ReactDOM.render(<App />, mountNode);
-
-// similarCreater: [],
-//     createrInfo: [],
-//     visible: false,
-
-//     userInfo: [],
-//     artifacts: [],
-//     comment: [],
-//     _new_comments: [],
-//     evaluation: [],
-//     _eval_length: 0,

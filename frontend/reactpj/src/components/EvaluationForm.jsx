@@ -12,38 +12,24 @@ class EvaluationForm extends Component {
   };
 
   handleSubmitEval = async () => {
-    if (this.props.userid == null) {
+    if (this.props.userid === null) {
       Modal.error({
         title: "Please Log in",
       });
       return;
     }
 
-    if (this.props.category == "recreation") {
-      await axios.post("http://127.0.0.1:8000/evaluation/api/", {
-        userID: this.props.userid,
-        Creative: this.state.creative,
-        Expressive: this.state.expressive,
-        Quality: this.state.quality,
-        Popularity: this.state.popularity,
-        Workability: this.state.workability,
-        recreationID: this.props.recreationID,
-        artifactID: null,
-      });
-      this.props.updateEvaluation(this.props.recreationID);
-    } else {
-      await axios.post("http://127.0.0.1:8000/evaluation/api/", {
-        userID: this.props.userid,
-        Creative: this.state.creative,
-        Expressive: this.state.expressive,
-        Quality: this.state.quality,
-        Popularity: this.state.popularity,
-        Workability: this.state.workability,
-        artifactID: this.props.artifactID,
-        recreationID: null,
-      });
-      this.props.updateEvaluation(this.props.artifactID);
-    }
+    let payload = {
+      userID: this.props.userid,
+      Creative: this.state.creative,
+      Expressive: this.state.expressive,
+      Quality: this.state.quality,
+      Popularity: this.state.popularity,
+      Workability: this.state.workability,
+      artifactID: this.props.artifactID,
+    };
+    await axios.post("http://127.0.0.1:8000/evaluation/api/", payload);
+    this.props.updateEvaluation(this.props.artifactID);
   };
 
   handleUpdateEval = async () => {
@@ -57,11 +43,8 @@ class EvaluationForm extends Component {
         Workability: this.state.workability,
       }
     );
-    if (this.props.category == "recreation") {
-      this.props.updateEvaluation(this.props.recreationID);
-    } else {
-      this.props.updateEvaluation(this.props.artifactID);
-    }
+
+    this.props.updateEvaluation(this.props.artifactID);
   };
 
   onChangeCreative = (value) => {

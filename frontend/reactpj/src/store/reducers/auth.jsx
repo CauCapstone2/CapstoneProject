@@ -10,8 +10,22 @@ const initialState = {
     firstdrawer : false,
     logindrawer : false,
     signupdrawer : false,
+
+    tid : null,
 }
 
+const tidDataDelete =(state, action) => {
+    return updateObject(state, {
+        tid : null,
+    })
+}
+
+const tidDataGet = (state, action) => {
+    return updateObject(state, {
+        tid : action.tid,
+    });
+}
+//
 const firstDrawerOpen = (state, action) => {
     return updateObject(state, {
         firstdrawer : true,
@@ -90,6 +104,8 @@ const reducer = (state = initialState, action) => {
         case actionTypes.LOGINDRAWER_CLOSE : return loginDrawerClose(state, action);
         case actionTypes.SIGNUPDRAWER_OPEN : return signupDrawerOpen(state, action);
         case actionTypes.SIGNUPDRAWER_CLOSE : return signupDrawerClose(state, action);
+        case actionTypes.TID_GET : return tidDataGet(state, action);
+        case actionTypes.TID_DELETE : return tidDataDelete(state, action);
         default : return state;
     }
 }
