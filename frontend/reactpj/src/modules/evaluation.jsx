@@ -15,9 +15,14 @@ function patchEvaluationApi(evaluationId, data) {
   );
 }
 
+function postEvaluationAPi(data) {
+  return axios.post("http://127.0.0.1:8000/evaluation/api/", data);
+}
+
 // action type
 const GET_EVALUATION = "evaluation/GET_EVALUATION";
 const PATCH_EVALUATION = "evaluation/PATCH_EVALUATION";
+const POST_EVALUATION = "evaluation/POST_EVALUATION";
 
 //action creator
 export const getEvaluation = createAction(GET_EVALUATION, getEvaluationApi);
@@ -25,6 +30,7 @@ export const patchEvaluation = createAction(
   PATCH_EVALUATION,
   patchEvaluationApi
 );
+export const postEvaluation = createAction(POST_EVALUATION, postEvaluationAPi);
 
 // reducer
 const initialState = {
@@ -43,7 +49,8 @@ export default handleActions(
           };
         },
       },
-      { type: PATCH_EVALUATION }
+      { type: PATCH_EVALUATION },
+      { type: POST_EVALUATION }
     ),
   },
   initialState

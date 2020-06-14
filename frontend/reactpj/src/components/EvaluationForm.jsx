@@ -33,22 +33,13 @@ class EvaluationForm extends Component {
       Workability: this.state.workability,
       artifactID: this.props.artifactID,
     };
-    await axios.post("http://127.0.0.1:8000/evaluation/api/", payload);
+    // await axios.post("http://127.0.0.1:8000/evaluation/api/", payload);
+    await EvaluationAction.postEvaluation(payload);
     EvaluationAction.getEvaluation(this.props.artifactID);
   };
 
   handleUpdateEval = async () => {
     const { EvaluationAction } = this.props;
-    // await axios.patch(
-    //   "http://127.0.0.1:8000/evaluation/api/" + this.props.preEval.id + "/",
-    //   {
-    //     Creative: this.state.creative,
-    //     Expressive: this.state.expressive,
-    //     Quality: this.state.quality,
-    //     Popularity: this.state.popularity,
-    //     Workability: this.state.workability,
-    //   }
-    // );
     let updateData = {
       Creative: this.state.creative,
       Expressive: this.state.expressive,
