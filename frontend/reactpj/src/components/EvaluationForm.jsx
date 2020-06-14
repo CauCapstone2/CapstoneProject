@@ -33,7 +33,6 @@ class EvaluationForm extends Component {
       Workability: this.state.workability,
       artifactID: this.props.artifactID,
     };
-    // await axios.post("http://127.0.0.1:8000/evaluation/api/", payload);
     await EvaluationAction.postEvaluation(payload);
     EvaluationAction.getEvaluation(this.props.artifactID);
   };

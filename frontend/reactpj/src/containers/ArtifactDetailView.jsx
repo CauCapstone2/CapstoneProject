@@ -173,7 +173,7 @@ class ArtifactDetail extends React.Component {
   }
 
   render() {
-    const { artifact, evaluation, evaluationLoading } = this.props;
+    const { artifact, evaluation } = this.props;
     return (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
@@ -292,11 +292,9 @@ class ArtifactDetail extends React.Component {
         </Row>
         <Row align="middle" justify="center">
           <EvaluationForm
-            updateEvaluation={this.updateEvaluation}
             preEval={this.preEval(evaluation)}
             artifactID={this.state.artifactId}
             userid={this.props.userid}
-            category={this.props.category}
           />
         </Row>
         <Divider
