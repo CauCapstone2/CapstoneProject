@@ -41,7 +41,8 @@ class Creditsuccess extends React.Component {
           },
         }
       )
-      .then((res) => {
+      .then((res) => { 
+           
         this.creditStatusChange();
         this.props.tid_delete();
         this.setState({
