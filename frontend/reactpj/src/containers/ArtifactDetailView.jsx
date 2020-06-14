@@ -40,6 +40,8 @@ class ArtifactDetail extends React.Component {
       artifactID = this.props.match.params.recreationID;
     else artifactID = this.props.match.params.artifactID;
 
+    this.setState({ artifactId: artifactID });
+
     const { ArtifactDetailAction, EvaluationAction } = this.props;
     ArtifactDetailAction.getArtifactDetail(artifactID);
     EvaluationAction.getEvaluation(artifactID);
@@ -97,10 +99,10 @@ class ArtifactDetail extends React.Component {
     });
   };
 
-  preEval = () => {
-    for (var i in this.state.eval) {
-      if (this.state.eval[i].userID === parseInt(this.props.userid)) {
-        return this.state.eval[i];
+  preEval = (evaluation) => {
+    for (var i in evaluation) {
+      if (evaluation[i].userID === parseInt(this.props.userid)) {
+        return evaluation[i];
       }
     }
   };
@@ -127,18 +129,7 @@ class ArtifactDetail extends React.Component {
     for (let i in accumulation_eval) {
       accumulation_eval[i] = Math.floor(accumulation_eval[i] / average_length);
     }
-    // this.setState({
-    //   averageEval: accumulation_eval,
-    // });
     return accumulation_eval;
-  };
-
-  preEval = () => {
-    for (let i in this.state.eval) {
-      if (this.state.eval[i].userID === parseInt(this.props.userid)) {
-        return this.state.eval[i];
-      }
-    }
   };
 
   showModal = (imageId, image, predict, e) => {
@@ -302,8 +293,8 @@ class ArtifactDetail extends React.Component {
         <Row align="middle" justify="center">
           <EvaluationForm
             updateEvaluation={this.updateEvaluation}
-            preEval={this.preEval()}
-            artifactID={this.state.artifactID}
+            preEval={this.preEval(evaluation)}
+            artifactID={this.state.artifactId}
             userid={this.props.userid}
             category={this.props.category}
           />
