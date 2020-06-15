@@ -25,7 +25,6 @@ class CreditCharge extends React.Component {
   };
 
   handleCharge = () => {
-    console.log("current creditAmount : " + this.state.creditAmount);
     let price_for_credit = this.state.creditAmount * 100;
 
     const params = new URLSearchParams();
@@ -54,8 +53,6 @@ class CreditCharge extends React.Component {
       .then((res) => {
         this.props.tid_get(res.data.tid, this.state.creditAmount);
         if (this.props.tid !== null) {
-          console.log("tid : " + this.props.tid);
-          console.log("amount : " + this.props.increaseCredit);
           window.location.assign(res.data.next_redirect_pc_url);
         }
       })
