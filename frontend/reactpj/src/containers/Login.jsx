@@ -42,7 +42,6 @@ class LoginForm extends React.Component {
   componentDidUpdate(prevProps) {
     const { isAuthenticated, error } = this.props;
     if (prevProps != this.props) {
-      console.log(this.props);
       if (isAuthenticated) {
         this.closeTabs();
         success_info();

@@ -37,14 +37,16 @@ class RegistrationForm extends React.Component {
     this.props.loginDrawerOpen();
   };
 
-  componentDidUpdate() {
-    const { isAuthenticated, error } = this.props;
-    if (isAuthenticated) {
-      this.closeTabs();
-      success_info();
-    }
-    if (error) {
-      error_info();
+  componentDidUpdate(prevProps) {
+    if (prevProps != this.props) {
+      const { isAuthenticated, error } = this.props;
+      if (isAuthenticated) {
+        this.closeTabs();
+        success_info();
+      }
+      if (error) {
+        error_info();
+      }
     }
   }
 
