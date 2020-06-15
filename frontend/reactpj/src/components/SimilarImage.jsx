@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Row } from "antd";
+import { Card, Row, Spin } from "antd";
 
 class SimilarImage extends React.Component {
   handleChange(artifactId, e) {
@@ -7,7 +7,12 @@ class SimilarImage extends React.Component {
   }
 
   similarImageResult = (imageList) => {
-    if (this.props.isLoading) return <div>Loading...</div>;
+    if (this.props.isLoading)
+      return (
+        <div>
+          <Spin tip="Loading..."></Spin>
+        </div>
+      );
     return (
       <Row justify="center" align="middle">
         {imageList &&

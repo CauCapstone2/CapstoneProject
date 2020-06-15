@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import { Image } from "react-bootstrap";
 import {
@@ -27,6 +26,7 @@ import { bindActionCreators } from "redux";
 import * as artifactAction from "../modules/artifact";
 import * as evaluationAction from "../modules/evaluation";
 import * as commentAction from "../modules/comment";
+import * as similarImageAction from "../modules/similarimage";
 
 const { Title, Paragraph } = Typography;
 
@@ -36,8 +36,6 @@ class ArtifactDetail extends React.Component {
     isReported: false,
     modalVisible: false,
     similarImageVisible: false,
-    similarImageList: [],
-    similarImageLoading: true,
     previewImage: "",
     predict: -1,
     averageEval: [],
@@ -123,19 +121,11 @@ class ArtifactDetail extends React.Component {
     this.setState({ modalVisible: false, similarImageVisible: false });
   };
 
-  showSimilarImage(imageId, e) {
+  showSimilarImage(e) {
+    const { SimilarImageAction } = this.props;
     e.preventDefault();
     this.setState({ similarImageVisible: !this.state.similarImageVisible });
-
-    axios
-      .get("http://127.0.0.1:8000/similar-image/?imageId=" + imageId)
-      .then((res) => {
-        res.data.splice(8);
-        this.setState({
-          similarImageList: res.data,
-          similarImageLoading: false,
-        });
-      });
+    SimilarImageAction.getSimilarImage(this.state.previewImageId);
   }
 
   moveSimilarImage(artifactId) {
@@ -150,7 +140,13 @@ class ArtifactDetail extends React.Component {
   }
 
   render() {
-    const { artifact, evaluation, comment } = this.props;
+    const {
+      artifact,
+      evaluation,
+      comment,
+      similarImage,
+      similarImageLoading,
+    } = this.props;
     return !artifact ? (
       <Spin tip="Loading..."></Spin>
     ) : (
@@ -213,7 +209,7 @@ class ArtifactDetail extends React.Component {
                       <Button
                         type="primary"
                         onClick={(e) => {
-                          this.showSimilarImage(this.state.previewImageId, e);
+                          this.showSimilarImage(e);
                         }}
                       >
                         Show Similar Arts
@@ -221,8 +217,8 @@ class ArtifactDetail extends React.Component {
                       {this.state.similarImageVisible ? (
                         <SimilarImage
                           onChange={(e) => this.moveSimilarImage(e)}
-                          isLoading={this.state.similarImageLoading}
-                          imageList={this.state.similarImageList}
+                          imageList={similarImage}
+                          isLoading={similarImageLoading}
                         />
                       ) : null}
                     </Modal>
@@ -346,6 +342,8 @@ const mapStateToProps = (state) => {
     artifact: state.artifact.data,
     evaluation: state.evaluation.data,
     comment: state.comment.data,
+    similarImage: state.similarImage.data,
+    similarImageLoading: state.pender.pending["similarimage/GET_SIMILARIMAGE"],
   };
 };
 
@@ -354,6 +352,7 @@ const mapDispatchToProps = (dispatch) => {
     ArtifactAction: bindActionCreators(artifactAction, dispatch),
     EvaluationAction: bindActionCreators(evaluationAction, dispatch),
     CommentAction: bindActionCreators(commentAction, dispatch),
+    SimilarImageAction: bindActionCreators(similarImageAction, dispatch),
   };
 };
 

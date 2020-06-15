@@ -6,12 +6,6 @@ from django_filters import rest_framework as filters
 
 class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentDetailSerializer
-    queryset = Comment.objects.all()
+    queryset = Comment.objects.all().order_by('-date')
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_fields = ('artifactID',)
-
-# class CommentCountViewSet(viewsets.ModelViewSet) :
-#     serializer_class = CommentSerializer
-#     queryset = Comment.objects.all().
-#     filter_backends = (filters.DjangoFilterBackend,)
-#     filterset_fields = ('userID',)
