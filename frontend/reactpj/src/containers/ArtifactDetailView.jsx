@@ -70,9 +70,6 @@ class ArtifactDetail extends React.Component {
 
   deleteArtifact = async (id) => {
     const { ArtifactAction } = this.props;
-    // var url_link = "http://127.0.0.1:8000/artifacts/api/";
-
-    // await axios.delete(url_link + id);
     ArtifactAction.deleteArtifact(id);
     this.props.history.push("/artifactlist");
   };
