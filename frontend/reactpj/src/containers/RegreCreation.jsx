@@ -4,6 +4,8 @@ import axios from "axios";
 import { Form, Input, Button, Upload, Row, Col, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as recreationAction from "../modules/recreation";
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -49,10 +51,12 @@ class RegRecreation extends React.Component {
   handleChange = ({ fileList }) => this.setState({ fileList });
 
   handleSubmit = async (event, requestType, artifactID) => {
+    const { history, RecreationAction } = this.props;
     await this.handleFormSubmit(event, requestType, artifactID);
-    this.props.history.push("/artifacts/" + artifactID);
+    history.push("/artifacts/" + artifactID);
     this.props.onCancel();
-    this.props.itemReload(this.props.artifactID);
+    RecreationAction.getRecreation(artifactID);
+    // this.props.itemReload(this.props.artifactID);
     // window.location.reload();
   };
 
@@ -186,5 +190,12 @@ const mapStateToProps = (state) => {
     userid: state.auth.userid,
   };
 };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    RecreationAction: bindActionCreators(recreationAction, dispatch),
+  };
+};
 
-export default withRouter(connect(mapStateToProps, null)(RegRecreation));
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(RegRecreation)
+);

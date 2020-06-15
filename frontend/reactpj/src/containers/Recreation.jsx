@@ -1,31 +1,29 @@
 import React from "react";
-import axios from "axios";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import { Button, List } from "antd";
+import { Button, List, Spin } from "antd";
 import "./ArtifactDetail.css";
 import RegRecreation from "../containers/RegRecreation";
+import { bindActionCreators } from "redux";
+import * as recreationAction from "../modules/recreation";
 
 //props로 artifactID넘겨주기
 class Recreation extends React.Component {
   state = {
-    recreationItems: [],
     showCreate: false,
   };
 
   componentDidMount() {
-    this.recreationImageCall(this.props.artifactID);
+    const { RecreationAction, artifactID } = this.props;
+    RecreationAction.getRecreation(artifactID);
   }
 
-  recreationImageCall = async (artifactID) => {
-    await axios
-      .get("http://127.0.0.1:8000/recreate/?artifactID=" + artifactID)
-      .then((res) => {
-        this.setState({
-          recreationItems: res.data,
-        });
-      });
-  };
+  componentDidUpdate(prevProps) {
+    const { RecreationAction, artifactID } = this.props;
+    if (artifactID !== prevProps.artifactID) {
+      RecreationAction.getRecreation(artifactID);
+    }
+  }
 
   createButtonClicked = () => {
     this.setState({
@@ -46,52 +44,57 @@ class Recreation extends React.Component {
   };
 
   render() {
-    const { recreationItems } = this.state;
-    var total = recreationItems.length;
+    const { recreation, loading } = this.props;
+    if (!recreation) return <Spin tip="Loading..."></Spin>;
+
+    let numRecreation = recreation.length;
     return (
       <div>
-        <List
-          itemLayout="horizontal"
-          size="large"
-          dataSource={recreationItems}
-          footer={
-            <div>
-              <b>total {total} items</b>
-              <br />
-              <Button type="primary" onClick={this.createButtonClicked}>
-                Create
-              </Button>
-            </div>
-          }
-          pagination={{
-            onChange: (page) => {},
-            pageSize: 7,
-          }}
-          grid={{ gutter: 5 }}
-          renderItem={(item) => (
-            <List.Item
-              key={item.id}
-              extra={
-                <NavLink exact to={`/artifacts/${item.id}`}>
-                  <img
-                    alt={item.id}
-                    width={100}
-                    height={100}
-                    src={item.image}
-                  />
-                </NavLink>
-              }
-              style={{ marginLeft: "5px", marginRight: "5px" }}
-            ></List.Item>
-          )}
-        />
+        {loading ? (
+          <Spin tip="Loading..."></Spin>
+        ) : (
+          <List
+            itemLayout="horizontal"
+            size="large"
+            dataSource={recreation}
+            footer={
+              <div>
+                <b>total {numRecreation} items</b>
+                <br />
+                <Button type="primary" onClick={this.createButtonClicked}>
+                  Create
+                </Button>
+              </div>
+            }
+            pagination={{
+              onChange: (page) => {},
+              pageSize: 7,
+            }}
+            grid={{ gutter: 5 }}
+            renderItem={(item) => (
+              <List.Item
+                key={item.id}
+                extra={
+                  <NavLink exact to={`/artifacts/${item.id}`}>
+                    <img
+                      alt={item.id}
+                      width={100}
+                      height={100}
+                      src={item.image}
+                    />
+                  </NavLink>
+                }
+                style={{ marginLeft: "5px", marginRight: "5px" }}
+              ></List.Item>
+            )}
+          />
+        )}
         <RegRecreation
           artifactID={this.props.artifactID}
           visible={this.state.showCreate}
           onOk={this.regModalhandleOk}
           onCancel={this.regModalhandleCancel}
           requestType={this.props.requestType}
-          itemReload={this.recreationImageCall}
         />
       </div>
     );
@@ -100,8 +103,16 @@ class Recreation extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
+    userid: state.auth.userid,
+    recreation: state.recreation.data,
+    loading: state.pender.pending["recreation/GET_RECREATION"],
   };
 };
 
-export default connect(mapStateToProps)(Recreation);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    RecreationAction: bindActionCreators(recreationAction, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Recreation);

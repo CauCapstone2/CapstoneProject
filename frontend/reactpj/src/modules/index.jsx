@@ -7,6 +7,7 @@ import artifact from "./artifact";
 import evaluation from "./evaluation";
 import comment from "./comment";
 import similarImage from "./similarimage";
+import recreation from "./recreation";
 
 const reducers = combineReducers({
   auth,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   evaluation,
   comment,
   similarImage,
+  recreation,
   pender: penderReducer,
 });
 
