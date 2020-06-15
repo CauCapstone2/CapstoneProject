@@ -47,7 +47,7 @@ class CreditCharge extends React.Component {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            "Authorization": `KakaoAK ${keys.kakao_admin_key}`,
+            Authorization: `KakaoAK ${keys.kakao_admin_key}`,
           },
         }
       )
@@ -106,30 +106,43 @@ class CreditCharge extends React.Component {
           >
             Amount of Charge
           </Divider>
-          <Radio.Group
-            onChange={(e) => this.handleOnChange(e)}
-            defaultValue="a"
-            buttonStyle="solid"
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
           >
-            <Radio.Button style={{ marginRight: "5px" }} value={10}>
-              10
-            </Radio.Button>
-            <Radio.Button style={{ marginRight: "5px" }} value={100}>
-              100
-            </Radio.Button>
-            <Radio.Button style={{ marginRight: "5px" }} value={500}>
-              500
-            </Radio.Button>
-            <Radio.Button style={{ marginRight: "5px" }} value={1000}>
-              1000
-            </Radio.Button>
-          </Radio.Group>
-          <Button
-            style={{ marginLeft: "10px" }}
-            onClick={this.otherCreditClicked}
-          >
-            Other Amount
-          </Button>
+            <Paragraph>
+              Chargement Fee : {this.state.creditAmount * 100}won
+            </Paragraph>
+            <Radio.Group
+              onChange={(e) => this.handleOnChange(e)}
+              defaultValue={0}
+              buttonStyle="solid"
+            >
+              <Radio.Button style={{ marginRight: "5px" }} value={10}>
+                10
+              </Radio.Button>
+              <Radio.Button style={{ marginRight: "5px" }} value={100}>
+                100
+              </Radio.Button>
+              <Radio.Button style={{ marginRight: "5px" }} value={500}>
+                500
+              </Radio.Button>
+              <Radio.Button style={{ marginRight: "5px" }} value={1000}>
+                1000
+              </Radio.Button>
+              <Radio.Button
+                style={{ marginLeft: "10px" }}
+                onClick={this.otherCreditClicked}
+              >
+                Other Amount
+              </Radio.Button>
+            </Radio.Group>
+          </div>
+
           {this.state.otherCreditInput ? (
             <Input
               onChange={(e) => this.handleOnChange(e)}
@@ -153,7 +166,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    tid_get: (tid, creditAmount) => dispatch(actions.tidDataGetaction(tid, creditAmount)),
+    tid_get: (tid, creditAmount) =>
+      dispatch(actions.tidDataGetaction(tid, creditAmount)),
   };
 };
 
