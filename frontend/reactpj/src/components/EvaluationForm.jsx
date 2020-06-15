@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import * as evaluationAction from "../modules/evaluation";
 import { Modal, Button, InputNumber } from "antd";
 import { bindActionCreators } from "redux";
-import Evaluation from "./Evaluation";
+import * as evaluationAction from "../modules/evaluation";
 
 class EvaluationForm extends Component {
   state = {

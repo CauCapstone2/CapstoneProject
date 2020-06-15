@@ -17,13 +17,13 @@ import SimilarArtist from "../components/SimilarArtist";
 import { bindActionCreators } from "redux";
 import * as artifactDetailAction from "../modules/artifactdetail";
 import * as evaluationAction from "../modules/evaluation";
+import * as commentAction from "../modules/comment";
 
 const { Title, Paragraph } = Typography;
 
 class ArtifactDetail extends React.Component {
   state = {
     artifactId: null,
-    comment: [],
     isReported: false,
     modalVisible: false,
     similarImageVisible: false,
@@ -42,12 +42,15 @@ class ArtifactDetail extends React.Component {
 
     this.setState({ artifactId: artifactID });
 
-    const { ArtifactDetailAction, EvaluationAction } = this.props;
+    const {
+      ArtifactDetailAction,
+      EvaluationAction,
+      CommentAction,
+    } = this.props;
+
     ArtifactDetailAction.getArtifactDetail(artifactID);
     EvaluationAction.getEvaluation(artifactID);
-
-    // this.updateEvaluation(artifactID);
-    this.updateComment(artifactID);
+    CommentAction.getComment(artifactID);
   }
 
   componentDidUpdate(prevProps) {
@@ -77,41 +80,11 @@ class ArtifactDetail extends React.Component {
     ) : null;
   };
 
-  updateComment = (artifactID) => {
-    let url_link = "http://127.0.0.1:8000/comments/api/?artifactID=";
-
-    axios.get(url_link + artifactID).then((res) => {
-      this.editDate(res.data);
-      this.setState({
-        comment: res.data.reverse(),
-      });
-    });
-  };
-
-  // updateEvaluation = (artifactID) => {
-  //   let url_link = "http://127.0.0.1:8000/evaluation/api/?artifactID=";
-
-  //   axios.get(url_link + artifactID).then((res) => {
-  //     this.setState({
-  //       eval: res.data,
-  //     });
-  //     this.averageEvaluation();
-  //   });
-  // };
-
   preEval = (evaluation) => {
     for (var i in evaluation) {
       if (evaluation[i].userID === parseInt(this.props.userid)) {
         return evaluation[i];
       }
-    }
-  };
-
-  editDate = (data) => {
-    for (var i in data) {
-      data[i].date = data[i].date.split(".")[0];
-      data[i].date = data[i].date.replace("T", " ");
-      data[i].date = data[i].date.replace("Z", " ");
     }
   };
 
@@ -173,7 +146,7 @@ class ArtifactDetail extends React.Component {
   }
 
   render() {
-    const { artifact, evaluation } = this.props;
+    const { artifact, evaluation, comment } = this.props;
     return (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
@@ -216,7 +189,7 @@ class ArtifactDetail extends React.Component {
                           key={index}
                           image={this.state.previewImage}
                           userid={this.props.userid}
-                          artifactID={this.state.artifactID}
+                          artifactID={artifact.id}
                         />,
                         <Button
                           key="ok"
@@ -293,7 +266,7 @@ class ArtifactDetail extends React.Component {
         <Row align="middle" justify="center">
           <EvaluationForm
             preEval={this.preEval(evaluation)}
-            artifactID={this.state.artifactId}
+            artifactID={artifact.id}
             userid={this.props.userid}
           />
         </Row>
@@ -317,18 +290,21 @@ class ArtifactDetail extends React.Component {
           Comments
         </Divider>
         <Row align="middle" justify="center">
-          <Comment
-            updateComment={this.updateComment}
-            comment={this.state.comment}
-            artifactID={this.state.artifactID}
-            recreationID={this.props.match.params.recreationID}
-            userid={this.props.userid}
-            category={this.props.category}
-          />
+          {comment ? (
+            <Comment
+              comment={comment}
+              artifactID={artifact.id}
+              recreationID={this.props.match.params.recreationID}
+              userid={this.props.userid}
+              category={this.props.category}
+            />
+          ) : (
+            <div>Loading...</div>
+          )}
         </Row>
         <Row>
           <Report
-            artifactID={this.state.artifactID}
+            artifactID={artifact.id}
             userid={this.props.userid}
             isReported={this.state.isReported}
             onChange={(e) => this.handleReportBtn(e)}
@@ -347,7 +323,7 @@ class ArtifactDetail extends React.Component {
             </Divider>
             <Row align="middle" justify="center">
               <Recreation
-                artifactID={this.state.artifactID}
+                artifactID={artifact.id}
                 requestType={this.props.requestType}
               />
             </Row>
@@ -363,6 +339,7 @@ const mapStateToProps = (state) => {
     userid: state.auth.userid,
     artifact: state.artifactdetail.data,
     evaluation: state.evaluation.data,
+    comment: state.comment.data,
   };
 };
 
@@ -370,6 +347,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     ArtifactDetailAction: bindActionCreators(artifactDetailAction, dispatch),
     EvaluationAction: bindActionCreators(evaluationAction, dispatch),
+    CommentAction: bindActionCreators(commentAction, dispatch),
   };
 };
 

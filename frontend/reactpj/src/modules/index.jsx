@@ -6,12 +6,14 @@ import auth from "./auth";
 import artifactlist from "./artifactlist";
 import artifactdetail from "./artifactdetail";
 import evaluation from "./evaluation";
+import comment from "./comment";
 
 const reducers = combineReducers({
   auth,
   artifactlist,
   artifactdetail,
   evaluation,
+  comment,
   pender: penderReducer,
 });
 
