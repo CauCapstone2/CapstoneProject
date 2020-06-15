@@ -39,19 +39,17 @@ const initialState = {
 
 export default handleActions(
   {
-    ...pender(
-      {
-        type: GET_EVALUATION,
-        onSuccess: (state, action) => {
-          const evaluation = action.payload.data;
-          return {
-            data: evaluation,
-          };
-        },
+    ...pender({
+      type: GET_EVALUATION,
+      onSuccess: (state, action) => {
+        const evaluation = action.payload.data;
+        return {
+          data: evaluation,
+        };
       },
-      { type: PATCH_EVALUATION },
-      { type: POST_EVALUATION }
-    ),
+    }),
+    ...pender({ type: PATCH_EVALUATION }),
+    ...pender({ type: POST_EVALUATION }),
   },
   initialState
 );

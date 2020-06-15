@@ -15,7 +15,7 @@ import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
 import { bindActionCreators } from "redux";
-import * as artifactDetailAction from "../modules/artifactdetail";
+import * as artifactAction from "../modules/artifact";
 import * as evaluationAction from "../modules/evaluation";
 import * as commentAction from "../modules/comment";
 
@@ -42,13 +42,9 @@ class ArtifactDetail extends React.Component {
 
     this.setState({ artifactId: artifactID });
 
-    const {
-      ArtifactDetailAction,
-      EvaluationAction,
-      CommentAction,
-    } = this.props;
+    const { ArtifactAction, EvaluationAction, CommentAction } = this.props;
 
-    ArtifactDetailAction.getArtifactDetail(artifactID);
+    ArtifactAction.getArtifactDetail(artifactID);
     EvaluationAction.getEvaluation(artifactID);
     CommentAction.getComment(artifactID);
   }
@@ -147,7 +143,9 @@ class ArtifactDetail extends React.Component {
 
   render() {
     const { artifact, evaluation, comment } = this.props;
-    return (
+    return !artifact ? (
+      <div>Loading</div>
+    ) : (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
           <Col
@@ -337,7 +335,7 @@ class ArtifactDetail extends React.Component {
 const mapStateToProps = (state) => {
   return {
     userid: state.auth.userid,
-    artifact: state.artifactdetail.data,
+    artifact: state.artifact.data,
     evaluation: state.evaluation.data,
     comment: state.comment.data,
   };
@@ -345,7 +343,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    ArtifactDetailAction: bindActionCreators(artifactDetailAction, dispatch),
+    ArtifactAction: bindActionCreators(artifactAction, dispatch),
     EvaluationAction: bindActionCreators(evaluationAction, dispatch),
     CommentAction: bindActionCreators(commentAction, dispatch),
   };

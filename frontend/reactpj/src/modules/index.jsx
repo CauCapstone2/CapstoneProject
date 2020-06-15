@@ -3,15 +3,13 @@ import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import ReduxThunk from "redux-thunk";
 import penderMiddleware, { penderReducer } from "redux-pender";
 import auth from "./auth";
-import artifactlist from "./artifactlist";
-import artifactdetail from "./artifactdetail";
+import artifact from "./artifact";
 import evaluation from "./evaluation";
 import comment from "./comment";
 
 const reducers = combineReducers({
   auth,
-  artifactlist,
-  artifactdetail,
+  artifact,
   evaluation,
   comment,
   pender: penderReducer,
