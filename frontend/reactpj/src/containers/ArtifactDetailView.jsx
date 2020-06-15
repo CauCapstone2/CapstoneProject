@@ -32,7 +32,6 @@ const { Title, Paragraph } = Typography;
 
 class ArtifactDetail extends React.Component {
   state = {
-    artifactId: null,
     isReported: false,
     modalVisible: false,
     similarImageVisible: false,
@@ -42,28 +41,30 @@ class ArtifactDetail extends React.Component {
   };
 
   componentDidMount() {
-    var artifactID = null;
-    if (this.props.category == "recreation")
-      artifactID = this.props.match.params.recreationID;
-    else artifactID = this.props.match.params.artifactID;
-
-    this.setState({ artifactId: artifactID });
-
-    const { ArtifactAction, EvaluationAction, CommentAction } = this.props;
-
-    ArtifactAction.getArtifactDetail(artifactID);
-    EvaluationAction.getEvaluation(artifactID);
-    CommentAction.getComment(artifactID);
+    const artifactID = this.props.match.params.artifactID;
+    this.loadArtifactDetailPage(artifactID);
   }
 
   componentDidUpdate(prevProps) {
-    const { evaluation } = this.props;
-    if (this.props != prevProps) {
+    const { evaluation, match } = this.props;
+
+    if (this.props !== prevProps) {
       if (evaluation) {
         let avgEval = this.calcAvgEval(this.props.evaluation);
         this.setState({ averageEval: avgEval });
       }
+      if (match.params.artifactID !== prevProps.match.params.artifactID) {
+        const artifactID = this.props.match.params.artifactID;
+        this.loadArtifactDetailPage(artifactID);
+      }
     }
+  }
+
+  loadArtifactDetailPage(artifactId) {
+    const { ArtifactAction, EvaluationAction, CommentAction } = this.props;
+    ArtifactAction.getArtifactDetail(artifactId);
+    EvaluationAction.getEvaluation(artifactId);
+    CommentAction.getComment(artifactId);
   }
 
   deleteArtifact = async (id) => {
@@ -130,7 +131,6 @@ class ArtifactDetail extends React.Component {
 
   moveSimilarImage(artifactId) {
     this.setState({ modalVisible: false, referrer: artifactId });
-    //need to be modified about recreationID & artifactID
     this.props.history.push(`/artifacts/${artifactId}`);
     window.location.reload();
   }
@@ -315,7 +315,7 @@ class ArtifactDetail extends React.Component {
             {this.modifyButton(artifact.id, artifact.userID)}
           </div>
         </Row>
-        {this.props.category == "recreation" ? null : (
+        {artifact.recreation ? null : (
           <div>
             <Divider
               orientation="left"

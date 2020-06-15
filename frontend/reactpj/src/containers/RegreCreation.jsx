@@ -14,7 +14,7 @@ function getBase64(file) {
   });
 }
 
-class RegCreation extends React.Component {
+class RegRecreation extends React.Component {
   state = {
     previewVisible: false,
     previewImage: "",
@@ -187,4 +187,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, null)(RegCreation));
+export default withRouter(connect(mapStateToProps, null)(RegRecreation));

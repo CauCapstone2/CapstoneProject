@@ -50,7 +50,7 @@ class ArtifactList extends React.Component {
           {artifactData.artifacts ? (
             artifactData.artifacts.map((artifact, index) => (
               <Col key={index} span={6}>
-                <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
+                <NavLink exact to={{ pathname: `/artifacts/${artifact.id}` }}>
                   <Artifact key={artifact.id} data={artifact} />
                 </NavLink>
               </Col>

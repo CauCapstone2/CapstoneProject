@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import { Button, List } from "antd";
 import "./ArtifactDetail.css";
-import RegRecreation from "../containers/RegreCreation";
+import RegRecreation from "../containers/RegRecreation";
 
 //props로 artifactID넘겨주기
 class Recreation extends React.Component {
@@ -72,7 +72,7 @@ class Recreation extends React.Component {
             <List.Item
               key={item.id}
               extra={
-                <NavLink to={{ pathname: "/recreate/" + item.id }}>
+                <NavLink exact to={`/artifacts/${item.id}`}>
                   <img
                     alt={item.id}
                     width={100}
