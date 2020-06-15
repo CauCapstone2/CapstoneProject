@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Artifact from "../components/Artifact";
-import { Button, Row, Col, Pagination, Typography } from "antd";
+import { Button, Row, Col, Pagination, Typography, Spin } from "antd";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as artifactAction from "../modules/artifact";
@@ -47,13 +47,17 @@ class ArtifactList extends React.Component {
         onContextMenu={(e) => e.preventDefault()}
       >
         <Row align="middle" gutter={[16, { xs: 8, sm: 16, md: 24, lg: 24 }]}>
-          {artifactData.artifacts.map((artifact, index) => (
-            <Col key={index} span={6}>
-              <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
-                <Artifact key={artifact.id} data={artifact} />
-              </NavLink>
-            </Col>
-          ))}
+          {artifactData.artifacts ? (
+            artifactData.artifacts.map((artifact, index) => (
+              <Col key={index} span={6}>
+                <NavLink to={{ pathname: `/artifacts/${artifact.id}` }}>
+                  <Artifact key={artifact.id} data={artifact} />
+                </NavLink>
+              </Col>
+            ))
+          ) : (
+            <Spin tip="Loading..."></Spin>
+          )}
         </Row>
         <Row type="flex" align="middle">
           <Col span={6} align="middle">
@@ -67,14 +71,18 @@ class ArtifactList extends React.Component {
             </NavLink>
           </Col>
           <Col span={12} align="middle">
-            <Pagination
-              size="small"
-              total={artifactData.pagination.count}
-              pageSize={12}
-              showQuickJumper
-              showTotal={(total) => `Total ${total} items`}
-              onChange={this.onChange}
-            />
+            {artifactData.pagination ? (
+              <Pagination
+                size="small"
+                total={artifactData.pagination.count}
+                pageSize={12}
+                showQuickJumper
+                showTotal={(total) => `Total ${total} items`}
+                onChange={this.onChange}
+              />
+            ) : (
+              <Spin tip="Loading..."></Spin>
+            )}
           </Col>
           <Col span={6} align="middle">
             <Button>extra</Button>

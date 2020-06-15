@@ -1,20 +1,23 @@
 import axios from "axios";
 import { pender } from "redux-pender";
-import { handleActions, createAction } from "redux-actions";
+import { handleActions, createAction, createActions } from "redux-actions";
 
 function getArtifactListApi(page) {
   return axios.get(`http://127.0.0.1:8000/artifacts/api/list/?page=${page}`);
 }
 
 function getArtifactDetailApi(artifactId) {
-  console.log("ffdsafdsfsdfsdfsfa");
-  console.log(artifactId);
   return axios.get(`http://127.0.0.1:8000/artifacts/api/detail/${artifactId}`);
+}
+
+function deleteArtifactApi(artifactId) {
+  return axios.delete(`http://127.0.0.1:8000/artifacts/api/${artifactId}`);
 }
 
 //action type
 const GET_ARTIFACTLIST = "artifact/GET_ARTIFACTLIST";
 const GET_ARTIFACTDETAIL = "artifact/GET_ARTIFACTDETAIL";
+const DELETE_ARTIFACT = "artifact/DELETE_ARTIFACT";
 
 // action creator
 export const getArtifactList = createAction(
@@ -25,6 +28,7 @@ export const getArtifactDetail = createAction(
   GET_ARTIFACTDETAIL,
   getArtifactDetailApi
 );
+export const deleteArtifact = createAction(DELETE_ARTIFACT, deleteArtifactApi);
 
 // reducer
 const initialState = {
@@ -52,13 +56,13 @@ export default handleActions(
     ...pender({
       type: GET_ARTIFACTDETAIL,
       onSuccess: (state, action) => {
-        console.log("successs");
         const artifact = action.payload.data;
         return {
           data: artifact,
         };
       },
     }),
+    ...pender({ type: DELETE_ARTIFACT }),
   },
   initialState
 );

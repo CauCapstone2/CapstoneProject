@@ -2,7 +2,16 @@ import React from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import { Image } from "react-bootstrap";
-import { Button, Row, Col, Typography, Divider, Carousel, Modal } from "antd";
+import {
+  Button,
+  Row,
+  Col,
+  Typography,
+  Divider,
+  Carousel,
+  Modal,
+  Spin,
+} from "antd";
 import "./ArtifactDetail.css";
 import EvaluationForm from "../components/EvaluationForm";
 import Evaluation from "../components/Evaluation";
@@ -60,9 +69,11 @@ class ArtifactDetail extends React.Component {
   }
 
   deleteArtifact = async (id) => {
-    var url_link = "http://127.0.0.1:8000/artifacts/api/";
+    const { ArtifactAction } = this.props;
+    // var url_link = "http://127.0.0.1:8000/artifacts/api/";
 
-    await axios.delete(url_link + id);
+    // await axios.delete(url_link + id);
+    ArtifactAction.deleteArtifact(id);
     this.props.history.push("/artifactlist");
   };
 
@@ -144,7 +155,7 @@ class ArtifactDetail extends React.Component {
   render() {
     const { artifact, evaluation, comment } = this.props;
     return !artifact ? (
-      <div>Loading</div>
+      <Spin tip="Loading..."></Spin>
     ) : (
       <div onContextMenu={(e) => e.preventDefault()}>
         <Row align="middle" justify="center">
@@ -278,7 +289,7 @@ class ArtifactDetail extends React.Component {
           {evaluation ? (
             <Evaluation eval={evaluation} />
           ) : (
-            <div>Loading...</div>
+            <Spin tip="Loading..."></Spin>
           )}
         </Row>
         <Divider
@@ -297,7 +308,7 @@ class ArtifactDetail extends React.Component {
               category={this.props.category}
             />
           ) : (
-            <div>Loading...</div>
+            <Spin tip="Loading..."></Spin>
           )}
         </Row>
         <Row>
