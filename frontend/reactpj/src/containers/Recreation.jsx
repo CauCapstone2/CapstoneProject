@@ -13,17 +13,6 @@ class Recreation extends React.Component {
     showCreate: false,
   };
 
-  shouldComponentUpdate(nextProps, nextState) {
-    if (nextProps.artifactID !== this.props.artifactID) {
-      this.recreationImageCall(nextProps.artifactID);
-    }
-    return true;
-  }
-
-  componentWillMount() {
-    this.recreationImageCall(this.props.artifactID);
-  }
-
   componentDidMount() {
     const { RecreationAction, artifactID } = this.props;
     RecreationAction.getRecreation(artifactID);
