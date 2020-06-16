@@ -18,7 +18,7 @@ import Comment from "../components/Comment";
 import Report from "../components/Report";
 import PredictPicture from "../components/PredictPicture";
 import Recreation from "../containers/Recreation";
-import StoreImage from "../components/StoreImage";
+import StoreImage from "../components/storeImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
@@ -27,6 +27,7 @@ import * as artifactAction from "../modules/artifact";
 import * as evaluationAction from "../modules/evaluation";
 import * as commentAction from "../modules/comment";
 import * as similarImageAction from "../modules/similarimage";
+import ReactImageProcess from "react-image-process";
 
 const { Title, Paragraph } = Typography;
 
@@ -38,6 +39,7 @@ class ArtifactDetail extends React.Component {
     previewImage: "",
     predict: -1,
     averageEval: [],
+    previewImageId: null,
   };
 
   componentDidMount() {
@@ -172,14 +174,25 @@ class ArtifactDetail extends React.Component {
               {artifact.image &&
                 artifact.image.map((el, index) => (
                   <div className="art-box" key={index}>
-                    <Image
-                      className="art"
-                      style={{ width: "100%", height: "100%" }}
-                      src={el.image}
-                      onClick={(e) =>
-                        this.showModal(el.id, el.image, el.predict, e)
-                      }
-                    ></Image>
+                    <ReactImageProcess
+                      mode="waterMark"
+                      waterMarkType="text"
+                      waterMark={"Iuducium in foro"}
+                      fontBold={false}
+                      opacity={0.7}
+                      fontSize={20}
+                      fontColor="#7F8C8D"
+                      coordinate={[50, 50]}
+                    >
+                      <Image
+                        className="art"
+                        style={{ width: "100%", height: "100%" }}
+                        src={el.image}
+                        onClick={(e) =>
+                          this.showModal(el.id, el.image, el.predict, e)
+                        }
+                      ></Image>
+                    </ReactImageProcess>
                     <Modal
                       width="70vh"
                       mask={false}
@@ -191,8 +204,8 @@ class ArtifactDetail extends React.Component {
                         <StoreImage
                           key={index}
                           image={this.state.previewImage}
+                          imageid={this.state.previewImageId}
                           userid={this.props.userid}
-                          artifactID={artifact.id}
                         />,
                         <Button
                           key="ok"

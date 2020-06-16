@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Result, Button } from "antd";
 import { connect } from "react-redux";
-import * as actions from "../store/actions/auth";
+import * as actions from "../modules/auth";
 import { NavLink } from "react-router-dom";
 
 class Creditfail extends React.Component {
@@ -11,8 +11,6 @@ class Creditfail extends React.Component {
   }
 
   render() {
-    console.log(this.props);
-    console.log("search : " + this.props.location.search);
     return (
       <Result
         status="warning"
@@ -32,7 +30,7 @@ class Creditfail extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    tid_delete: () => dispatch(actions.tidDataDelete()),
+    tid_delete: () => dispatch(actions.tidDataDeleteaction()),
   };
 };
 

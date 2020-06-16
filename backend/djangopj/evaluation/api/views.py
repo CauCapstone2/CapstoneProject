@@ -29,7 +29,7 @@ class EvaluationView(APIView):
             average[4] += eval.Workability
 
         try:
-            average = [round(x / len(evaluations), 2) for x in average]
+            average = [round(x / len(evaluations), 2) * 10 for x in average]
         except ZeroDivisionError:
             average = average
 

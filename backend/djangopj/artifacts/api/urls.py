@@ -10,6 +10,7 @@ router.register(r'detail', ArtifactDetailViewSet, basename='artifactdetail')
 
 urlpatterns = [
     url(r'^create/$', ArtifactCreateView.as_view(), name='artifactcreate'),
+    url(r'^download/', ArtifactDownloadView.as_view(), name='artifactdownload'),
     url(r'^list/$', ArtifactList.as_view(), name='artifactlist'),
     url(r'', include(router.urls))
 ]

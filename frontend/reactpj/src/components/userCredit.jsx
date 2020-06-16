@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Typography } from "antd";
 import { connect } from "react-redux";
-import * as urls from "./urlAddress";
+import * as urls from "../urlAddress";
 
 const { Paragraph } = Typography;
 
@@ -12,13 +12,15 @@ class UserCredit extends React.Component {
   };
 
   componentWillMount() {
+    console.log("entered");
     this.getMyCredit(this.props.userid);
   }
 
   getMyCredit = (userid) => {
     axios.get(urls.user_credit + userid).then((res) => {
+      console.log(res);
       this.setState({
-        myCredit: res.data, // not sure
+        myCredit: res.data[0].credit,
       });
     });
   };
@@ -26,8 +28,19 @@ class UserCredit extends React.Component {
   render() {
     return (
       <div>
-        <Paragraph>current Credit : </Paragraph>
-        <Paragraph strong>{this.state.myCredit}</Paragraph>
+        {this.props.mypage == true ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <Paragraph>current Credit : </Paragraph>
+            <Paragraph strong>{this.state.myCredit}</Paragraph>
+          </div>
+        ) : null}
       </div>
     );
   }
@@ -35,7 +48,7 @@ class UserCredit extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    userid: state.userid,
+    userid: state.auth.userid,
   };
 };
 

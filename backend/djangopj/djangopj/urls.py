@@ -22,4 +22,6 @@ urlpatterns = [
     path('similar-artist/', include('similar_artist.urls')),
     path('similar-image/', include('similar_image.urls')),
     path('recreate/', include('recreation.urls')),
+    path('credit/', include('credit.urls')),
+    path('purchase_check/', include('purchase_check.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

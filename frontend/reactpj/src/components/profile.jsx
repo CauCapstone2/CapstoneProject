@@ -12,6 +12,8 @@ import {
 } from "antd";
 
 import { RedEnvelopeFilled } from "@ant-design/icons";
+import UserCredit from "./userCredit";
+import UserInfo from "./UserInfo";
 
 const { Title, Paragraph } = Typography;
 
@@ -94,6 +96,7 @@ class Profile extends React.Component {
                   >
                     <RedEnvelopeFilled style={{ fontSize: "20px" }} />
                     <h>credit charge</h>
+                    <UserCredit mypage={this.props.mypage} />
                   </div>
                 ) : null}
                 <Paragraph type="secondary">{userInfo.email}</Paragraph>
