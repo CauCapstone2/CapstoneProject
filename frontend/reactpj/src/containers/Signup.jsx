@@ -10,7 +10,7 @@ const success_info = () => {
   message.success("SignUp has Successively Done");
 };
 const error_info = () => {
-  // message.error("Please type correct information again")
+  message.error("Please type correct information again");
 };
 
 class RegistrationForm extends React.Component {
@@ -37,12 +37,16 @@ class RegistrationForm extends React.Component {
     this.props.loginDrawerOpen();
   };
 
-  componentDidUpdate() {
-    if (this.props.isAuthenticated) {
-      this.closeTabs();
-      success_info();
-    } else {
-      error_info();
+  componentDidUpdate(prevProps) {
+    if (prevProps !== this.props) {
+      const { isAuthenticated, error } = this.props;
+      if (isAuthenticated) {
+        this.closeTabs();
+        success_info();
+      }
+      if (error) {
+        error_info();
+      }
     }
   }
 

@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
 import { Modal, Button, Form, Input, List } from "antd";
+import { connect } from "react-redux";
+import * as commentAction from "../modules/comment";
+import { bindActionCreators } from "redux";
 
 const { TextArea } = Input;
 const FormItem = Form.Item;
@@ -24,19 +26,24 @@ class Comment extends Component {
   };
 
   deleteComment = async (id) => {
-    await axios.delete("http://127.0.0.1:8000/comments/api/" + id);
-    this.props.updateComment(this.props.artifactID);
+    const { CommentAction, artifactID } = this.props;
+
+    await CommentAction.deleteComment(id);
+    CommentAction.getComment(artifactID);
   };
 
   handleComment = async (event) => {
+    const { CommentAction, userid, artifactID } = this.props;
     if (this.props.userid === null) return;
-    var input = event.target.elements[0].value;
-    await axios.post("http://127.0.0.1:8000/comments/api/", {
-      userID: this.props.userid,
+    let input = event.target.elements[0].value;
+    let data = {
+      userID: userid,
       content: input,
-      artifactID: this.props.artifactID,
-    });
-    this.props.updateComment(this.props.artifactID);
+      artifactID: artifactID,
+    };
+
+    await CommentAction.postComment(data);
+    CommentAction.getComment(artifactID);
   };
 
   render() {
@@ -95,4 +102,16 @@ class Comment extends Component {
   }
 }
 
-export default Comment;
+const mapStateToProps = (state) => {
+  return {
+    userid: state.auth.userid,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    CommentAction: bindActionCreators(commentAction, dispatch),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Comment);

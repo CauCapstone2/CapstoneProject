@@ -13,7 +13,7 @@ const success_info = () => {
   message.success("Welcome to Iudicium In Foro");
 };
 const error_info = () => {
-  // message.error("Please type correct information again")
+  message.error("Please type correct information again");
 };
 
 class LoginForm extends React.Component {
@@ -39,12 +39,16 @@ class LoginForm extends React.Component {
     this.props.signupDrawerOpen();
   };
 
-  componentDidUpdate() {
-    if (this.props.isAuthenticated) {
-      this.closeTabs();
-      success_info();
-    } else {
-      error_info();
+  componentDidUpdate(prevProps) {
+    const { isAuthenticated, error } = this.props;
+    if (prevProps !== this.props) {
+      if (isAuthenticated) {
+        this.closeTabs();
+        success_info();
+      }
+      if (error) {
+        error_info();
+      }
     }
   }
 
