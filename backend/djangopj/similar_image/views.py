@@ -74,6 +74,6 @@ class SimilarImage(APIView):
         res = [{"artifactId": serializer.data[i]["artifactId"], "image": serializer.data[i]["image"], "sim": el[1]}
                for i, el in enumerate(similar_list)]
 
-        res = sorted(res, reverse=True, key=lambda k: k["sim"])
+        res = sorted(res, reverse=True, key=lambda k: k["sim"])[:8]
 
         return JsonResponse(res, safe=False)

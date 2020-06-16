@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'similar_artist',
     'similar_image',
     'recreation',
+    'purchase_check',
 ]
 
 SITE_ID = 1

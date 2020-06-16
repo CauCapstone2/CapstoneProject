@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { Result, Button } from "antd";
 import { connect } from "react-redux";
-import * as actions from "../store/actions/auth";
+import * as actions from "../modules/auth";
 import * as keys from "../kakaosecurityinfo";
 import { NavLink } from "react-router-dom";
 
@@ -16,8 +16,6 @@ class Creditsuccess extends React.Component {
   handleCharge = () => {
     var not_modified_pg = this.props.location.search;
     var pg_token = not_modified_pg.substr(10);
-    console.log("pg_token : " + pg_token);
-    console.log("tid : " + this.props.tid);
 
     const params = new URLSearchParams();
     params.append("cid", "TC0ONETIME");
@@ -33,13 +31,13 @@ class Creditsuccess extends React.Component {
         {
           headers: {
             "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            Authorization: `KakaoAK ${keys.kakao_admin_key}`,
+            "Authorization": `KakaoAK ${keys.kakao_admin_key}`,
           },
         }
       )
-      .then((res) => {
-        console.log("this.props : " + this.props);
-        console.log("success");
+      .then((res) => { 
+           
+        this.creditStatusChange();
         this.props.tid_delete();
         this.setState({
           purchase_done: true,
@@ -50,9 +48,14 @@ class Creditsuccess extends React.Component {
       });
   };
 
+  creditStatusChange = () => {
+    let form_data = new FormData();
+    form_data.append("user", this.props.userid);
+    form_data.append("increase_credit", this.props.increaseCredit);
+    axios.post("http://127.0.0.1:8000/credit/create/", form_data);
+  };
+
   render() {
-    console.log(this.props);
-    console.log("search : " + this.props.location.search);
     return (
       <div>
         {this.state.purchase_done ? (
@@ -86,14 +89,16 @@ class Creditsuccess extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    tid_delete: () => dispatch(actions.tidDataDelete()),
-    tid_check: () => dispatch(actions.tidDataCheck()),
+    tid_delete: () => dispatch(actions.tidDataDeleteaction()),
+    tid_check: () => dispatch(actions.tidDataCheckaction()),
   };
 };
 
 const mapStateToProps = (state) => {
   return {
-    tid: state.tid,
+    tid: state.auth.tid,
+    userid: state.auth.userid,
+    increaseCredit: state.auth.credit,
   };
 };
 

@@ -23,7 +23,6 @@ const BaseRouter = () => (
     <Route exact path="/signup/" component={Signup} />
     <Route exact path="/search/" component={SearchPage} />
     <Route exact path="/mypage/" component={Mypage} />
-    <Route exact path="/recreate/:recreationID" render={(props) => <ArtifactDetail {...props} category="recreation"/>}/>
     <Route exact path="/purchase/success" component={Creditsuccess} />
     <Route exact path="/purchase/cancel" component={Creditcancel} />
     <Route exact path="/purchase/fail" component={Creditfail} />

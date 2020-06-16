@@ -3,11 +3,19 @@ import { combineReducers, createStore, applyMiddleware, compose } from "redux";
 import ReduxThunk from "redux-thunk";
 import penderMiddleware, { penderReducer } from "redux-pender";
 import auth from "./auth";
-import artifactlist from "./artifactlist";
+import artifact from "./artifact";
+import evaluation from "./evaluation";
+import comment from "./comment";
+import similarImage from "./similarimage";
+import recreation from "./recreation";
 
 const reducers = combineReducers({
   auth,
-  artifactlist,
+  artifact,
+  evaluation,
+  comment,
+  similarImage,
+  recreation,
   pender: penderReducer,
 });
 

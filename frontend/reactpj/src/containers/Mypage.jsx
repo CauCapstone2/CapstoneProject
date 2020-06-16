@@ -6,7 +6,7 @@ import { List, Row, Col, Avatar, Comment, Divider, Spin, Alert } from "antd";
 import "./ArtifactDetail.css";
 import Artifact from "../components/Artifact";
 import Profile from "../components/profile";
-import * as urls from "../components/urlAddress";
+import * as urls from "../urlAddress";
 import CreditCharge from "../components/CreditCharge";
 
 class Mypage extends React.Component {
@@ -45,7 +45,7 @@ class Mypage extends React.Component {
 
   userArtifactCall = (userID) => {
     axios
-      .get("http://127.0.0.1:8000/artifacts/api/?userID=" + userID)
+      .get(urls.artifacts_api_userID + userID)
       .then((res) => {
         this.setState({
           artifact: res.data,
@@ -65,7 +65,7 @@ class Mypage extends React.Component {
 
   userEvaluationCall = (userId) => {
     axios
-      .get("http://127.0.0.1:8000/evaluation/api/average?userId=" + userId)
+      .get(urls.artifact_evaluation_average + userId)
       .then((res) => {
         this.setState({
           evaluation: res.data.average,

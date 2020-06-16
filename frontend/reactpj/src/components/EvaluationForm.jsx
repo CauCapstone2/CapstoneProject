@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import axios from "axios";
+import { connect } from "react-redux";
 import { Modal, Button, InputNumber } from "antd";
+import { bindActionCreators } from "redux";
+import * as evaluationAction from "../modules/evaluation";
 
 class EvaluationForm extends Component {
   state = {
@@ -12,6 +14,7 @@ class EvaluationForm extends Component {
   };
 
   handleSubmitEval = async () => {
+    const { EvaluationAction } = this.props;
     if (this.props.userid === null) {
       Modal.error({
         title: "Please Log in",
@@ -28,23 +31,22 @@ class EvaluationForm extends Component {
       Workability: this.state.workability,
       artifactID: this.props.artifactID,
     };
-    await axios.post("http://127.0.0.1:8000/evaluation/api/", payload);
-    this.props.updateEvaluation(this.props.artifactID);
+    await EvaluationAction.postEvaluation(payload);
+    EvaluationAction.getEvaluation(this.props.artifactID);
   };
 
   handleUpdateEval = async () => {
-    await axios.patch(
-      "http://127.0.0.1:8000/evaluation/api/" + this.props.preEval.id + "/",
-      {
-        Creative: this.state.creative,
-        Expressive: this.state.expressive,
-        Quality: this.state.quality,
-        Popularity: this.state.popularity,
-        Workability: this.state.workability,
-      }
-    );
+    const { EvaluationAction } = this.props;
+    let updateData = {
+      Creative: this.state.creative,
+      Expressive: this.state.expressive,
+      Quality: this.state.quality,
+      Popularity: this.state.popularity,
+      Workability: this.state.workability,
+    };
+    await EvaluationAction.patchEvaluation(this.props.preEval.id, updateData);
 
-    this.props.updateEvaluation(this.props.artifactID);
+    EvaluationAction.getEvaluation(this.props.artifactID);
   };
 
   onChangeCreative = (value) => {
@@ -142,4 +144,10 @@ class EvaluationForm extends Component {
   }
 }
 
-export default EvaluationForm;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    EvaluationAction: bindActionCreators(evaluationAction, dispatch),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(EvaluationForm);
