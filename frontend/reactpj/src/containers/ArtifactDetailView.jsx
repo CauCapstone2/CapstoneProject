@@ -28,6 +28,7 @@ import * as evaluationAction from "../modules/evaluation";
 import * as commentAction from "../modules/comment";
 import * as similarImageAction from "../modules/similarimage";
 import ReactImageProcess from "react-image-process";
+import axios from "axios";
 
 const { Title, Paragraph } = Typography;
 
@@ -169,12 +170,13 @@ class ArtifactDetail extends React.Component {
                 backgroundColor: "#010101",
                 display: "flex",
                 alignContent: "center",
+                zIndex:98,
               }}
             >
               {artifact.image ? (
                 artifact.image.map((el, index) => (
                   <div className="art-box" key={index}>
-                    <ReactImageProcess
+                    {/* <ReactImageProcess
                       mode="waterMark"
                       waterMarkType="text"
                       waterMark={"Iuducium in foro"}
@@ -183,7 +185,7 @@ class ArtifactDetail extends React.Component {
                       fontSize={20}
                       fontColor="#7F8C8D"
                       coordinate={[50, 50]}
-                    >
+                    > */}
                       <Image
                         className="art"
                         style={{ width: "100%", height: "100%" }}
@@ -192,7 +194,8 @@ class ArtifactDetail extends React.Component {
                           this.showModal(el.id, el.image, el.predict, e)
                         }
                       ></Image>
-                    </ReactImageProcess>
+                      <p className="watermark">Iuducium in foro</p>
+                    {/* </ReactImageProcess> */}
                     <Modal
                       width="70vh"
                       mask={false}

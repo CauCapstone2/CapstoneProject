@@ -8,4 +8,4 @@ class PurchaseHistoryViewSet(viewsets.ModelViewSet) :
     serializer_class = PurchaseHistorySerializer
     queryset = PurchaseHistory.objects.all()
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_fields = ('imageID', 'userID',)
+    filterset_fields = ('userID',)

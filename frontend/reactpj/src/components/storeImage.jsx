@@ -19,11 +19,11 @@ class StoreImage extends Component {
     }
   };
 
-  creditUpdate = () => {
+  creditUpdate = async() => {
     let form_data = new FormData();
     form_data.append("user", this.props.userid);
     form_data.append("increase_credit", -2);
-    axios.post("http://3.34.190.67/credit/create/", form_data);
+    await axios.post("http://3.34.190.67/credit/create/", form_data);
   };
 
   creditCheck = async () => {
@@ -36,6 +36,7 @@ class StoreImage extends Component {
           this.creditUpdate();
           this.storeDownloadedPicture();
           this.handledownload();
+          message.success("use 2 credits");
         }
       });
   };
@@ -44,29 +45,25 @@ class StoreImage extends Component {
     let form_data = new FormData();
     form_data.append("userID", this.props.userid);
     form_data.append("imageID", this.props.imageid);
-    await axios.post("http://3.34.190.67/purchase_check/", form_data);
+    await axios.post("http://3.34.190.67/purchase_check", form_data);
   };
 
   purchaseCheck = async () => {
+    var have = 0;
     await axios
       .get(
-        "http://3.34.190.67/purchase_check/?userID=" +
-          this.props.userid +
-          "&imageID=" +
-          this.props.imageid
-      )
+        "http://3.34.190.67/purchase_check/?userID=" + this.props.userid)
       .then((res) => {
-        if (res.data.length !== 0) {
-          if (
-            res.data[0].imageID == this.props.imageid &&
-            res.data[0].userID == this.props.userid
-          ) {
-            this.handledownload();
-          } else {
-            this.creditCheck();
+        for(var i in res.data){
+          console.log(res.data[i].imageID == this.props.imageid)
+          if(res.data[i].imageID == this.props.imageid) {
+            have = 1;
           }
-        } else {
-          this.creditCheck();
+        }
+        if(have === 0) this.creditCheck();
+        if(have === 1){
+          this.handledownload();
+          message.success("re-download (with no credits)");
         }
       });
   };
@@ -74,8 +71,7 @@ class StoreImage extends Component {
   handledownload = () => {
     axios
       .get(
-        "http://3.34.190.67/artifacts/api/download/?imageId=" +
-          this.props.imageid,
+        "http://3.34.190.67/artifacts/api/download/?imageId=" + this.props.imageid,
         {
           responseType: "blob",
         }
