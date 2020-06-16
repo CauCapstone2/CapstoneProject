@@ -1,150 +1,163 @@
-.box-bg{
-    max-width: 1920px;
-    padding : 0;
+.box-bg {
+  max-width: 1920px;
+  padding: 0;
 }
-.intro{
-    padding : 50px;
-    border-bottom: solid 1px #E6EAEA;
-    text-align: center;
+.intro {
+  padding: 50px;
+  border-bottom: solid 1px #e6eaea;
+  text-align: center;
 }
-.art-intro{
-    padding : 50px;
-    text-align: center;
+.art-intro {
+  padding: 50px;
+  text-align: center;
 }
-.download{
-    margin-right : 10px;
+.download {
+  margin-right: 10px;
 }
-.container{
-    width : 80%;
-    padding-right: 15px;
-    padding-left: 15px;
-    margin-right: auto;
-    margin-left: auto;
-    padding-bottom: 50px;
+.container {
+  width: 80%;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+  padding-bottom: 50px;
 }
-.art-box{
-    text-align: center;
+.art-box {
+  text-align: center;
 }
-.modifyButton{
-    text-align : right;
+.modifyButton {
+  text-align: right;
 }
-.art{
-    max-width: 100%;
-    height: auto;
+.art {
+  max-width: 100%;
+  height: auto;
 }
-.description{
-    padding : 50px;
-    text-align: center;
+.description {
+  padding: 50px;
+  text-align: center;
 }
-.button-box{
-    text-align: right;
+.button-box {
+  text-align: right;
 }
-h2, h5{
-    line-height: 70px;
+h2,
+h5 {
+  line-height: 70px;
 }
-.ant-list li{
-    border : solid 1px #E6EAEA;
+.ant-list li {
+  border: solid 1px #e6eaea;
 }
-.evaluation-header{
-    margin-left: 30px;
-    margin-bottom: 10px;
+.evaluation-header {
+  margin-left: 30px;
+  margin-bottom: 10px;
 }
-.eval-info{
-    margin : auto;
+.eval-info {
+  margin: auto;
 }
-.eval-username{
-    font-weight: bold;
-    font-size : 25px;
-    margin : auto;
+.eval-username {
+  font-weight: bold;
+  font-size: 25px;
+  margin: auto;
 }
-.eval-container{
-    display : flex;
-    justify-content : space-between;
+.eval-container {
+  display: flex;
+  justify-content: space-between;
 }
-.eval-scores{
-    display : flex;
-    margin : auto;
-    width : 60%;
-    justify-content : space-between;
+.eval-scores {
+  display: flex;
+  margin: auto;
+  width: 60%;
+  justify-content: space-between;
 }
-.tooltip{
-    position: relative;
+.tooltip {
+  position: relative;
 }
 .box-tooltip {
-    visibility: hidden;
-    opacity: 0;
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-bottom: 8px;
-    transform: translateY(-10px);
-    transition: all 0.3s ease-in-out;
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-bottom: 8px;
+  transform: translateY(-10px);
+  transition: all 0.3s ease-in-out;
 }
-.tooltip-text{
-    position: relative;
-    top: 0;
-    left: -50%;
-    width: auto;
-    padding: 8px 16px;
-    background-color: #49c5b6;
-    white-space: nowrap;
-    color: #fff;
-    font-size: 14px;
-    line-height: normal;
-    text-align: center;
-    border-radius: 30px;
+.tooltip-text {
+  position: relative;
+  top: 0;
+  left: -50%;
+  width: auto;
+  padding: 8px 16px;
+  background-color: #49c5b6;
+  white-space: nowrap;
+  color: #fff;
+  font-size: 14px;
+  line-height: normal;
+  text-align: center;
+  border-radius: 30px;
 }
-.tooltip:hover .box-tooltip{
-    visibility: visible;
-    opacity: 1;
-}
-
-.eval-totalbox{
-    margin : auto;
-}
-.eval-total{
-    font-weight: bold;
-    font-size : 40px;
-    margin : auto;
-}
-.eval-input{
-    margin-top: 50px;
-    margin-bottom : 50px;
-    display: flex;
-    justify-content: space-around;
+.tooltip:hover .box-tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
+.eval-totalbox {
+  margin: auto;
+}
+.eval-total {
+  font-weight: bold;
+  font-size: 40px;
+  margin: auto;
+}
+.eval-input {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: space-around;
+}
 
-.comment-header{
-    margin-left: 30px;
-    margin-bottom: 10px;
+.comment-header {
+  margin-left: 30px;
+  margin-bottom: 10px;
 }
-.comment-info{
-    margin-bottom: 5px;
+.comment-info {
+  margin-bottom: 5px;
 }
-.comment-username{
-    display : inline;
-    font-weight: bold;
-    margin-right : 7px;
+.comment-username {
+  display: inline;
+  font-weight: bold;
+  margin-right: 7px;
 }
-.comment-date{
-    display : inline;
-    font-size : 12px;
+.comment-date {
+  display: inline;
+  font-size: 12px;
 }
-.comment-delete{
-    display: inline;
-    text-align: right;
+.comment-delete {
+  display: inline;
+  text-align: right;
 }
 
 .ant-carousel .slick-slide {
-    display:flex;
-    align-content: center;
-    height:100%;
-    background: #364d79;
-  }
-  
-  .ant-carousel .slick-slide h3 {
-    display:flex;
-    align-content: center;
-    color: #fff;
-  }
+  display: flex;
+  align-content: center;
+  height: 100%;
+  background: #364d79;
+}
+
+.ant-carousel .slick-slide h3 {
+  display: flex;
+  align-content: center;
+  color: #fff;
+}
+
+.eval-title {
+  display: flex;
+  justify-content: space-around;
+}
+.eval-devide {
+  width: 50%;
+}
+.eval-detail {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}

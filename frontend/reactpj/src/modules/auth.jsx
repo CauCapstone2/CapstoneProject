@@ -11,8 +11,49 @@ const LOGINDRAWER_OPEN = "LOGINDRAWER_OPEN";
 const LOGINDRAWER_CLOSE = "LOGINDRAWER_CLOSE";
 const SIGNUPDRAWER_OPEN = "SIGNUPDRAWER_OPEN";
 const SIGNUPDRAWER_CLOSE = "SIGNUPDRAWER_CLOSE";
+const TID_GET = "TID_GET";
+const TID_DELETE = "TID_DELETE";
 
 // action creator
+export const tidDataSetaction = (tid, credit) => {
+  return {
+    type: TID_GET,
+    tid: tid,
+    credit: credit,
+  };
+};
+export const tidDataGetaction = (tid, credit) => {
+  return (dispatch) => {
+    localStorage.setItem("tid", tid);
+    localStorage.setItem("credit", credit);
+    dispatch(
+      tidDataSetaction(
+        tid,
+        credit
+      )
+    );
+  };
+};
+
+export const tidDataDeleteaction = () => {
+  localStorage.removeItem("tid");
+  localStorage.removeItem("credit");
+  return {
+    type: TID_DELETE,
+  };
+};
+
+export const tidDataCheckaction = () => {
+  return (dispatch) => {
+    const tid = localStorage.getItem("tid");
+    const credit = localStorage.getItem("credit");
+    console.log("tid in check : " + tid);
+    console.log("credit in check : " + credit);
+    if (tid != null && credit != null) {
+      dispatch(tidDataSetaction(tid, credit));
+    }
+  };
+};
 
 export const firstDrawerOpen = () => {
   return {
@@ -191,6 +232,8 @@ const initialState = {
   firstdrawer: false,
   logindrawer: false,
   signupdrawer: false,
+  tid: null,
+  credit: null,
 };
 
 const handleFirstDrawerOpen = (state, action) => {
@@ -258,6 +301,19 @@ const handleAuthLogout = (state, action) => {
     userid: null,
   });
 };
+const tidDataDelete = (state, action) => {
+  return updateObject(state, {
+    tid: null,
+    credit: null,
+  });
+};
+
+const tidDataGet = (state, action) => {
+  return updateObject(state, {
+    tid: action.tid,
+    credit: action.credit,
+  });
+};
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
@@ -281,6 +337,10 @@ const reducer = (state = initialState, action) => {
       return handleSignupDrawerOpen(state, action);
     case SIGNUPDRAWER_CLOSE:
       return handleSignupDrawerClose(state, action);
+    case TID_GET:
+      return tidDataGet(state, action);
+    case TID_DELETE:
+      return tidDataDelete(state, action);
     default:
       return state;
   }
