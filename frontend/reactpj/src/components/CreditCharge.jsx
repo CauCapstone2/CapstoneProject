@@ -27,7 +27,7 @@ class CreditCharge extends React.Component {
   handleCharge = () => {
     let price_for_credit = this.state.creditAmount * 100;
 
-    const params = new URLSearchParams();
+    let params = new URLSearchParams();
     params.append("cid", "TC0ONETIME");
     params.append("partner_order_id", "partner_order_id");
     params.append("partner_user_id", "partner_user_id");
@@ -40,16 +40,12 @@ class CreditCharge extends React.Component {
     params.append("cancel_url", "http://localhost:3000/purchase/cancel");
 
     axios
-      .post(
-        "https://cors-anywhere.herokuapp.com/https://kapi.kakao.com/v1/payment/ready",
-        params,
-        {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-            Authorization: `KakaoAK ${keys.kakao_admin_key}`,
-          },
-        }
-      )
+      .post("https://cors-anywhere.herokuapp.com/https://kapi.kakao.com/v1/payment/ready", params, {
+        headers: {
+          // "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+          'Authorization': `KakaoAK ${keys.kakao_admin_key}`,
+        },
+      })
       .then((res) => {
         this.props.tid_get(res.data.tid, this.state.creditAmount);
         if (this.props.tid !== null) {

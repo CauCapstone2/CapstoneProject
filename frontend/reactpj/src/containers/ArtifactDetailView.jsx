@@ -31,6 +31,7 @@ class ArtifactDetail extends React.Component {
     previewImage: "",
     predict: -1,
     averageEval: [],
+    previewImageId: null,
   };
 
   componentDidMount() {
@@ -217,7 +218,7 @@ class ArtifactDetail extends React.Component {
                           key={index}
                           image={this.state.previewImage}
                           userid={this.props.userid}
-                          artifactID={this.state.artifactID}
+                          imageID={this.state.previewImageId}
                         />,
                         <Button
                           key="ok"
