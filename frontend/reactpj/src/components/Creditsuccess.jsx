@@ -11,17 +11,11 @@ class Creditsuccess extends React.Component {
     purchase_done: false,
   };
   componentWillMount() {
-    console.log("this is entered");
     this.props.tid_check();
-    console.log("tid : " + this.props.tid);
-    console.log("amount : " + this.props.increaseCredit);
   }
   handleCharge = () => {
     var not_modified_pg = this.props.location.search;
     var pg_token = not_modified_pg.substr(10);
-    console.log(pg_token);
-    console.log(this.props.tid);
-    console.log(this.props.increaseCredit);
 
     const params = new URLSearchParams();
     params.append("cid", "TC0ONETIME");
@@ -55,9 +49,6 @@ class Creditsuccess extends React.Component {
   };
 
   creditStatusChange = () => {
-    console.log("entered credit change");
-    console.log(this.props.userid);
-    console.log(this.props.increaseCredit);
     let form_data = new FormData();
     form_data.append("user", this.props.userid);
     form_data.append("increase_credit", this.props.increaseCredit);

@@ -35,7 +35,6 @@ class StoreImage extends Component {
         } else {
           this.creditUpdate();
           this.storeDownloadedPicture();
-          console.log("크레딧 체크 이후 다운로드");
           this.handledownload();
         }
       });
@@ -57,21 +56,16 @@ class StoreImage extends Component {
           this.props.imageid
       )
       .then((res) => {
-        console.log(res);
         if (res.data.length !== 0) {
           if (
-            res.data[0].imageID === this.props.imageid &&
-            res.data[0].userID === this.props.userid
+            res.data[0].imageID == this.props.imageid &&
+            res.data[0].userID == this.props.userid
           ) {
-            //바로 다운로드 진행
-            console.log("바로 다운로드 진행");
             this.handledownload();
           } else {
-            //크레딧 확인 후, 결제 후, 재결제업데이트 후, 다운로드 진행
             this.creditCheck();
           }
         } else {
-          console.log("else entered");
           this.creditCheck();
         }
       });
