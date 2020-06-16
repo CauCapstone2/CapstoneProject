@@ -56,8 +56,6 @@ class RegRecreation extends React.Component {
     history.push("/artifacts/" + artifactID);
     this.props.onCancel();
     RecreationAction.getRecreation(artifactID);
-    // this.props.itemReload(this.props.artifactID);
-    // window.location.reload();
   };
 
   handleFormSubmit = async (event) => {

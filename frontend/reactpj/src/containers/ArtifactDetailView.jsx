@@ -161,7 +161,8 @@ class ArtifactDetail extends React.Component {
             }}
           >
             <Carousel
-              autoplay
+              autoplay={true}
+              adaptiveHeight={true}
               style={{
                 backgroundColor: "#010101",
                 display: "flex",

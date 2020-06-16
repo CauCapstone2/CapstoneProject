@@ -38,7 +38,7 @@ class RegistrationForm extends React.Component {
   };
 
   componentDidUpdate(prevProps) {
-    if (prevProps != this.props) {
+    if (prevProps !== this.props) {
       const { isAuthenticated, error } = this.props;
       if (isAuthenticated) {
         this.closeTabs();
