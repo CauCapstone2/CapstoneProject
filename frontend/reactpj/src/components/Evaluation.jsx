@@ -25,6 +25,13 @@ class Evaluation extends Component {
             >
               Average Evaluation
             </Divider>
+            <div className="eval-title">
+              <p>Creative</p>
+              <p>Expressive</p>
+              <p>Quality</p>
+              <p>Popularity</p>
+              <p>Workability</p>
+            </div>
             <Col>
               <Row style={{ marginTop: "5px" }}>
                 <Col span={4} style={{ marginRight: "5px", marginLeft: "5px" }}>
@@ -87,6 +94,17 @@ class Evaluation extends Component {
           </div>
         ) : (
           <div>
+            <div className="eval-detail">
+              <div className="eval-devide">
+                <div className="eval-title">
+                  <p>Creative</p>
+                  <p>Expressive</p>
+                  <p>Quality</p>
+                  <p>Popularity</p>
+                  <p>Workability</p>
+                </div>
+              </div>
+            </div>
             <List
               itemLayout="vertical"
               size="large"

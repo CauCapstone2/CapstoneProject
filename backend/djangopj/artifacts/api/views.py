@@ -16,6 +16,17 @@ import numpy as np
 import tempfile
 import json
 import copy
+from django.http import FileResponse
+
+
+class ArtifactDownloadView(APIView):
+    def get(self, request):
+        imageId = int(request.GET.get('imageId'))
+        serializer_class = ArtifactImageSerializer
+        image_query = ArtifactImage.objects.filter(pk=imageId)
+        for image in image_query:
+            response = FileResponse(image.image)
+            return response
 
 
 class ArtifactViewSet(viewsets.ModelViewSet):

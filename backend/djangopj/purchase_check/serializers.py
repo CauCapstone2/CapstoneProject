@@ -6,4 +6,4 @@ from django.conf import settings
 class PurchaseHistorySerializer(serializers.ModelSerializer):
     class Meta:
         model = PurchaseHistory
-        fields = ('userID', 'artifactID')
+        fields = ('userID', 'imageID')

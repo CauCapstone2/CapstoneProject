@@ -14,6 +14,7 @@ import StoreImage from "../components/storeImage";
 import SimilarImage from "../components/SimilarImage";
 import UserInfo from "../components/UserInfo";
 import SimilarArtist from "../components/SimilarArtist";
+import ReactImageProcess from "react-image-process";
 
 const { Title, Paragraph } = Typography;
 
@@ -198,14 +199,25 @@ class ArtifactDetail extends React.Component {
               {this.state.artifact.image &&
                 this.state.artifact.image.map((el, index) => (
                   <div className="art-box" key={index}>
-                    <Image
-                      className="art"
-                      style={{ width: "100%", height: "100%" }}
-                      src={el.image}
-                      onClick={(e) =>
-                        this.showModal(el.id, el.image, el.predict, e)
-                      }
-                    ></Image>
+                    <ReactImageProcess
+                      mode="waterMark"
+                      waterMarkType="text"
+                      waterMark={"Iuducium in foro"}
+                      fontBold={false}
+                      opacity={0.7}
+                      fontSize={20}
+                      fontColor="#7F8C8D"
+                      coordinate={[50, 50]}
+                    >
+                      <Image
+                        className="art"
+                        style={{ width: "100%", height: "100%" }}
+                        src={el.image}
+                        onClick={(e) =>
+                          this.showModal(el.id, el.image, el.predict, e)
+                        }
+                      ></Image>
+                    </ReactImageProcess>
                     <Modal
                       width="70vh"
                       mask={false}
@@ -217,8 +229,8 @@ class ArtifactDetail extends React.Component {
                         <StoreImage
                           key={index}
                           image={this.state.previewImage}
+                          imageid={this.state.previewImageId}
                           userid={this.props.userid}
-                          imageID={this.state.previewImageId}
                         />,
                         <Button
                           key="ok"

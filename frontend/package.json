@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "react-image-process": "^0.2.4",
     "redux-actions": "^2.6.5",
     "redux-pender": "^2.0.12"
   }
