@@ -36,6 +36,7 @@ class StoreImage extends Component {
           this.creditUpdate();
           this.storeDownloadedPicture();
           this.handledownload();
+          message.success("success");
         }
       });
   };

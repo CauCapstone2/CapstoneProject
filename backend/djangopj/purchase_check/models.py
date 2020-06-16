@@ -7,4 +7,4 @@ class PurchaseHistory(models.Model) :
     imageID = models.ForeignKey(artifactModel.Artifact, on_delete=models.CASCADE)
 
     class meta:
-        unique_together = ('userID', 'imageID')
+        unique_together = (('userID', 'imageID'),)

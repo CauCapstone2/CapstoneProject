@@ -23,7 +23,6 @@ class CreditUpdateViewSet(APIView):
     def post(self, request, format=None):
         user_id = request.data.get('user')
         increase_credit = int(request.data.get('increase_credit'))
-        # increase_credit = int(increase_credit)
         current_user = Profile.objects.get(user=user_id)
         current_credit = current_user.credit
 
