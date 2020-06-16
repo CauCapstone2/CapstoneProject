@@ -94,17 +94,21 @@ class Evaluation extends Component {
           </div>
         ) : (
           <div>
-            <div className="eval-detail">
-              <div className="eval-devide">
-                <div className="eval-title">
-                  <p>Creative</p>
-                  <p>Expressive</p>
-                  <p>Quality</p>
-                  <p>Popularity</p>
-                  <p>Workability</p>
+            {this.props.eval.length === 0 ? (
+              <div></div>
+            ) : (
+              <div className="eval-detail">
+                <div className="eval-devide">
+                  <div className="eval-title">
+                    <p>Creative </p>
+                    <p>Expressive </p>
+                    <p>Quality </p>
+                    <p>Popularity </p>
+                    <p>Workability </p>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
             <List
               itemLayout="vertical"
               size="large"
