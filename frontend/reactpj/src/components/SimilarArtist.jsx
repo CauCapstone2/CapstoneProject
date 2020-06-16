@@ -19,6 +19,10 @@ class SimilarCreater extends React.Component {
     _eval_length: 0,
   };
 
+  componentDidMount() {
+    this.similarCreaterCall(this.props.userID);
+  }
+
   componentDidUpdate(prevProps) {
     if (this.props.userID !== prevProps.userID) {
       this.similarCreaterCall(this.props.userID);

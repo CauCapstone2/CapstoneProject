@@ -49,14 +49,14 @@ class ArtifactDetail extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { evaluation, match } = this.props;
+    const artifactID = match.params.artifactID;
 
     if (this.props !== prevProps) {
       if (evaluation) {
         let avgEval = this.calcAvgEval(this.props.evaluation);
         this.setState({ averageEval: avgEval });
       }
-      if (match.params.artifactID !== prevProps.match.params.artifactID) {
-        const artifactID = this.props.match.params.artifactID;
+      if (artifactID !== prevProps.match.params.artifactID) {
         this.loadArtifactDetailPage(artifactID);
       }
     }
@@ -171,7 +171,7 @@ class ArtifactDetail extends React.Component {
                 alignContent: "center",
               }}
             >
-              {artifact.image &&
+              {artifact.image ? (
                 artifact.image.map((el, index) => (
                   <div className="art-box" key={index}>
                     <ReactImageProcess
@@ -198,7 +198,6 @@ class ArtifactDetail extends React.Component {
                       mask={false}
                       centered={true}
                       visible={this.state.modalVisible}
-                      // mask={false}
                       onCancel={this.closeModal}
                       footer={[
                         <StoreImage
@@ -237,7 +236,10 @@ class ArtifactDetail extends React.Component {
                       ) : null}
                     </Modal>
                   </div>
-                ))}
+                ))
+              ) : (
+                <Spin tip="Loading..."></Spin>
+              )}
             </Carousel>
           </Col>
           <Col

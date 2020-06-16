@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { Result, Button } from "antd";
 import { connect } from "react-redux";
 import * as actions from "../modules/auth";
