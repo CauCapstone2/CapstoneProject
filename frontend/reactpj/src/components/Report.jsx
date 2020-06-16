@@ -15,7 +15,7 @@ class Report extends Component {
     if (this.props.category === "recreation") {
       axios
         .get(
-          "http://127.0.0.1:8000/report/api/?recreationID=" +
+          "http://3.34.190.67/report/api/?recreationID=" +
             this.props.recreationID
         )
         .then((res) => {
@@ -25,13 +25,13 @@ class Report extends Component {
             }
           }
           if (res.data.length > 100) {
-            axios.delete("http://127.0.0.1:8000/api" + this.props.recreationID);
+            axios.delete("http://3.34.190.67/api" + this.props.recreationID);
           }
         });
     } else {
       axios
         .get(
-          "http://127.0.0.1:8000/report/api/?artifactID=" +
+          "http://3.34.190.67/report/api/?artifactID=" +
             this.props.artifactID
         )
         .then((res) => {
@@ -41,7 +41,7 @@ class Report extends Component {
             }
           }
           if (res.data.length > 100) {
-            axios.delete("http://127.0.0.1:8000/api" + this.props.artifactID);
+            axios.delete("http://3.34.190.67/api" + this.props.artifactID);
           }
         });
     }
@@ -56,14 +56,14 @@ class Report extends Component {
     }
 
     if (this.props.category === "recreation") {
-      axios.post("http://127.0.0.1:8000/report/api/", {
+      axios.post("http://3.34.190.67/report/api/", {
         userID: this.props.userid,
         recreationID: this.props.recreationID,
         artifactID: null,
       });
       this.handleChange(true);
     } else {
-      axios.post("http://127.0.0.1:8000/report/api/", {
+      axios.post("http://3.34.190.67/report/api/", {
         userID: this.props.userid,
         artifactID: this.props.artifactID,
         recreationID: null,
@@ -75,14 +75,14 @@ class Report extends Component {
   cancelReport = () => {
     if (this.props.category === "recreation") {
       axios.delete(
-        "http://127.0.0.1:8000/report/api/" +
+        "http://3.34.190.67/report/api/" +
           this.props.userid +
           "/?recreationID=" +
           this.props.recreationID
       );
     } else {
       axios.delete(
-        "http://127.0.0.1:8000/report/api/" +
+        "http://3.34.190.67/report/api/" +
           this.props.userid +
           "/?artifactID=" +
           this.props.artifactID

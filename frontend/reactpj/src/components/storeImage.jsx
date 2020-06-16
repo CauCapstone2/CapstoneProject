@@ -23,12 +23,12 @@ class StoreImage extends Component {
     let form_data = new FormData();
     form_data.append("user", this.props.userid);
     form_data.append("increase_credit", -2);
-    axios.post("http://127.0.0.1:8000/credit/create/", form_data);
+    axios.post("http://3.34.190.67/credit/create/", form_data);
   };
 
   creditCheck = async () => {
     await axios
-      .get("http://127.0.0.1:8000/credit/?user=" + this.props.userid)
+      .get("http://3.34.190.67/credit/?user=" + this.props.userid)
       .then((res) => {
         if (res.data[0].credit < 2) {
           message.error("Require more credit to proceed download");
@@ -44,13 +44,13 @@ class StoreImage extends Component {
     let form_data = new FormData();
     form_data.append("userID", this.props.userid);
     form_data.append("imageID", this.props.imageid);
-    await axios.post("http://127.0.0.1:8000/purchase_check/", form_data);
+    await axios.post("http://3.34.190.67/purchase_check/", form_data);
   };
 
   purchaseCheck = async () => {
     await axios
       .get(
-        "http://127.0.0.1:8000/purchase_check/?userID=" +
+        "http://3.34.190.67/purchase_check/?userID=" +
           this.props.userid +
           "&imageID=" +
           this.props.imageid
@@ -74,7 +74,7 @@ class StoreImage extends Component {
   handledownload = () => {
     axios
       .get(
-        "http://127.0.0.1:8000/artifacts/api/download/?imageId=" +
+        "http://3.34.190.67/artifacts/api/download/?imageId=" +
           this.props.imageid,
         {
           responseType: "blob",

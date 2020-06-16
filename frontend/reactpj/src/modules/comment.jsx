@@ -4,16 +4,16 @@ import { handleActions, createAction } from "redux-actions";
 
 function getCommentApi(artifactId) {
   return axios.get(
-    `http://127.0.0.1:8000/comments/api/?artifactID=${artifactId}`
+    `http://3.34.190.67/comments/api/?artifactID=${artifactId}`
   );
 }
 
 function postCommentApi(data) {
-  return axios.post("http://127.0.0.1:8000/comments/api/", data);
+  return axios.post("http://3.34.190.67/comments/api/", data);
 }
 
 function deleteCommentApi(commentId) {
-  return axios.delete(`http://127.0.0.1:8000/comments/api/${commentId}`);
+  return axios.delete(`http://3.34.190.67/comments/api/${commentId}`);
 }
 
 // action type

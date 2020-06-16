@@ -20,7 +20,7 @@ class SearchPage extends Component {
   };
 
   searchArtifactCall = async (keyword) => {
-    axios.get("http://127.0.0.1:8000/search?search=" + keyword).then((res) => {
+    axios.get("http://3.34.190.67/search?search=" + keyword).then((res) => {
       this.setState({
         keyword: keyword,
         artifact: res.data.results.reverse(),
@@ -39,7 +39,7 @@ class SearchPage extends Component {
 
   getSearchPage = async (keyword, page) => {
     let path =
-      "http://127.0.0.1:8000/search/?search=" + keyword + "&page=" + page;
+      "http://3.34.190.67/search/?search=" + keyword + "&page=" + page;
     const res = await axios.get(path);
     this.setState({
       artifact: res.data.results.reverse(),

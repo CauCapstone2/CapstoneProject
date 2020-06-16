@@ -72,7 +72,7 @@ class RegRecreation extends React.Component {
     );
     form_data.append("recreation", true);
 
-    await axios.post("http://127.0.0.1:8000/recreate/", form_data, {
+    await axios.post("http://3.34.190.67/recreate/", form_data, {
       headers: {
         "content-type": "multipart/form-data",
       },

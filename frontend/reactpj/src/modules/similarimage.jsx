@@ -3,7 +3,7 @@ import { pender } from "redux-pender";
 import { handleActions, createAction } from "redux-actions";
 
 function getSimilarImageApi(imageId) {
-  return axios.get(`http://127.0.0.1:8000/similar-image/?imageId=${imageId}`);
+  return axios.get(`http://3.34.190.67/similar-image/?imageId=${imageId}`);
 }
 
 // action type

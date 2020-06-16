@@ -52,7 +52,7 @@ class Creditsuccess extends React.Component {
     let form_data = new FormData();
     form_data.append("user", this.props.userid);
     form_data.append("increase_credit", this.props.increaseCredit);
-    axios.post("http://127.0.0.1:8000/credit/create/", form_data);
+    axios.post("http://3.34.190.67/credit/create/", form_data);
   };
 
   render() {

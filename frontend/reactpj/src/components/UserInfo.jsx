@@ -20,7 +20,7 @@ class UserInfo extends React.Component {
   };
 
   userInformationCall = (userID) => {
-    axios.get("http://127.0.0.1:8000/mypage/user/?id=" + userID).then((res) => {
+    axios.get("http://3.34.190.67/mypage/user/?id=" + userID).then((res) => {
       this.setState({
         userInfo: res.data,
       });

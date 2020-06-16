@@ -27,7 +27,7 @@ class CustomForm extends React.Component {
     switch (requestType) {
       case "post":
         return axios
-          .post("http://127.0.0.1:8000/api/", form_data, {
+          .post("http://3.34.190.67/api/", form_data, {
             headers: {
               "content-type": "multipart/form-data",
             },
@@ -37,7 +37,7 @@ class CustomForm extends React.Component {
 
       case "put":
         return axios
-          .put("http://127.0.0.1:8000/api/" + artifactID + "/", form_data, {
+          .put("http://3.34.190.67/api/" + artifactID + "/", form_data, {
             headers: {
               "content-type": "multipart/form-data",
             },

@@ -31,7 +31,7 @@ class SimilarCreater extends React.Component {
 
   similarCreaterCall = async (userID) => {
     await axios
-      .get("http://127.0.0.1:8000/similar-artist/?userID=" + userID)
+      .get("http://3.34.190.67/similar-artist/?userID=" + userID)
       .then((res) => {
         this.setState({
           similarCreater: res.data.result,
@@ -44,7 +44,7 @@ class SimilarCreater extends React.Component {
     let _createrInfo = [];
     for (let i in data) {
       await axios
-        .get("http://127.0.0.1:8000/mypage/user/?id=" + data[i])
+        .get("http://3.34.190.67/mypage/user/?id=" + data[i])
         .then((res) => {
           _createrInfo[i] = res.data[0];
         });
@@ -55,7 +55,7 @@ class SimilarCreater extends React.Component {
   };
 
   userInformationCall = (userID) => {
-    axios.get("http://127.0.0.1:8000/mypage/user/?id=" + userID).then((res) => {
+    axios.get("http://3.34.190.67/mypage/user/?id=" + userID).then((res) => {
       this.setState({
         userInfo: res.data,
       });
@@ -64,7 +64,7 @@ class SimilarCreater extends React.Component {
 
   userArtifactCall = (userID) => {
     axios
-      .get("http://127.0.0.1:8000/artifacts/api/?userID=" + userID)
+      .get("http://3.34.190.67/artifacts/api/?userID=" + userID)
       .then((res) => {
         this.setState({
           artifact: res.data.results,
@@ -75,7 +75,7 @@ class SimilarCreater extends React.Component {
 
   userCommentCall = (userID) => {
     axios
-      .get("http://127.0.0.1:8000/mypage/comments/?userID=" + userID)
+      .get("http://3.34.190.67/mypage/comments/?userID=" + userID)
       .then((res) => {
         this.setState({
           comment: res.data,
@@ -86,7 +86,7 @@ class SimilarCreater extends React.Component {
 
   userEvaluationCall = (userId) => {
     axios
-      .get("http://127.0.0.1:8000/evaluation/api/average?userId=" + userId)
+      .get("http://3.34.190.67/evaluation/api/average?userId=" + userId)
       .then((res) => {
         this.setState({
           evaluation: res.data.average,
@@ -186,7 +186,7 @@ class SimilarCreater extends React.Component {
           onOk={this.handleOK}
           onCancel={this.handleCancel}
           footer={null}
-          width="110vh"
+          width="100%"
         >
           <Profile
             artifact={artifact}

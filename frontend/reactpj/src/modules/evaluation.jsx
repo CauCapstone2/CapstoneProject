@@ -4,19 +4,19 @@ import { handleActions, createAction } from "redux-actions";
 
 function getEvaluationApi(artifactId) {
   return axios.get(
-    `http://127.0.0.1:8000/evaluation/api/?artifactID=${artifactId}`
+    `http://3.34.190.67/evaluation/api/?artifactID=${artifactId}`
   );
 }
 
 function patchEvaluationApi(evaluationId, data) {
   return axios.patch(
-    `http://127.0.0.1:8000/evaluation/api/${evaluationId}/`,
+    `http://3.34.190.67/evaluation/api/${evaluationId}/`,
     data
   );
 }
 
 function postEvaluationAPi(data) {
-  return axios.post("http://127.0.0.1:8000/evaluation/api/", data);
+  return axios.post("http://3.34.190.67/evaluation/api/", data);
 }
 
 // action type

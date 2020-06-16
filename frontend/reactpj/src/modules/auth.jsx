@@ -132,14 +132,14 @@ export const authLogin = (username, password) => {
   return (dispatch) => {
     dispatch(authStart());
     axios
-      .post("http://127.0.0.1:8000/rest-auth/login/", {
+      .post("http://3.34.190.67/rest-auth/login/", {
         username: username,
         password: password,
       })
       .then((res) => {
         const token = res.data.key;
         axios
-          .get("http://localhost:8000/rest-auth/user/", {
+          .get("http://3.34.190.67/rest-auth/user/", {
             headers: {
               authorization: "Token " + token,
             },
@@ -164,7 +164,7 @@ export const authSignup = (username, password1, password2) => {
   return (dispatch) => {
     dispatch(authStart());
     axios
-      .post("http://127.0.0.1:8000/rest-auth/registration/", {
+      .post("http://3.34.190.67/rest-auth/registration/", {
         username: username,
         password1: password1,
         password2: password2,
@@ -172,7 +172,7 @@ export const authSignup = (username, password1, password2) => {
       .then((res) => {
         const token = res.data.key;
         axios
-          .get("http://localhost:8000/rest-auth/user/", {
+          .get("http://3.34.190.67/rest-auth/user/", {
             headers: {
               authorization: "Token " + token,
             },

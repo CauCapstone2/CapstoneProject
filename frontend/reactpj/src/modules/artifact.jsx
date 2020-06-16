@@ -3,15 +3,15 @@ import { pender } from "redux-pender";
 import { handleActions, createAction } from "redux-actions";
 
 function getArtifactListApi(page) {
-  return axios.get(`http://127.0.0.1:8000/artifacts/api/list/?page=${page}`);
+  return axios.get(`http://3.34.190.67/artifacts/api/list/?page=${page}`);
 }
 
 function getArtifactDetailApi(artifactId) {
-  return axios.get(`http://127.0.0.1:8000/artifacts/api/detail/${artifactId}`);
+  return axios.get(`http://3.34.190.67/artifacts/api/detail/${artifactId}`);
 }
 
 function deleteArtifactApi(artifactId) {
-  return axios.delete(`http://127.0.0.1:8000/artifacts/api/${artifactId}`);
+  return axios.delete(`http://3.34.190.67/artifacts/api/${artifactId}`);
 }
 
 // action type

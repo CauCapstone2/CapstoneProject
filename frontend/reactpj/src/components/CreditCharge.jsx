@@ -35,9 +35,9 @@ class CreditCharge extends React.Component {
     params.append("quantity", 1);
     params.append("total_amount", price_for_credit);
     params.append("tax_free_amount", 0);
-    params.append("approval_url", "http://localhost:3000/purchase/success");
-    params.append("fail_url", "http://localhost:3000/purchase/fail");
-    params.append("cancel_url", "http://localhost:3000/purchase/cancel");
+    params.append("approval_url", "http://iducium.s3-website.ap-northeast-2.amazonaws.com/purchase/success");
+    params.append("fail_url", "http://iducium.s3-website.ap-northeast-2.amazonaws.com/purchase/fail");
+    params.append("cancel_url", "http://iducium.s3-website.ap-northeast-2.amazonaws.com/purchase/cancel");
 
     axios
       .post("https://cors-anywhere.herokuapp.com/https://kapi.kakao.com/v1/payment/ready", params, {
