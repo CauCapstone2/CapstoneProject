@@ -28,7 +28,7 @@ class UserCredit extends React.Component {
   render() {
     return (
       <div>
-        {this.props.mypage == true ? (
+        {this.props.mypage === true ? (
           <div
             style={{
               display: "flex",

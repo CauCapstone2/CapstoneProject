@@ -13,7 +13,6 @@ import {
 
 import { RedEnvelopeFilled } from "@ant-design/icons";
 import UserCredit from "./userCredit";
-import UserInfo from "./UserInfo";
 
 const { Title, Paragraph } = Typography;
 
@@ -84,7 +83,7 @@ class Profile extends React.Component {
               />
               <Typography>
                 <Title>{userInfo.username}</Title>
-                {this.props.mypage == true ? (
+                {this.props.mypage === true ? (
                   <div
                     onClick={this.props.CreditClicked}
                     style={{
